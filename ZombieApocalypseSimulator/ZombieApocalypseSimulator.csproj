@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{25BFB1C3-B41E-40B3-8307-10DAAA5901E2}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZombieApocalypseSimulator</RootNamespace>
+    <AssemblyName>ZombieApocalypseSimulator</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HolbrookGarrett_ConsoleMenu, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>External DLLs\HolbrookGarrett_ConsoleMenu.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CharacterStack.cs" />
+    <Compile Include="Controller.cs" />
+    <Compile Include="Coordinate.cs" />
+    <Compile Include="Dice.cs" />
+    <Compile Include="GameArea.cs" />
+    <Compile Include="GridSquare.cs" />
+    <Compile Include="LocationComparer.cs" />
+    <Compile Include="Models\Characters\Character.cs" />
+    <Compile Include="Models\Characters\Classess\Bruiser.cs" />
+    <Compile Include="Models\Characters\Classess\Engineer.cs" />
+    <Compile Include="Models\Characters\Classess\Fast Attack.cs" />
+    <Compile Include="Models\Characters\Classess\Fighter.cs" />
+    <Compile Include="Models\Characters\Classess\HalfZombie.cs" />
+    <Compile Include="Models\Characters\Classess\Medic.cs" />
+    <Compile Include="Models\Characters\Classess\Rifleman.cs" />
+    <Compile Include="Models\Characters\Classess\Shank.cs" />
+    <Compile Include="Models\Characters\Classess\Sloucher.cs" />
+    <Compile Include="Models\Characters\Classess\Tank.cs" />
+    <Compile Include="Models\Characters\Player.cs" />
+    <Compile Include="Models\Characters\Zed.cs" />
+    <Compile Include="Models\Items\Ammo.cs" />
+    <Compile Include="Models\Items\DefaultItems.cs" />
+    <Compile Include="Models\Items\Enums\AmmoType.cs" />
+    <Compile Include="Models\Items\Enums\MeleeWeaponType.cs" />
+    <Compile Include="Models\Items\Enums\RangedWeaponType.cs" />
+    <Compile Include="Models\Items\Health.cs" />
+    <Compile Include="Models\Items\Item.cs" />
+    <Compile Include="Models\Items\MeleeWeapon.cs" />
+    <Compile Include="Models\Items\RangedWeapon.cs" />
+    <Compile Include="Models\Items\SparePart.cs" />
+    <Compile Include="Models\Items\Trap.cs" />
+    <Compile Include="Models\Items\Weapon.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="External DLLs\HolbrookGarrett_ConsoleMenu.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
