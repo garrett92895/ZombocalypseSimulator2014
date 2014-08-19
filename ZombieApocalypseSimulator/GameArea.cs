@@ -26,6 +26,7 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         public GridSquare[,] GridSquares { get; set; }
         #endregion
+
         Random Rand;
         public GameArea(int NewHeight = 10, int NewWidth = 10)
         {
@@ -265,7 +266,16 @@ namespace ZombieApocalypseSimulator
             {
                 Console.WriteLine(ex); ;
             }
-            
+        }
+
+        public void KillCharacter(Character C)
+        {
+            if (C.GetType() == typeof(Player))
+            {
+                GetItemsInSquare(C.Location).Add(new Corpse((Player)C));
+            }
+
+            GetGridSquareAt(C.Location).OccupyingCharacter = null;
         }
 
         /// <summary>
@@ -299,19 +309,34 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
-                //OriginalType = typeof(Zed);
+                OriginalType = typeof(Zed);
             }
-            return AvailableMoves(C.Location, SquaresLeft, OriginalType, DiagonalsCostTwo);
+            return AvailableMoves(C.Location, SquaresLeft, OriginalType, DiagonalsCostTwo, new List<Coordinate>());
         }
 
-        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType = null, bool DiagonalsCostTwo = false)
+        /// <summary>
+        /// Super Recursive Fun Time method that finds out how many moves are available
+        /// </summary>
+        /// <param name="Location"></param>
+        /// <param name="SquaresLeft"></param>
+        /// <param name="OriginalType"></param>
+        /// <param name="DiagonalsCostTwo"></param>
+        /// <param name="AlreadyChecked"></param>
+        /// <returns></returns>
+        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType, bool DiagonalsCostTwo, List<Coordinate> AlreadyChecked)
         {
             List<Coordinate> ViableMoves = new List<Coordinate>();
 
+            //Checks to prevent recursive calling in certain scenarios
             GridSquare CurrentSquare = GetGridSquareAt(Location);
 
-            //Checks for recursive calling
             if (!CurrentSquare.IsOccupiable)
+            {
+                return ViableMoves;
+            }
+
+            //Makes sure not to move give one extra Diagonal movement
+            if (DiagonalsCostTwo && SquaresLeft < 0)
             {
                 return ViableMoves;
             }
@@ -319,9 +344,11 @@ namespace ZombieApocalypseSimulator
             {
                 ViableMoves.Add(Location);
             }
-            else if (OriginalType == null)
+            //Prevents movement through squares occupied by enemy Characters
+            else if ((CurrentSquare.OccupyingCharacter.GetType() != typeof(Player) && OriginalType == typeof(Player))
+                || (CurrentSquare.OccupyingCharacter.GetType() == typeof(Player) && OriginalType != typeof(Player)))
             {
-                OriginalType = CurrentSquare.OccupyingCharacter.GetType();
+                return ViableMoves;
             }
 
             if (SquaresLeft < 1)
@@ -330,34 +357,29 @@ namespace ZombieApocalypseSimulator
             }
 
             List<Coordinate> Neighbors = new List<Coordinate>();
-            //Allows the Original Character to move through friendlies
-            if (CurrentSquare.OccupyingCharacter == null
-                || CurrentSquare.OccupyingCharacter.GetType() == OriginalType)
+            foreach(GridSquare Square in GetAdjacentGridSquares(Location))
             {
-                List<GridSquare> Squares = GetAdjacentGridSquares(Location);
-                for (int i = 0; i < Squares.Count(); i++)
-                {
-                    Neighbors.Add(Squares.ElementAt(i).Coordinate);
-                }
-                //for (int i = 0; i < Neighbors.Count(); i++ )
-                //{
-                //    GridSquare Neighbor = Neighbors.ElementAt(i);
-                //    //Cost of the movement
-                //    int MoveCost = 1;
-
-                //    //True if the Movement from this GridSquare to the Neighbor is diagonal
-                //    bool DiagonalMovement = Math.Abs(Location.X - Neighbor.Coordinate.X) == Math.Abs(Location.Y - Neighbor.Coordinate.Y);
-                //    if (DiagonalMovement && DiagonalsCostTwo)
-                //    {
-                //        MoveCost++;
-                //    }
-                //    ViableMoves.AddRange(AvailableMoves(Neighbor.Coordinate, SquaresLeft - MoveCost, OriginalType, !DiagonalsCostTwo));
-                //}
+                Neighbors.Add(Square.Coordinate);
             }
 
+            //Removes Coordinates that have already been checked
+            Neighbors = Neighbors.Except(AlreadyChecked, new LocationComparer()).ToList();
+            AlreadyChecked.AddRange(Neighbors);
+            for (int i = 0; i < Neighbors.Count(); i++)
+            {
+                Coordinate Neighbor = Neighbors.ElementAt(i);
+                //Cost of the movement
+                int MoveCost = 1;
 
-
-            return Neighbors;
+                //True if the Movement from this GridSquare to the Neighbor is diagonal
+                bool DiagonalMovement = Math.Abs(Location.X - Neighbor.X) == Math.Abs(Location.Y - Neighbor.Y);
+                if (DiagonalMovement && DiagonalsCostTwo)
+                {
+                    MoveCost++;
+                }
+                ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, !DiagonalsCostTwo, AlreadyChecked));
+            }
+            return ViableMoves.Distinct(new LocationComparer()).ToList();
         }
 
         /// <summary>
@@ -414,20 +436,20 @@ namespace ZombieApocalypseSimulator
                                 }
                                 else
                                 {
-                                    //if (Neighbor.GetType() == typeof(Zed))
-                                    //{
-                                    //    Adjacents.Add(Neighbor);
-                                    //}
+                                    if (Neighbor.GetType() == typeof(Zed))
+                                    {
+                                        Adjacents.Add(Neighbor);
+                                    }
                                 }
                             }
                             else
                             {
                                 if (C.GetType() == typeof(Player))
                                 {
-                                    //if (Neighbor.GetType() == typeof(Zed))
-                                    //{
-                                    //    Adjacents.Add(Neighbor);
-                                    //}
+                                    if (Neighbor.GetType() == typeof(Zed))
+                                    {
+                                        Adjacents.Add(Neighbor);
+                                    }
                                 }
                                 else
                                 {
