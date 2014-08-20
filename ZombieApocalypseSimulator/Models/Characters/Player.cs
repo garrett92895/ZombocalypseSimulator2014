@@ -13,7 +13,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
     {
         public string Name { get; set; }
         public int ItemLimit { get; set; }
-        public List<Item> Items { get; set; }
         public Weapon EquippedWeapon { get; set; }
         private byte rollAttributes()
         {

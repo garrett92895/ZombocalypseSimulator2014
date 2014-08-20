@@ -11,18 +11,18 @@ namespace ZombieApocalypseSimulator.Factories
     public static class ZedFactory
     {
         public static Random rand = new Random();
-        public Zed RandomZed()
+        public static Zed RandomZed()
         {
             return MakeZeds().ElementAt(rand.Next(4));
         }
 
-        public Zed RandomSpecial()
+        public static Zed RandomSpecial()
         {
             List<Zed> Zeds = MakeZeds();
             return MakeZeds().ElementAt(rand.Next(3));
         }
 
-        public Zed GetInstance(string zombieType)
+        public static Zed GetInstance(string zombieType)
         {
             List<Zed> Zeds = MakeZeds();
             Zed NewZed = null;
@@ -44,7 +44,7 @@ namespace ZombieApocalypseSimulator.Factories
             return NewZed;
         }
 
-        private List<Zed> MakeZeds()
+        private static List<Zed> MakeZeds()
         {
             List<Zed> Zeds = new List<Zed>();
             Zeds.Add(new Tank());

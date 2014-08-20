@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models;
 using ZombieApocalypseSimulator.Models.Characters;
 using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
+using ZombieApocalypseSimulator.Factories;
 
 namespace ZombieApocalypseSimulator
 {
@@ -81,8 +82,7 @@ namespace ZombieApocalypseSimulator
             Random rand = new Random();
             for (int i = 0; i < NumOfZombies; i++)
             {
-                ZedTypes z = (ZedTypes)rand.Next(4);
-                Zed zambie = new Zed(z);
+                Zed zambie = ZedFactory.GetInstance("Sloucher");
                 Coordinate Location = Field.GetViableSquare();
                 Field.AddCharacterToSquare(zambie, Location);
                 Zeds.Add(zambie);
@@ -342,7 +342,8 @@ namespace ZombieApocalypseSimulator
                 {
                     Field.KillCharacter(P);
                     Players.Remove(P);
-                    PlayerOrder.Remove(P);
+                    PlayerOrder.RemoveCharacter(P);
+                    CorpseSquares.Add(P.Location);
                 }
             }
 
@@ -352,7 +353,7 @@ namespace ZombieApocalypseSimulator
                 {
                     Field.KillCharacter(Z);
                     Zeds.Remove(Z);
-                    ZedOrder.Remove(Z);
+                    ZedOrder.RemoveCharacter(Z);
                 }
             }
         }

@@ -276,9 +276,15 @@ namespace ZombieApocalypseSimulator
         {
             GridSquare Target = GetGridSquareAt(C.Location);
 
-            Corpse Body = new Corpse(C);
-
-            Target.ItemList.Add(Body);
+            if (C.GetType() == typeof(Player))
+            {
+                Corpse Body = new Corpse(C);
+                Target.ItemList.Add(Body);
+            }
+            else
+            {
+                Target.ItemList.AddRange(C.Items);
+            }
 
             Target.OccupyingCharacter = null;
         }

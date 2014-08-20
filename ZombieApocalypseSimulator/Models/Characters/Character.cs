@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypse;
+using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
@@ -22,6 +23,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public int PhysicalBeauty { get; set; }
         public int Speed { get; set; }
         public int Level { get; set; }
+        public List<Item> Items { get; set; }
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
         public int MaxHealth { get; set; }
