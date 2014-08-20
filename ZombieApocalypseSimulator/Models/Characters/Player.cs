@@ -65,14 +65,25 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public override int MeleeAttack()
         {
-            int Damage = EquippedWeapon.UseWeapon();
-            Damage += bonusPS();
-            //return 1000;
-            return Damage;
+            if (EquippedWeapon.Condition > 10)
+            {
+                int Damage = EquippedWeapon.UseWeapon();
+                Damage += bonusPS();
+                //return 1000;
+                return Damage;
+            }
+            else return 0;
         }
         public int RangedAttack()
         {
-            return EquippedWeapon.UseWeapon();
+            if (EquippedWeapon.Condition > 15)
+            {
+                int Damage = EquippedWeapon.UseWeapon();
+                Damage += bonusPS();
+                //return 1000;
+                return Damage;
+            }
+            else return 0;
         }
 
         public string EquippedWeaponType()

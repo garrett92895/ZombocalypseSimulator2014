@@ -16,7 +16,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		public virtual int UseWeapon()
 		{
-			Condition -= Dice.Roll(1, 6, 1, 1);
+			Condition -= Dice.Roll(2, 6, 1, 1);
 			
 			return Dice.Roll(Damage);
 
