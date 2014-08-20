@@ -11,8 +11,31 @@ namespace ZombieApocalypseSimulator.Models.Characters
     public abstract class Character
     {
         private int _Health;
-        public bool CanDodge { get; set; }
-        public bool CanParry { get; set; }
+        protected bool _CanDodge;
+        protected bool _CanParry;
+        public virtual bool CanParry
+        {
+            get
+            {
+                return _CanParry;
+            }
+            set
+            {
+                _CanParry = value;
+            }
+        }
+        public virtual bool CanDodge 
+        { 
+            get
+            {
+                return _CanDodge;
+            }
+            set
+            {
+                _CanDodge = value;
+            }
+        }
+        public virtual bool CanParry { get; set; }
         public int ArmorRating { get; set; }
         public int IntelligenceQuotient { get; set; }
         public int MentalEndurance { get; set; }
@@ -115,7 +138,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public virtual int toParry()
         {
-            byte hit = (byte)(Dice.Roll(1, 20) + bonusPP());
+            int hit = (int)(Dice.Roll(1, 20) + bonusPP());
             return hit;
         }
 
