@@ -8,7 +8,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
     class Sloucher: Zed
     {
-        
+        public Sloucher()
+        {
+            sdc = 0;
+        }
 
     }
 }
