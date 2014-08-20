@@ -41,6 +41,28 @@ namespace ZombieApocalypseSimulator
             return list;
         }
 
+        public void RemoveCharacter(Character c)
+        {
+            for (int i = 0; i < _characters.Length; i++)
+            {
+                if (_characters[i].Equals(c))
+                {
+                    _characters[i] = null;
+                }
+            }
+
+            for (int i = 0; i < _characters.Length; i++)
+            {
+                if (_characters[i] == null)
+                {
+                    _characters[i] = _characters[i + 1];
+                    _characters[i + 1] = null;
+                }
+            }
+            currentIndex--;
+        }
+
+
         private Character[] _characters;
 
         private int currentIndex;
