@@ -26,7 +26,6 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         public GridSquare[,] GridSquares { get; set; }
         #endregion
-
         Random Rand;
         public GameArea(int NewHeight = 10, int NewWidth = 10)
         {
@@ -98,7 +97,7 @@ namespace ZombieApocalypseSimulator
             {
                 Console.WriteLine(ex);
             }
-            
+
         }
 
         /// <summary>
@@ -118,7 +117,7 @@ namespace ZombieApocalypseSimulator
             {
                 throw new ArgumentOutOfRangeException();
             }
-        
+
         }
 
         /// <summary>
@@ -128,11 +127,11 @@ namespace ZombieApocalypseSimulator
         /// <returns></returns>
         private List<GridSquare> GetAdjacentGridSquares(Coordinate Location)
         {
-                //Easier to reference x and y
-                int tX = Location.X;
-                int tY = Location.Y;
-                List<GridSquare> NeighborSquares = new List<GridSquare>();
-                List<Coordinate> NeighborCoordinates = new List<Coordinate>()
+            //Easier to reference x and y
+            int tX = Location.X;
+            int tY = Location.Y;
+            List<GridSquare> NeighborSquares = new List<GridSquare>();
+            List<Coordinate> NeighborCoordinates = new List<Coordinate>()
                 {
                     new Coordinate(tX - 1, tY - 1),
                     new Coordinate(tX, tY - 1),
@@ -143,15 +142,15 @@ namespace ZombieApocalypseSimulator
                     new Coordinate(tX - 1, tY + 1),
                     new Coordinate(tX + 1, tY - 1)
                 };
-                for (int i = 0; i < NeighborCoordinates.Count(); i++ )
+            for (int i = 0; i < NeighborCoordinates.Count(); i++)
+            {
+                Coordinate CurrentCoordinate = NeighborCoordinates.ElementAt(i);
+                if (CurrentCoordinate.X >= 0 && CurrentCoordinate.X < Width
+                    && CurrentCoordinate.Y >= 0 && CurrentCoordinate.Y < Height)
                 {
-                    Coordinate CurrentCoordinate = NeighborCoordinates.ElementAt(i);
-                    if(CurrentCoordinate.X >= 0 && CurrentCoordinate.X < Width
-                        && CurrentCoordinate.Y >= 0 && CurrentCoordinate.Y < Height)
-                    {
-                        NeighborSquares.Add(GetGridSquareAt(CurrentCoordinate));
-                    }
+                    NeighborSquares.Add(GetGridSquareAt(CurrentCoordinate));
                 }
+            }
             return NeighborSquares;
         }
         #endregion
@@ -189,7 +188,7 @@ namespace ZombieApocalypseSimulator
         {
             GridSquares[Location.X, Location.Y].ItemList.Add(DroppedItem);
         }
-       
+
         public void RemoveItemInSquare(Item RemoveItem, Coordinate Location)
         {
             GridSquare Square = GridSquares[Location.X, Location.Y];
@@ -238,7 +237,7 @@ namespace ZombieApocalypseSimulator
                     Target.OccupyingCharacter = C;
                 }
             }
-            catch (ArgumentOutOfRangeException ex) 
+            catch (ArgumentOutOfRangeException ex)
             {
                 Console.WriteLine(ex);
             }
@@ -268,14 +267,20 @@ namespace ZombieApocalypseSimulator
             }
         }
 
+        /// <summary>
+        /// Removes the given Character from the GridSquare and adds a Corpse Item to the GridSquare with the same properties as the killed Character
+        /// Returns the Corpse of the killed Character
+        /// </summary>
+        /// <param name="C"></param>
         public void KillCharacter(Character C)
         {
-            if (C.GetType() == typeof(Player))
-            {
-                GetItemsInSquare(C.Location).Add(new Corpse((Player)C));
-            }
+            GridSquare Target = GetGridSquareAt(C.Location);
 
-            GetGridSquareAt(C.Location).OccupyingCharacter = null;
+            Corpse Body = new Corpse(C);
+
+            Target.ItemList.Add(Body);
+
+            Target.OccupyingCharacter = null;
         }
 
         /// <summary>
@@ -299,11 +304,11 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-       
+
         public List<Coordinate> PossibleMovesForCharacter(Character C, int SquaresLeft, bool DiagonalsCostTwo = false)
         {
             Type OriginalType = null;
-            if(C.GetType() == typeof(Player))
+            if (C.GetType() == typeof(Player))
             {
                 OriginalType = typeof(Player);
             }
@@ -357,7 +362,7 @@ namespace ZombieApocalypseSimulator
             }
 
             List<Coordinate> Neighbors = new List<Coordinate>();
-            foreach(GridSquare Square in GetAdjacentGridSquares(Location))
+            foreach (GridSquare Square in GetAdjacentGridSquares(Location))
             {
                 Neighbors.Add(Square.Coordinate);
             }
@@ -380,6 +385,69 @@ namespace ZombieApocalypseSimulator
                 ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, !DiagonalsCostTwo, AlreadyChecked));
             }
             return ViableMoves.Distinct(new LocationComparer()).ToList();
+        }
+
+        /// <summary>
+        /// Checks each of the given Coordinates in CorpseLocations and makes a revive roll for each corpse in the Location. 
+        /// Will return a List of the new Zeds that have been created from the revive rolls
+        /// </summary>
+        /// <param name="CorpseLocations"></param>
+        /// <returns></returns>
+        public List<Zed> MakeReviveRolls(List<Coordinate> CorpseLocations)
+        {
+
+            List<Zed> NewZombies = new List<Zed>();
+
+            //Goes through each Coordinate in CorpseLocations and attempts to revive the Corpses in each
+            foreach (Coordinate C in CorpseLocations)
+            {
+                GridSquare Target = GetGridSquareAt(C);
+
+                //Finds the first Corpse in Target's ItemList
+                int CorpseIndex = 0;
+                bool Revive = false;
+                while (CorpseIndex < Target.ItemList.Count && !Revive)
+                {
+                    Item I = Target.ItemList.ElementAt(CorpseIndex);
+                    if (I.GetType() == typeof(Corpse))
+                    {
+                        Revive = ((Corpse)I).RollRevive();
+                    }
+                    CorpseIndex++;
+                }
+
+                if (Revive)
+                {
+                    if (Target.OccupyingCharacter == null)
+                    {
+                        Zed Z = ((Corpse)Target.ItemList.ElementAt(CorpseIndex)).SpawnZed();
+                        Target.ItemList.RemoveAt(CorpseIndex);
+                        Target.OccupyingCharacter = Z;
+                        NewZombies.Add(Z);
+                    }
+                }
+                //Finds if there are other Corpses in Target and makes each Corpse call 
+                //RollRevive()
+                bool OtherCorpse = false;
+                int Index = CorpseIndex + 1;
+                while (Index < Target.ItemList.Count)
+                {
+                    Item I = Target.ItemList.ElementAt(Index);
+                    if (I.GetType() == typeof(Corpse))
+                    {
+                        OtherCorpse = true;
+                        ((Corpse)I).RollRevive();
+                    }
+                    Index++;
+                }
+
+                //Removes Coordinate C from the CorpseLocations if Target has no more Corpses in it
+                if (!OtherCorpse)
+                {
+                    CorpseLocations.Remove(C);
+                }
+            }
+            return NewZombies;
         }
 
         /// <summary>
