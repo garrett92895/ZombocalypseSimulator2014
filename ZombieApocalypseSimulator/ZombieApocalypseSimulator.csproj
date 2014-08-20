@@ -49,13 +49,14 @@
     <Compile Include="Controller.cs" />
     <Compile Include="Coordinate.cs" />
     <Compile Include="Dice.cs" />
+    <Compile Include="Factories\ZedFactory.cs" />
     <Compile Include="GameArea.cs" />
     <Compile Include="GridSquare.cs" />
     <Compile Include="LocationComparer.cs" />
     <Compile Include="Models\Characters\Character.cs" />
     <Compile Include="Models\Characters\Classess\Bruiser.cs" />
     <Compile Include="Models\Characters\Classess\Engineer.cs" />
-    <Compile Include="Models\Characters\Classess\Fast Attack.cs" />
+    <Compile Include="Models\Characters\Classess\FastAttack.cs" />
     <Compile Include="Models\Characters\Classess\Fighter.cs" />
     <Compile Include="Models\Characters\Classess\HalfZombie.cs" />
     <Compile Include="Models\Characters\Classess\Medic.cs" />

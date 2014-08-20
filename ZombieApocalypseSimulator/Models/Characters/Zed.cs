@@ -14,17 +14,8 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public Zed()
         {
             IntelligenceQuotient = 1;
-            MentalEndurance = 1;
             MentalAffinity = 1;
-            PhysicalStrength = 0;
-            PhysicalEndurance = 0;
-            PhysicalProwess = 0;
-            PhysicalBeauty = 1;
-            Speed = 0;
-            base.SetLife();
-            ArmorRating = 14;
-            CanParry = true;
-            CanDodge = true;
+            MentalEndurance = 1;
         }
         public override string ToString()
         {

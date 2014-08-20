@@ -213,79 +213,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
         //            return dodge;
         //        }
 
-        //        public int toDodgeRangedAttacks()
-        //        {
-        //            byte dodge = (byte)(Dice.Roll(1, 20) - 6);
-        //            return dodge;
-        //        }
+        public override int toDodgeRangedAttack()
+        {
+           return toDodge() - 6;
+        }
 
-        //        public int initiative()
-        //        {
-        //            byte init = 0;
-        //            if (ZombieType != ZedTypes.Shank)
-        //            {
-        //                init = (byte)Dice.Roll(1, 20);
-        //            }
-        //            else if(ZombieType == ZedTypes.Shank)
-        //            {
-        //                init = (byte)(Dice.Roll(1, 20) - 1);
-        //            }
-        //            return init;
-        //        }
-
-        //        public override int rollHP()
-        //        {
-        //            byte health = 0;
-        //            if(ZombieType == ZedTypes.Sloucher || ZombieType == ZedTypes.FastAttack)
-        //            {
-        //                health = (byte)ran.Next(16, 22);
-        //            }
-        //            else if (ZombieType == ZedTypes.Tank)
-        //            {
-        //                health = (byte)ran.Next(35, 51);
-        //            }
-        //            else if (ZombieType == ZedTypes.Shank)
-        //            {
-        //                health = (byte)ran.Next(15, 21);
-        //            }
-        //            return health;
-        //        }
-
-        //        public override int rollsdc()
-        //        {
-        //            byte armor = 0; 
-        //            if(ZombieType == ZedTypes.Sloucher || ZombieType == ZedTypes.FastAttack)
-        //            {
-        //                armor =(byte)ran.Next(33, 49);
-        //            }
-        //            else if(ZombieType == ZedTypes.Tank)
-        //            {
-        //                armor = (byte)ran.Next(60, 81);
-        //            }
-        //            else if(ZombieType == ZedTypes.Shank)
-        //            {
-        //                armor = (byte)ran.Next(20, 31);
-        //            }
-        //            return armor;
-        //        }
-
-        //        public override string ToString()
-        //        {
-        //            string s = "";
-        //            s += ZombieType;
-        //            s += "\r\nHealth: " + Health + "/" + MaxHealth;
-        //            s += "\r\nSDC: " + sdc + "/" + MaxSDC;
-        //            s += "\r\nLevel: " + Level;
-        //            s += "\r\nSpeed: " + Speed;
-        //            s += "\r\nIQ: " + IntelligenceQuotient;
-        //            s += "\r\nME: " + MentalEndurance;
-        //            s += "\r\nMA: " + MentalAffinity;
-        //            s += "\r\nPS: " + PhysicalStrength;
-        //            s += "\r\nPP: " + PhysicalProwess;
-        //            s += "\r\nPB: " + PhysicalBeauty;
-        //            s += "\r\nPE: " + PhysicalEndurance;
-
-        //            return s;
-        //        }
     }
 }

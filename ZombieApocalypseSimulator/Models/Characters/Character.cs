@@ -100,6 +100,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
             return hit;
         }
 
+        public virtual int toDodgeRangedAttacks()
+        {
+            return 0;
+        }
+
         public virtual int toDodge()
         {
             byte hit = (byte)(Dice.Roll(1, 20) + bonusPP());
