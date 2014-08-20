@@ -132,10 +132,10 @@ namespace ZombieApocalypseSimulator
                 return "P";
             }
 
-            //if (OccupyingCharacter is Zed)
-            //{
-            //    return "Z";
-            //}
+            if (OccupyingCharacter is Zed)
+            {
+                return "Z";
+            }
 
             if (ItemList.Count > 0)
             {

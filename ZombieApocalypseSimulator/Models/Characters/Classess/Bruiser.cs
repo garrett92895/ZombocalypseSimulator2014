@@ -8,5 +8,6 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
     class Bruiser
     {
+
     }
 }

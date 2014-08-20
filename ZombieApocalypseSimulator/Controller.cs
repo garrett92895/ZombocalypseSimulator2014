@@ -79,12 +79,12 @@ namespace ZombieApocalypseSimulator
             Random rand = new Random();
             for (int i = 0; i < NumOfZombies; i++)
             {
-                //ZedTypes z = (ZedTypes)rand.Next(4);
-                //Zed zambie = new Zed(z);
-                //Coordinate Location = Field.GetViableSquare();
-                //Field.AddCharacterToSquare(zambie, Location);
-                //Zeds.Add(zambie);
-                //zambie.Location = Location;
+                
+                Zed zambie = new Zed();
+                Coordinate Location = Field.GetViableSquare();
+                Field.AddCharacterToSquare(zambie, Location);
+                Zeds.Add(zambie);
+                zambie.Location = Location;
             }
         }
 
