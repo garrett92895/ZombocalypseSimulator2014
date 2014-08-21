@@ -10,6 +10,7 @@ using ZombieApocalypseSimulator.Models.Characters;
 using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
+using ZombieApocalypseSimulator.Models.Characters.Classess;
 
 namespace ZombieApocalypseSimulator
 {
@@ -108,14 +109,19 @@ namespace ZombieApocalypseSimulator
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
             int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
-            {
-                rolls[i] = Dice.Roll(1, 20);
+            {                
+                if (_characters[i].GetType() == typeof(Shank))
+                {
+                    rolls[i] = Dice.Roll(1,20,1,-2);
+                }
+                else rolls[i] = Dice.Roll(1, 20);
             }
             int LastIndex = -1;
             for (int i = 0; i < _characters.Count; i++)
             {
                 LastIndex = minValue(rolls, LastIndex);
                 Character c = _characters[LastIndex];
+                
                 c.CanParry = true;
                 c.CanDodge = true;
                 _turnOrder.Push(c);
