@@ -73,8 +73,10 @@
     <Compile Include="Models\Items\Enums\AmmoType.cs" />
     <Compile Include="Models\Items\Enums\MeleeWeaponType.cs" />
     <Compile Include="Models\Items\Enums\RangedWeaponType.cs" />
+    <Compile Include="Models\Items\Enums\StatusEffect.cs" />
     <Compile Include="Models\Items\Health.cs" />
     <Compile Include="Models\Items\Item.cs" />
+    <Compile Include="Models\Items\Magazine.cs" />
     <Compile Include="Models\Items\MeleeWeapon.cs" />
     <Compile Include="Models\Items\RangedWeapon.cs" />
     <Compile Include="Models\Items\SparePart.cs" />

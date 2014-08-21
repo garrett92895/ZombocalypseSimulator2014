@@ -28,7 +28,7 @@ namespace ZombieApocalypseSimulator
 
         public Character Peek()
         {
-            return _characters[currentIndex];
+            return _characters[(currentIndex-1)];
         }
 
         public string GetList()

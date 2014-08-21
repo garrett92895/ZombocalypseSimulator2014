@@ -9,8 +9,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
 	public class Ammo : Item
 	{
-		public int Amount { get; set; }
 		public AmmoType AmmoType { get; set; }
-
+        public StatusEffect Effect { get; set; }
 	}
 }
