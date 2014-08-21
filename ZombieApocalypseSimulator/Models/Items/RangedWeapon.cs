@@ -10,15 +10,14 @@ namespace ZombieApocalypseSimulator.Models.Items
 	public class RangedWeapon : Weapon
 	{
 		public RangedWeaponType RangedWeaponType { get; set; }
-		public int AmmoUsed { get; set; }
-		public Ammo CurrentClip { get; set; }
+		public Magazine CurrentClip { get; set; }
 
 		public override int UseWeapon()
 		{
-			if (CurrentClip.Amount >= AmmoUsed)
+			if (CurrentClip.HasNext())
 			{
 
-				CurrentClip.Amount -= AmmoUsed;
+                CurrentClip.Pop().IsUsed = true;
 
 				return base.UseWeapon();
 			}
