@@ -221,7 +221,7 @@ namespace ZombieApocalypseSimulator
 
         /// <summary>
         /// Adds the given Character to the given GridSquare only if the given GridSquare is Occupiable and does not already contain a character.  
-        /// Changes the GridSquare that the Character knows they occupy and the OccupyingCharacter of the Target GridSquare.
+        /// Sets the Character's Coordinates to the GridSquare it was added to.
         /// </summary>
         /// <param name="C"></param>
         /// <param name="Target"></param>
@@ -683,9 +683,9 @@ namespace ZombieApocalypseSimulator
 
             string ReturnValue = "";
 
-            for (int i = 0; i < Height; i++)
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < Width; j++)
+                for (int j = 0; j < Height; j++)
                 {
                     ReturnValue += GridSquares[i, j].ToString() + "|";
                 }
