@@ -9,6 +9,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
 	public class Ammo : Item
 	{
+        public bool IsUsed { get; set; }
 		public AmmoType AmmoType { get; set; }
         public StatusEffect Effect { get; set; }
 	}

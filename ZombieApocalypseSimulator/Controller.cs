@@ -42,14 +42,12 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Ctor and Run
-        public Controller()
+        public Controller(int Width = 15, int Height=15)
         {
-            Field = new GameArea(15, 15);
+            Field = new GameArea(Width, Height);
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
-            MakeZombies(40);
-            MakePlayer();
         }
 
         public void Run()
@@ -100,6 +98,50 @@ namespace ZombieApocalypseSimulator
             Players.Add(p);
             p.Location = Location;
         }
+        #endregion
+
+        #region Adding Characters and Items
+
+        /// <summary>
+        /// Adds the given Character to the given Coordinate on the GameArea if the given Coordinate is Occupieable and empty.  
+        /// If the given Coordiante is Closed or Occupied then will not add the given Character to the GameArea
+        /// If no Coordiante is given will place the Character onto a random viable GridSquare in the GameArea
+        /// </summary>
+        /// <param name="C"></param>
+        /// <param name="Location"></param>
+        public void AddCharacterToField(Character C, Coordinate Location = null)
+        {
+            if(Location == null)
+            {
+                Location = Field.GetViableSquare();
+            }
+            if (C.GetType() == typeof(Player))
+            {
+                Players.Add(C);
+            }
+            else
+            {
+                Zeds.Add(C);
+            }
+            Field.AddCharacterToSquare(C, Location);
+        }
+
+        /// <summary>
+        /// Adds the given Item to the given Coordinate on the GameArea if the given Coordinate is Occupieable and empty.  
+        /// If the given Coordiante is Closed or Occupied then will not add the given Item to the GameArea
+        /// If no Coordiante is given will place the Item onto a random viable GridSquare in the GameArea
+        /// </summary>
+        /// <param name="I"></param>
+        /// <param name="Location"></param>
+        public void AddItemToField(Item I, Coordinate Location = null)
+        {
+            if (Location == null)
+            {
+                Location = Field.GetViableSquare();
+            }
+            Field.GetItemsInSquare(Location).Add(I);
+        }
+
         #endregion
 
         #region Turn Sorting
@@ -210,7 +252,6 @@ namespace ZombieApocalypseSimulator
                     SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
                 }
-
                 KillDeadCharacters();
             }
 
@@ -326,7 +367,6 @@ namespace ZombieApocalypseSimulator
                     }
                 }
             }
-
             return ActionStrings;
         }
 

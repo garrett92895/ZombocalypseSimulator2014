@@ -10,14 +10,21 @@ namespace ZombieApocalypseSimulator.Models.Items
     {
         public Magazine()
         {
-            _clip = new Ammo[20];
+            ClipSize = 20;
+            _clip = new Ammo[ClipSize];
             CurrentIndex = 0;
         }
 
         public Magazine(int MagSize)
         {
-            _clip = new Ammo[MagSize];
+            ClipSize = MagSize;
+            _clip = new Ammo[ClipSize];
             CurrentIndex = 0;
+        }
+
+        public void Empty()
+        {
+            _clip = new Ammo[ClipSize];
         }
 
         public void Push(Ammo a)
@@ -35,6 +42,25 @@ namespace ZombieApocalypseSimulator.Models.Items
             return _clip[(CurrentIndex - 1)];
         }
 
+        public int Amount()
+        {
+            int UnusedRounds =0;
+            for (int i = 0; i < _clip.Length; i++)
+            {
+                if (!_clip[i].IsUsed)
+                {
+                    UnusedRounds++;
+                }
+            }
+            return UnusedRounds;
+        }
+
+        public bool HasNext()
+        {
+            return (this.Peek().IsUsed);
+        }
+
+        private int ClipSize { get; set; }
         private Ammo[] _clip { get; set; }
         private int CurrentIndex;
     }

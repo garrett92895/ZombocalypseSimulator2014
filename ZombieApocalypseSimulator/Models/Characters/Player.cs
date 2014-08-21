@@ -142,7 +142,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             if(EquippedWeaponType().Equals("Ranged"))
             {
                 RangedWeapon EquippedRangedWeapon = (RangedWeapon)EquippedWeapon;
-                if(EquippedRangedWeapon.CurrentClip.Amount > 0)
+                if(EquippedRangedWeapon.CurrentClip.HasNext())
                 {
                     CanShoot = true;
                 }
