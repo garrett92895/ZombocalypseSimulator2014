@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZombieApocalypse
+namespace ZombieApocalypseSimulator
 {
     public class DieRoll
     {

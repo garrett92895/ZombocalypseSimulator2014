@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
@@ -11,6 +10,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
     {
         public Tank()
         {
+
 			PhysicalStrength = rand.Next (16) + 30;
 			PhysicalProwess = rand.Next (6) + 2;
 			PhysicalEndurance = rand.Next (6) + 16;
@@ -19,9 +19,6 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 			sdc = MaxSDC;
 			MaxHealth = rollHP();
 			Health = MaxHealth;
-            ArmorRating = 14;
-            CanParry = true;
-            CanDodge = true;
         }
 
         public override int MeleeAttack()
