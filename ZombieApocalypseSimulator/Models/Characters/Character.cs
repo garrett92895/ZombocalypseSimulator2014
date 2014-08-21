@@ -35,7 +35,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 _CanDodge = value;
             }
         }
-        public virtual bool CanParry { get; set; }
         public int ArmorRating { get; set; }
         public int IntelligenceQuotient { get; set; }
         public int MentalEndurance { get; set; }

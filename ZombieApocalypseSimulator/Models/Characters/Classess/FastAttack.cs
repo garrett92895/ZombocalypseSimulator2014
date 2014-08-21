@@ -8,9 +8,14 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
     class FastAttack: Zed
     {
-        public override int toDodgeRangedAttack()
-        {
-            return toDodge() - 6;
-        }
+//        public override int toDodgeRangedAttack()
+//        {
+//            return toDodge() - 6;
+//        }
+
+		public override int MeleeAttack()
+		{
+			return 0;
+		}
     }
 }

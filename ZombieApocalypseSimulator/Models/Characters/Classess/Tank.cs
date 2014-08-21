@@ -9,64 +9,51 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
     class Tank:Zed
     {
-        Random ran = new Random();
-        private byte minPhysicalStrength = 30;
-        private byte maxPhysicalStrength = 46;
-        private byte minPhysicalProwess = 2;
-        private int maxPhysicalProwess = 8;
-        private int minSpeed = 7;
-        private int maxSpeed = 11;
-
         public Tank()
         {
-            IntelligenceQuotient = 1;
-            MentalEndurance = 1;
-            MentalAffinity = 1;
-            PhysicalStrength = ran.Next(minPhysicalStrength, maxPhysicalStrength);
-            PhysicalEndurance = (byte)(ran.Next(16, 22));
-            PhysicalProwess = ran.Next(minPhysicalProwess, maxPhysicalProwess);
-            
-            Speed = ran.Next(minSpeed, maxSpeed);
-            base.SetLife();
+			PhysicalStrength = rand.Next (16) + 30;
+			PhysicalProwess = rand.Next (6) + 2;
+			PhysicalEndurance = rand.Next (6) + 16;
+            Speed = rand.Next(4) + 7;
+			MaxSDC = rollsdc();
+			sdc = MaxSDC;
+			MaxHealth = rollHP();
+			Health = MaxHealth;
             ArmorRating = 14;
             CanParry = true;
             CanDodge = true;
         }
 
-        public override int meleeattack()
+        public override int MeleeAttack()
         {
-            byte dam = (byte)Dice.Roll(3, 6);
-            return dam;
+			DieRoll Die = new DieRoll (3, 6);
+			return Die.Roll() + base.bonusPS();
         }
 
         public override int toHitMelee()
         {
-            int hit = (Dice.Roll(1, 20) + 2) + bonusPP();
+			int hit = base.toHitMelee() + 2;
             return hit;
         }
 
         public override int toParry()
         {
-            int parry = (Dice.Roll(1, 20) + 2) + bonusPP();
-            return parry;
+			return base.toParry() + 2;
         }
 
         public override int toDodge()
         {
-            int dodge = (Dice.Roll(1, 20) + 1) + bonusPP();
-            return dodge;
+			return base.toDodge() + 1;
         }
 
         public override int rollHP()
         {
-            byte health = (byte)ran.Next(35, 51);
-            return health;
+			return rand.Next(16) + 35;
         }
 
         public override int rollsdc()
         {
-            byte armor = (byte)ran.Next(60, 81);
-            return armor;
+			return rand.Next(21) + 60;
         }
 
 

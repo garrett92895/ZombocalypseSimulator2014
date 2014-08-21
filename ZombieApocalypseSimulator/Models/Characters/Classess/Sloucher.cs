@@ -30,5 +30,9 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
             int hit = (int)(Die.Roll());
             return hit;
         }
+		public override int MeleeAttack()
+		{
+			return 0;
+		}
     }
 }

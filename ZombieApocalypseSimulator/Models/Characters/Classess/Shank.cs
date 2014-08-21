@@ -8,7 +8,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
     class Shank: Zed
     {
-        Random ran = new Random();
+        
         //        public ZedTypes ZombieType { get; set; }
         //        private int minPhysicalStrength()
         //        {
@@ -213,10 +213,13 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
         //            return dodge;
         //        }
 
-        public override int toDodgeRangedAttack()
-        {
-           return toDodge() - 6;
-        }
-
+//        public override int toDodgeRangedAttack()
+//        {
+//           return toDodge() - 6;
+//        }
+		public override int MeleeAttack()
+		{
+			return 0;
+		}
     }
 }
