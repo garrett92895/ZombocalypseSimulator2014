@@ -19,6 +19,17 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
                 _CanDodge = false;
             }
         }
+        public override bool HasDodged
+        {
+            get
+            {
+                return false;
+            }
+            set
+            {
+                base.HasDodged = false;
+            }
+        }
 
         public Sloucher()
         {
@@ -34,16 +45,17 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 
 		public override int toHitMelee()
 		{
-            return DieRoll.RollOne(6) + base.bonusPS();
+            return base.toHitMelee() + 2;
 		}
 
         public override int toParry()
         {
-            return DieRoll.RollOne(20) + base.bonusPP();
+            return DieRoll.RollOne(20);
         }
 		public override int MeleeAttack()
 		{
-            return DieRoll.RollOne(6) + bonusPS();
+            DieRoll Die = new DieRoll(1, 6);
+            return Die.Roll() + base.bonusPS();
 		}
 
 		public override int rollHP()

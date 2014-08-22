@@ -13,7 +13,14 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public int MaxHealth { get; set; }
         private int _Health;
+<<<<<<< HEAD
         public int Health
+=======
+        protected bool _CanDodge;
+        protected bool _CanParry;
+        protected bool _HasDodged;
+        public virtual bool CanParry
+>>>>>>> origin/master
         {
             get
             {
@@ -45,6 +52,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 _CanDodge = value;
             }
         }
+<<<<<<< HEAD
 
         protected bool _CanParry;
         public virtual bool CanParry
@@ -59,6 +67,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
        
+=======
+        public virtual bool HasDodged
+        {
+            get
+            {
+                return _HasDodged;
+            }
+            set
+            {
+                _HasDodged = value;
+            }
+        }
+>>>>>>> origin/master
         public int ArmorRating { get; set; }
         public int IntelligenceQuotient { get; set; }
         public int MentalEndurance { get; set; }
