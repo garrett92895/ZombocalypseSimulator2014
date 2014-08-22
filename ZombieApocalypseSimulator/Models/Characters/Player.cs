@@ -9,7 +9,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
-    class Player : Character
+    public class Player : Character
     {
         public string Name { get; set; }
         public int ItemLimit { get; set; }

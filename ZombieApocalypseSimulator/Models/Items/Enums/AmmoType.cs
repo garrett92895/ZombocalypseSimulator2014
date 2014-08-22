@@ -8,8 +8,8 @@ namespace ZombieApocalypseSimulator.Models.Items.Enums
 {
 	public enum AmmoType
 	{
-		Shotgun,
 		Rifle,
-		Handgun
+        Handgun,
+        Shotgun
 	}
 }

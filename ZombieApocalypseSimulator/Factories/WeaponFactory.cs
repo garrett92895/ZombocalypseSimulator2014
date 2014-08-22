@@ -23,14 +23,17 @@ namespace ZombieApocalypseSimulator.Factories
                 if (MeleeType == 0)
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Blunt;
+                    _weapon.Name = "Bone-Crusher";
                 }
                 else if (MeleeType == 1)
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Pierce;
+                    _weapon.Name = "Pokey-Staby";
                 }
                 else
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Slash;
+                    _weapon.Name = "Swiper";
                 }
                 _weapon.Condition = Rand.Next(90);
                 _weapon.Damage = Rand.Next(1,5)+"d"+Rand.Next(1,12);
@@ -44,14 +47,17 @@ namespace ZombieApocalypseSimulator.Factories
                 if (RangedType == 0)
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Rifle;
+                    _weapon.Name = "Hunting Rifle";
                 }
                 else if (RangedType == 1)
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Handgun;
+                    _weapon.Name = "Colt M1911";
                 }
                 else
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Shotgun;
+                    _weapon.Name = "Boomstick";
                 }
                 _weapon.Condition = Rand.Next(60);
                 _weapon.Damage = Rand.Next(1, 7) + "d" + Rand.Next(1, 6);
@@ -63,11 +69,11 @@ namespace ZombieApocalypseSimulator.Factories
 
         /*
          * The format for the weapons factory is as follows:
-         *  "Range|Type|Condition|Damage|(Ranged Only) Ammo Count"
+         *  "Name|Range|Type|Condition|Damage|(Ranged Only) Ammo Count"
          *  So if i wanted a shotgun with four rounds I would pass in:
-         *  "Ranged|Shotgun|80|3d6|4 " 
+         *  "Shotty|Ranged|Shotgun|80|3d6|4 " 
          *  Or if I wanted a shiv
-         *  "Melee|Pierce|20|1d20 "
+         *  "Shiv|Melee|Pierce|20|1d20 "
          */
         public static Weapon GetInstance(string weapontype)
         {
@@ -75,33 +81,38 @@ namespace ZombieApocalypseSimulator.Factories
             string[] SplitParams = new string[1];
             SplitParams[0] = "|";
             string[] WeaponParams = weapontype.Split(SplitParams, StringSplitOptions.None);
-            if (WeaponParams[0].Equals("Melee"))
+            if (WeaponParams[1].Equals("Melee"))
             {
                 MeleeWeapon _weapon = new MeleeWeapon();
-                if(WeaponParams[1].Equals(MeleeWeaponType.Blunt.GetType()))
+                _weapon.Name = WeaponParams[0];
+                if(WeaponParams[2].Equals(MeleeWeaponType.Blunt.GetType()))
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Blunt;
+                    
                 }
-                else if (WeaponParams[1].Equals(MeleeWeaponType.Pierce.GetType()))
+                else if (WeaponParams[2].Equals(MeleeWeaponType.Pierce.GetType()))
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Pierce;
+                    
                 }
                 else
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Slash;
+                    
                 }
-                _weapon.Condition = Int32.Parse(WeaponParams[2]);
-                _weapon.Damage = WeaponParams[3];
+                _weapon.Condition = Int32.Parse(WeaponParams[3]);
+                _weapon.Damage = WeaponParams[4];
                 return _weapon;
             }
             else
-            {
+            {                
                 RangedWeapon _weapon = new RangedWeapon();
-                if (WeaponParams[1].Equals(MeleeWeaponType.Blunt.GetType()))
+                _weapon.Name = WeaponParams[0];
+                if (WeaponParams[2].Equals(MeleeWeaponType.Blunt.GetType()))
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Rifle;
                 }
-                else if (WeaponParams[1].Equals(MeleeWeaponType.Pierce.GetType()))
+                else if (WeaponParams[2].Equals(MeleeWeaponType.Pierce.GetType()))
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Handgun;
                 }
@@ -109,9 +120,9 @@ namespace ZombieApocalypseSimulator.Factories
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Shotgun;
                 }
-                _weapon.Condition = Int32.Parse(WeaponParams[2]);
-                _weapon.Damage = WeaponParams[3];
-                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[4]));
+                _weapon.Condition = Int32.Parse(WeaponParams[3]);
+                _weapon.Damage = WeaponParams[4];
+                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[5]));
                 return _weapon;
             }
         }

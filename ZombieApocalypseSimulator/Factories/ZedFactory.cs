@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Characters.Classess;
 
 namespace ZombieApocalypseSimulator.Factories

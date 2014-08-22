@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
-    class Tank:Zed
+    public class FastAttack: Zed
     {
-        public Tank()
+       public FastAttack()
         {
 
-            PhysicalStrength = DieRoll.RollOne(16) + 29;
-            PhysicalProwess = DieRoll.RollOne(6) + 1;
+            PhysicalStrength = DieRoll.RollOne(6) + 18;
+            PhysicalProwess = DieRoll.RollOne(6) + 7;
             PhysicalEndurance = DieRoll.RollOne(6) + 15;
-            Speed = DieRoll.RollOne(4) + 6;
+            Speed = DieRoll.RollOne(7) + 16;
 			MaxSDC = rollsdc();
 			sdc = MaxSDC;
 			MaxHealth = rollHP();
@@ -23,8 +23,8 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 
         public override int MeleeAttack()
         {
-			DieRoll Die = new DieRoll (3, 6, NewModifyer: base.bonusPP());
-			return Die.Roll();
+            DieRoll Die = new DieRoll(1, 6);
+			return Die.Roll() + 3 + base.bonusPS();
         }
 
         public override int toHitMelee()
@@ -39,21 +39,20 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 
         public override int toDodge()
         {
-			return base.toDodge() + 1;
+			return base.toDodge() + 2;
         }
 
         public override int rollHP()
         {
             //Ensures the DieRoll will return a value between 35-50
-            return DieRoll.RollOne(16) + 34;
+            return DieRoll.RollOne(6) + 5;
         }
 
         public override int rollsdc()
         {
             //Ensures the DieRoll will return a value between 60-80
-            return DieRoll.RollOne(21) + 59;
+            return DieRoll.RollOne(16) + 32;
         }
-
 
     }
 }
