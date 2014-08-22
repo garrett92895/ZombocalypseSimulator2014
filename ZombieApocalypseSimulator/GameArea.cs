@@ -107,7 +107,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-        public GridSquare GetGridSquareAt(Coordinate Location)
+        private GridSquare GetGridSquareAt(Coordinate Location)
         {
             if (Location.X >= 0 && Location.X < Width && Location.Y >= 0 && Location.Y < Height)
             {
@@ -263,7 +263,7 @@ namespace ZombieApocalypseSimulator
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                Console.WriteLine(ex); ;
+                Console.WriteLine(ex);
             }
         }
 
@@ -340,7 +340,6 @@ namespace ZombieApocalypseSimulator
 
             //Checks to prevent recursive calling in certain scenarios
             GridSquare CurrentSquare = GetGridSquareAt(Location);
-
             if (!CurrentSquare.IsOccupiable)
             {
                 return ViableMoves;
@@ -404,6 +403,8 @@ namespace ZombieApocalypseSimulator
 
             List<Zed> NewZombies = new List<Zed>();
 
+            List<Coordinate> CoordinatesToRemove = new List<Coordinate>();
+
             //Goes through each Coordinate in CorpseLocations and attempts to revive the Corpses in each
             foreach (Coordinate C in CorpseLocations)
             {
@@ -419,7 +420,10 @@ namespace ZombieApocalypseSimulator
                     {
                         Revive = ((Corpse)I).RollRevive();
                     }
-                    CorpseIndex++;
+                    else
+                    {
+                        CorpseIndex++;
+                    }
                 }
 
                 if (Revive)
@@ -428,7 +432,7 @@ namespace ZombieApocalypseSimulator
                     {
                         Zed Z = ((Corpse)Target.ItemList.ElementAt(CorpseIndex)).SpawnZed();
                         Target.ItemList.RemoveAt(CorpseIndex);
-                        Target.OccupyingCharacter = Z;
+                        AddCharacterToSquare(Z, Target.Coordinate);
                         NewZombies.Add(Z);
                     }
                 }
@@ -450,9 +454,11 @@ namespace ZombieApocalypseSimulator
                 //Removes Coordinate C from the CorpseLocations if Target has no more Corpses in it
                 if (!OtherCorpse)
                 {
-                    CorpseLocations.Remove(C);
+                    CoordinatesToRemove.Add(C);
                 }
             }
+
+            CorpseLocations = CorpseLocations.Except(CoordinatesToRemove, new LocationComparer()).ToList();
             return NewZombies;
         }
 

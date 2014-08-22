@@ -81,15 +81,12 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public virtual void takeDamage(int dam)
         {
-            if(sdc != 0)
+            while (dam != 0 && sdc != 0)
             {
-                while(dam != 0 && sdc != 0)
-                {
-                    dam--;
-                    sdc--;
-                }
-                Health -= dam;
+                dam--;
+                sdc--;
             }
+            Health -= dam;
         }
 
         public virtual int rollHP()

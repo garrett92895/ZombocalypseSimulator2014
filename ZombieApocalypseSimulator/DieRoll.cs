@@ -40,13 +40,19 @@ namespace ZombieApocalypseSimulator
         {
             int ReturnValue = 0;
 
-            for (; NumberOfDice > 0; NumberOfDice--)
+            for ( int i = NumberOfDice; i > 0; i--)
             {
                 ReturnValue += 1 + Rand.Next(SidesPerDie);
             }
             return (ReturnValue + Modifyer) * Multiplier;
         }
 
+        /// <summary>
+        /// Rolls a die with the given number of sides and returns the result of the roll.  
+        /// In other words, returns a random number between 1 and the given number inclusive.
+        /// </summary>
+        /// <param name="NumberOfSides"></param>
+        /// <returns></returns>
         public static int RollOne(int NumberOfSides)
         {
             return Rand.Next(NumberOfSides) + 1;

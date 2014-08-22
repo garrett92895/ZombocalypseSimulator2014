@@ -66,8 +66,10 @@ namespace ZombieApocalypseSimulator
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
+                    
                     PlayNextTurn();
                 }
+                Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
             }
         }
 
@@ -115,15 +117,19 @@ namespace ZombieApocalypseSimulator
             {
                 Location = Field.GetViableSquare();
             }
-            if (C.GetType() == typeof(Player))
-            {
-                Players.Add(C);
-            }
-            else
-            {
-                Zeds.Add(C);
-            }
             Field.AddCharacterToSquare(C, Location);
+
+            if (C.Location != null)
+            {
+                if (C.GetType() == typeof(Player))
+                {
+                    Players.Add(C);
+                }
+                else
+                {
+                    Zeds.Add(C);
+                }
+            }
         }
 
         /// <summary>
@@ -158,8 +164,10 @@ namespace ZombieApocalypseSimulator
             {
                 LastIndex = minValue(rolls, LastIndex);
                 Character c = _characters[LastIndex];
+
                 c.CanParry = true;
                 c.CanDodge = true;
+
                 _turnOrder.Push(c);
 
             }
@@ -184,6 +192,7 @@ namespace ZombieApocalypseSimulator
         private void PlayNextTurn()
         {
             //CurrentPlayer = GetNextCharacter();
+
             SquaresLeft = CurrentPlayer.squares();
             MaxSquares = SquaresLeft;
             Console.WriteLine(Field.ToString());
@@ -192,6 +201,7 @@ namespace ZombieApocalypseSimulator
             {
                 Console.WriteLine("\r\nSquares Left: " + SquaresLeft);
                 Console.WriteLine(CurrentPlayer.GetType().ToString());
+
                 ActionTypes PlayerAction = GetActionFromPlayer(SquaresLeft);
 
                 //Take Selected Action
@@ -252,10 +262,9 @@ namespace ZombieApocalypseSimulator
                     SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
                 }
+
                 KillDeadCharacters();
             }
-
-            Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
         }
 
         private ActionTypes GetActionFromPlayer(int SquaresLeft)
@@ -376,25 +385,37 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void KillDeadCharacters()
         {
-            foreach (Character P in Players)
+            List<int> KilledCharacters = new List<int>();
+            for (int i = 0; i < Players.Count; i++)
             {
+                Character P = Players.ElementAt(i);
                 if (!P.isAlive)
                 {
                     Field.KillCharacter(P);
-                    Players.Remove(P);
+                    KilledCharacters.Add(i);
                     PlayerOrder.RemoveCharacter(P);
                     CorpseSquares.Add(P.Location);
                 }
             }
-
-            foreach (Character Z in Zeds)
+            for (int i = 0; i < KilledCharacters.Count; i++)
             {
+                Players.RemoveAt(KilledCharacters.ElementAt(i));
+            }
+            KilledCharacters.Clear();
+
+            for (int i = 0; i < Zeds.Count; i++)
+            {
+                Character Z = Zeds.ElementAt(i);
                 if (!Z.isAlive)
                 {
                     Field.KillCharacter(Z);
-                    Zeds.Remove(Z);
+                    KilledCharacters.Add(i);
                     ZedOrder.RemoveCharacter(Z);
                 }
+            }
+            for (int i = 0; i < KilledCharacters.Count; i++)
+            {
+                Players.RemoveAt(KilledCharacters.ElementAt(i));
             }
         }
 
