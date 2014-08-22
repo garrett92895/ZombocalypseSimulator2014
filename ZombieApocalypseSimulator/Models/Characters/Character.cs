@@ -13,6 +13,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         private int _Health;
         protected bool _CanDodge;
         protected bool _CanParry;
+        protected bool _HasDodged;
         public virtual bool CanParry
         {
             get
@@ -33,6 +34,17 @@ namespace ZombieApocalypseSimulator.Models.Characters
             set
             {
                 _CanDodge = value;
+            }
+        }
+        public virtual bool HasDodged
+        {
+            get
+            {
+                return _HasDodged;
+            }
+            set
+            {
+                _HasDodged = value;
             }
         }
         public int ArmorRating { get; set; }
