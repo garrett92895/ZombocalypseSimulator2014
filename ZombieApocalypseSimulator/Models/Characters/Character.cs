@@ -111,17 +111,17 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public int squares()
         {
             int movement = ((Speed * 5) / 4);
+            if(HasDodged)
+            {
+                movement -= 3;
+                HasDodged = false;
+            }
             return movement;
         }
 
-        public virtual int toHitMelee()
+        public virtual int StrikeBonus()
         {
-            return DieRoll.RollOne(20) + bonusPP();
-        }
-
-        public virtual int toHitRanged(int OutsideBonus = 0)
-        {
-            return DieRoll.RollOne(20) + OutsideBonus;
+            return bonusPP();
         }
 
         public virtual int toDodgeRangedAttacks()
@@ -131,15 +131,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public virtual int toDodge()
         {
-            return DieRoll.RollOne(20) + bonusPP();
+            return bonusPP();
         }
 
         public virtual int toParry()
         {
-            return DieRoll.RollOne(20) + bonusPP();
+            return bonusPP();
         }
 
-        public abstract int MeleeAttack();
+        public abstract Attack MeleeAttack();
         public int bonusPS()
         {
             int bonus = PhysicalStrength - 15;

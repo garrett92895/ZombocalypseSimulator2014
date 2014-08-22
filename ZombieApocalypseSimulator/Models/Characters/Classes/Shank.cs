@@ -20,10 +20,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 			Health = MaxHealth;
 		}
 
-		public override int MeleeAttack()
+		public override Attack MeleeAttack()
 		{
-			DieRoll DamageRoll = new DieRoll (2, 6, NewModifyer: base.bonusPS());
-			return DamageRoll.Roll();
+            DieRoll DamageRoll = new DieRoll (2, 6, NewModifyer: base.bonusPS());
+			return new Attack(DamageRoll.Roll(), true);
 		}
 
 		public override int toHitMelee()

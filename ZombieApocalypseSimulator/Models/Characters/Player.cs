@@ -62,16 +62,20 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         private readonly byte maxAmmo = 100;
 
-        public override int MeleeAttack()
+        public override Attack MeleeAttack()
         {
+            Attack MeleeAttack = new Attack(0, false);
             if (EquippedWeapon.Condition > 10)
             {
                 int Damage = EquippedWeapon.UseWeapon();
                 Damage += bonusPS();
-                //return 1000;
-                return Damage;
+                MeleeAttack.Damage = Damage;
+                if(((MeleeWeapon)EquippedWeapon).MeleeWeaponType.Equals(MeleeWeaponType.Pierce))
+                {
+                    MeleeAttack.IsPiercing = true;
+                }
             }
-            else return 0;
+            return MeleeAttack;
         }
         public int RangedAttack()
         {

@@ -52,10 +52,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         {
             return DieRoll.RollOne(20);
         }
-		public override int MeleeAttack()
+		public override Attack MeleeAttack()
 		{
-            DieRoll Die = new DieRoll(1, 6);
-            return Die.Roll() + base.bonusPS();
+            DieRoll Die = new DieRoll(1, 6, NewModifyer : base.bonusPS());
+            return new Attack(Die.Roll());
 		}
 
 		public override int rollHP()

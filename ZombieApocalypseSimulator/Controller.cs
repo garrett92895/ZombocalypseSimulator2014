@@ -553,7 +553,7 @@ namespace ZombieApocalypseSimulator
             Console.WriteLine("Struck for " + Strike);
             if (Strike > 4 && Strike > Victim.ArmorRating)
             {
-                int Damage = CurrentPlayer.MeleeAttack();
+                Attack CharAttack = CurrentPlayer.MeleeAttack();
                 Console.WriteLine("Attack Hit!");
                 Console.WriteLine("Attacked for " + Damage);
                 int Defense = 0;
@@ -568,14 +568,15 @@ namespace ZombieApocalypseSimulator
                 {
                     Defense = Victim.toDodge();
                     Victim.CanDodge = false;
+                    Victim.HasDodged = true;
                     Console.WriteLine("Enemy dodged for " + Defense);
                 }
 
                 //Battle
-                if (Damage > Defense)
+                if (CharAttack.Damage > Defense)
                 {
-                    Console.WriteLine("Enemy was hit for {0} damage", Damage);
-                    Victim.takeDamage(Damage);
+                    Console.WriteLine("Enemy was hit for {0} damage", CharAttack.Damage);
+                    Victim.takeDamage(CharAttack.Damage);
                 }
                 else
                 {
