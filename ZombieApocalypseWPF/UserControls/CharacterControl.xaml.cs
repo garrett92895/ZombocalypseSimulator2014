@@ -12,34 +12,33 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ZombieApocalypseSimulator.Models.Characters;
 
-namespace WpfApplication1.UserControls
+namespace ZombieApocalypseWPF.UserControls
 {
     /// <summary>
     /// Interaction logic for CharacterControl.xaml
     /// </summary>
     public partial class CharacterControl : UserControl
     {
-        private Character _c;
-        public Character c 
+        public ZombieApocalypseSimulator.Models.Characters.Character _c;
+        public ZombieApocalypseSimulator.Models.Characters.Character c 
         {
             get
             {
                 return _c;
             }
+
             set
             {
                 _c = value;
-                this.DataContext = _c;
-                this.InventoryGrid.ItemsSource = _c.Items;
+                this.DataContext = c;
+                this.InventoryGrid.ItemsSource = c.Items;
             }
         }
         public CharacterControl()
         {
             InitializeComponent();
             this.DataContext = c;
-            this.InventoryGrid.ItemsSource = c.Items;
         }
     }
 }

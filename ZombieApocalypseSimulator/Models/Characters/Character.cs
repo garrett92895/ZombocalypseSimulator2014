@@ -10,8 +10,42 @@ namespace ZombieApocalypseSimulator.Models.Characters
 {
     public abstract class Character
     {
+
+        public int MaxHealth { get; set; }
         private int _Health;
+        public int Health
+        {
+            get
+            {
+                return _Health;
+            }
+            set
+            {
+                _Health = value;
+                if (_Health <= 0)
+                {
+                    isAlive = false;
+                }
+                else
+                {
+                    isAlive = true;
+                }
+            }
+        }
+
         protected bool _CanDodge;
+        public virtual bool CanDodge
+        {
+            get
+            {
+                return _CanDodge;
+            }
+            set
+            {
+                _CanDodge = value;
+            }
+        }
+
         protected bool _CanParry;
         public virtual bool CanParry
         {
@@ -24,17 +58,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 _CanParry = value;
             }
         }
-        public virtual bool CanDodge 
-        { 
-            get
-            {
-                return _CanDodge;
-            }
-            set
-            {
-                _CanDodge = value;
-            }
-        }
+       
         public int ArmorRating { get; set; }
         public int IntelligenceQuotient { get; set; }
         public int MentalEndurance { get; set; }
@@ -45,29 +69,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public int PhysicalBeauty { get; set; }
         public int Speed { get; set; }
         public int Level { get; set; }
+
         public List<Item> Items { get; set; }
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
-        public int MaxHealth { get; set; }
-        public int Health 
-        { 
-            get
-            {
-                return _Health;
-            }
-            set
-            {
-                _Health = value;
-                if(_Health <= 0)
-                {
-                    isAlive = false;
-                }
-                else
-                {
-                    isAlive = true;
-                }
-            }
-        }
+
         public int MaxSDC { get; set; }
         public int sdc { get; set; }
 

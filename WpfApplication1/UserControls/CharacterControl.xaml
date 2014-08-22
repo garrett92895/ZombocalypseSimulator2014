@@ -4,8 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+             d:DesignHeight="600" d:DesignWidth="300">
+    <StackPanel>
+        <Label Content="{Binding Name}"/>
+        <Image />
+        <UniformGrid Columns="2" Rows="11">
+            <Label Content="HP: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding Health}" HorizontalAlignment="Left"/>
+
+            <Label Content="AR: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding ArmorRating}" HorizontalAlignment="Left"/>
+
+            <Label Content="SDC: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding sdc}" HorizontalAlignment="Left"/>
+
+            <Label Content="IQ: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding IntelligenceQuotient}" HorizontalAlignment="Left"/>
+
+            <Label Content="ME: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding MentalEndurance}" HorizontalAlignment="Left"/>
+
+            <Label Content="MA: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding MentalAffinity}" HorizontalAlignment="Left"/>
+
+            <Label Content="PS: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding PhysicalStrength}" HorizontalAlignment="Left"/>
+
+            <Label Content="PE: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding PhysicalEndurance}" HorizontalAlignment="Left"/>
+
+            <Label Content="PP: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding PhysicalProwess}" HorizontalAlignment="Left"/>
+
+            <Label Content="PB: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding PhysicalBeauty}" HorizontalAlignment="Left"/>
+
+            <Label Content="Speed: " HorizontalAlignment="Right"/>
+            <Label Content="{Binding Speed}" HorizontalAlignment="Left"/>
+
+        </UniformGrid>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button>-</Button>
+            <Label>Character Level: </Label>
+            <Label Content="{Binding Level}" Width="30" />
+            <Button>+</Button>
+        </StackPanel>
+        
+        <DataGrid x:Name="InventoryGrid"/>
+    </StackPanel>
 </UserControl>

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="ZombieApocalypseWPF.UserControls.CharacterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="300">
+    <StackPanel>
+        <Label x:Name="CharacterName" Content="{Binding Name}"/>
+        <Image>
+        </Image>
+        <UniformGrid x:Name="AttributeGrid" Columns="2" Rows="11">
+            
+            <Label Content="HP: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding Health}" HorizontalContentAlignment="Left" />
+
+            <Label Content="SDC: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding sdc}" HorizontalContentAlignment="Left" />
+
+            <Label Content="AR: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding ArmorRating}" HorizontalContentAlignment="Left" />
+
+            <Label Content="IQ: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding IntelligenceQuotient}" HorizontalContentAlignment="Left" />
+
+            <Label Content="ME: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding MentalEndurance}" HorizontalContentAlignment="Left" />
+
+            <Label Content="MA: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding MentalAffinity}" HorizontalContentAlignment="Left" />
+
+            <Label Content="PS: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding PhysicalStrength}" HorizontalContentAlignment="Left" />
+
+            <Label Content="PE: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding PhysicalEndurance}" HorizontalContentAlignment="Left" />
+
+            <Label Content="PP: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding PhysicalProwess}" HorizontalContentAlignment="Left" />
+
+            <Label Content="PB: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding PhysicalBeauty}" HorizontalContentAlignment="Left" />
+
+            <Label Content="Speed: " HorizontalContentAlignment="Right" />
+            <Label Content="{Binding Speed}" HorizontalContentAlignment="Left" />
+
+        </UniformGrid>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button>-</Button>
+            <Label>Character Level:</Label>
+            <Label Content="{Binding Level}" Width="30"/>
+            <Button>+</Button>
+        </StackPanel>
+        
+        <DataGrid x:Name="InventoryGrid">
+            
+        </DataGrid>
+    </StackPanel>
+</UserControl>

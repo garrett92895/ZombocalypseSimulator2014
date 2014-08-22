@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Characters.Classes;
 
 namespace ZombieApocalypseWPF
 {
@@ -23,6 +25,11 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
+            Character pc = new Bruiser();
+            Character zc = new Tank();
+
+            this.PlayerControl.c = pc;
+            this.ZombieControl.c = zc;
         }
 
         /// <summary>
