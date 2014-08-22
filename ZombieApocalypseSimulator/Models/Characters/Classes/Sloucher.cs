@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZombieApocalypseSimulator.Models.Characters.Classess
+namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
     public class Sloucher: Zed
     {

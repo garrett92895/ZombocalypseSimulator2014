@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZombieApocalypseSimulator.Models.Characters.Classess
+namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
     public class FastAttack: Zed
     {
        public FastAttack()
-        {
+       {
 
             PhysicalStrength = DieRoll.RollOne(6) + 18;
             PhysicalProwess = DieRoll.RollOne(6) + 7;
