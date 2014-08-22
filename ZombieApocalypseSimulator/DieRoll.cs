@@ -27,7 +27,6 @@ namespace ZombieApocalypseSimulator
             SidesPerDie = NewSidesPerDie;
             Multiplier = NewMultiplyer;
             Modifyer = NewModifyer;
-            Rand = new Random();
         }
 
         /// <summary>
@@ -46,6 +45,11 @@ namespace ZombieApocalypseSimulator
                 ReturnValue += 1 + Rand.Next(SidesPerDie);
             }
             return (ReturnValue + Modifyer) * Multiplier;
+        }
+
+        public static int RollOne(int NumberOfSides)
+        {
+            return Rand.Next(NumberOfSides) + 1;
         }
     }
 }

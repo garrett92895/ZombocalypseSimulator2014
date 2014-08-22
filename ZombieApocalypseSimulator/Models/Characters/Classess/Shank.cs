@@ -10,10 +10,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
     {
 		public Shank()
 		{
-			PhysicalStrength = rand.Next (6) + 19;
-			PhysicalProwess = rand.Next (6) + 10;
-			PhysicalEndurance = rand.Next (6) + 16;
-			Speed = rand.Next(9) + 12;
+			PhysicalStrength = DieRoll.RollOne(6) + 18;
+            PhysicalProwess = DieRoll.RollOne(6) + 9;
+            PhysicalEndurance = DieRoll.RollOne(6) + 15;
+            Speed = DieRoll.RollOne(9) + 11;
 			MaxSDC = rollsdc();
 			sdc = MaxSDC;
 			MaxHealth = rollHP();
@@ -22,14 +22,13 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 
 		public override int MeleeAttack()
 		{
-			DieRoll Die = new DieRoll (2, 6);
-			return Die.Roll() + base.bonusPS();
+			DieRoll DamageRoll = new DieRoll (2, 6, NewModifyer: base.bonusPS());
+			return DamageRoll.Roll();
 		}
 
 		public override int toHitMelee()
 		{
-			int hit = base.toHitMelee() + 3;
-			return hit;
+			return base.toHitMelee() + 3;
 		}
 
 		public override int toParry()
@@ -44,12 +43,12 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 
 		public override int rollHP()
 		{
-			return rand.Next(6) + 15;
+            return DieRoll.RollOne(6) + 14;
 		}
 
 		public override int rollsdc()
 		{
-			return rand.Next(11) + 20;
+            return DieRoll.RollOne(11) + 19;
 		}
 
 

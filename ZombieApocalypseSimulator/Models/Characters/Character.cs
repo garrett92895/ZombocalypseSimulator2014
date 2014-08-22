@@ -94,34 +94,27 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public virtual int rollHP()
         {
-            int hp = (Dice.Roll(1, 6) + PhysicalEndurance);
-            return hp;
+            return DieRoll.RollOne(6) + PhysicalEndurance;
         }
 
         public virtual int rollsdc()
         {
-            int armor = (12 + Dice.Roll(1, 10));
-            return armor;
+            return DieRoll.RollOne(10) + 12;
         }
         public int squares()
         {
-            byte movement = (byte)((Speed * 5) / 4);
+            int movement = ((Speed * 5) / 4);
             return movement;
         }
 
         public virtual int toHitMelee()
         {
-            return (Dice.Roll(1, 20)) + bonusPP();
+            return DieRoll.RollOne(20) + bonusPP();
         }
-        public virtual int toHitRanged()
+
+        public virtual int toHitRanged(int OutsideBonus = 0)
         {
-            byte hit = (byte)(Dice.Roll(1, 20));
-            return hit;
-        }
-        public virtual int toHitRanged(int OutsideBonus)
-        {
-            byte hit = (byte)(Dice.Roll(1, 20) + OutsideBonus);
-            return hit;
+            return DieRoll.RollOne(20) + OutsideBonus;
         }
 
         public virtual int toDodgeRangedAttacks()
@@ -131,150 +124,31 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public virtual int toDodge()
         {
-            byte hit = (byte)(Dice.Roll(1, 20) + bonusPP());
-            return hit;
+            return DieRoll.RollOne(20) + bonusPP();
         }
 
         public virtual int toParry()
         {
-            int hit = (int)(Dice.Roll(1, 20) + bonusPP());
-            return hit;
+            return DieRoll.RollOne(20) + bonusPP();
         }
 
         public abstract int MeleeAttack();
         public int bonusPS()
         {
-            byte bonus = 0;
-            switch (PhysicalStrength)
+            int bonus = PhysicalStrength - 15;
+            if (bonus < 0)
             {
-                case 16:
-                    bonus = 1;
-                    break;
-                case 17:
-                    bonus = 2;
-                    break;
-                case 18:
-                    bonus = 3;
-                    break;
-                case 19:
-                    bonus = 4;
-                    break;
-                case 20:
-                    bonus = 5;
-                    break;
-                case 21:
-                    bonus = 6;
-                    break;
-                case 22:
-                    bonus = 7;
-                    break;
-                case 23:
-                    bonus = 8;
-                    break;
-                case 24:
-                    bonus = 9;
-                    break;
-                case 25:
-                    bonus = 10;
-                    break;
-                case 26:
-                    bonus = 11;
-                    break;
-                case 27:
-                    bonus = 12;
-                    break;
-                case 28:
-                    bonus = 13;
-                    break;
-                case 29:
-                    bonus = 14;
-                    break;
-                case 30:
-                    bonus = 15;
-                    break;
-                case 31:
-                    bonus = 16;
-                    break;
-                case 32:
-                    bonus = 17;
-                    break;
-                case 33:
-                    bonus = 18;
-                    break;
-                case 34:
-                    bonus = 19;
-                    break;
-                case 35:
-                    bonus = 20;
-                    break;
-                case 36:
-                    bonus = 21;
-                    break;
-                case 37:
-                    bonus = 22;
-                    break;
-                case 38:
-                    bonus = 23;
-                    break;
-                case 39:
-                    bonus = 24;
-                    break;
-                case 40:
-                    bonus = 25;
-                    break;
-                case 41:
-                    bonus = 26;
-                    break;
-                case 42:
-                    bonus = 27;
-                    break;
-                case 43:
-                    bonus = 28;
-                    break;
-                case 44:
-                    bonus = 29;
-                    break;
-                case 45:
-                    bonus = 30;
-                    break;
-            };
+                bonus = 0;
+            }
             return bonus;
         }
 
         public int bonusPP()
         {
-            byte bonus = 0;
-            if (PhysicalProwess == 16 || PhysicalProwess == 17)
+            int bonus = (PhysicalProwess - 14)/2;
+            if(bonus < 0)
             {
-                bonus = 1;
-            }
-            else if (PhysicalProwess == 18 || PhysicalProwess == 19)
-            {
-                bonus = 2;
-            }
-            else if (PhysicalProwess == 20 || PhysicalProwess == 21)
-            {
-                bonus = 3;
-            }
-            else if (PhysicalProwess == 22 || PhysicalProwess == 23)
-            {
-                bonus = 4;
-            }
-            else if (PhysicalProwess == 24 || PhysicalProwess == 25)
-            {
-                bonus = 5;
-            }
-            else if (PhysicalProwess == 26 || PhysicalProwess == 27)
-            {
-                bonus = 6;
-            }
-            else if (PhysicalProwess == 28 || PhysicalProwess == 29)
-            {
-                bonus = 7;
-            }
-            else if (PhysicalProwess == 30)
-            {
-                bonus = 8;
+                bonus = 0;
             }
             return bonus;
         }

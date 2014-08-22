@@ -22,30 +22,30 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		public static List<RangedWeapon> RangedWeaponList = new List<RangedWeapon>
 		{
-			new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = ".12-gauge Farmer", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "4d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = ".12-gauge Ronin", IgnoresAR = false, AmmoUsed = 2},
-			new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = ".12-gauge Slugger", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "5d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = "Swat-a-be Special", IgnoresAR = false, AmmoUsed = 2},
-			new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".233 Militia", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "4d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".556 Desert", IgnoresAR = false, AmmoUsed = 2},
-			new RangedWeapon { Condition = 100, Damage = "5d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".762 Hunter", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "6d6 +10", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".50 Sniper", IgnoresAR = false, AmmoUsed = 4},
-			new RangedWeapon { Condition = 100, Damage = "2d4", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = ".22 Sport", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "3d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = "9mm Rogue", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "3d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = "9mm Gangsta", IgnoresAR = false, AmmoUsed = 2},
-			new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = ".45 Defender", IgnoresAR = false, AmmoUsed = 1},
-			new RangedWeapon { Condition = 100, Damage = "5d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = ".50 Israeli", IgnoresAR = false, AmmoUsed = 1}
+            //new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = ".12-gauge Farmer", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "4d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = ".12-gauge Ronin", IgnoresAR = false, AmmoUsed = 2},
+            //new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = ".12-gauge Slugger", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "5d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Shotgun, Name = "Swat-a-be Special", IgnoresAR = false, AmmoUsed = 2},
+            //new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".233 Militia", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "4d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".556 Desert", IgnoresAR = false, AmmoUsed = 2},
+            //new RangedWeapon { Condition = 100, Damage = "5d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".762 Hunter", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "6d6 +10", IsEquiped = false, RangedWeaponType = RangedWeaponType.Rifle, Name = ".50 Sniper", IgnoresAR = false, AmmoUsed = 4},
+            //new RangedWeapon { Condition = 100, Damage = "2d4", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = ".22 Sport", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "3d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = "9mm Rogue", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "3d6 x2", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = "9mm Gangsta", IgnoresAR = false, AmmoUsed = 2},
+            //new RangedWeapon { Condition = 100, Damage = "4d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = ".45 Defender", IgnoresAR = false, AmmoUsed = 1},
+            //new RangedWeapon { Condition = 100, Damage = "5d6", IsEquiped = false, RangedWeaponType = RangedWeaponType.Handgun, Name = ".50 Israeli", IgnoresAR = false, AmmoUsed = 1}
 
 		};
 
 		public static List<Ammo> AmmoList = new List<Ammo>
 		{
-			new Ammo { AmmoType = AmmoType.Handgun, Amount = 8, Name = "Small Handgun Clip" },
-			new Ammo { AmmoType = AmmoType.Handgun, Amount = 32, Name = "Large Handgun Clip" },
-			new Ammo { AmmoType = AmmoType.Rifle, Amount = 4, Name = "Small Rifle Clip" },
-			new Ammo { AmmoType = AmmoType.Rifle, Amount = 16, Name = "Large Rifle Clip" },
-			new Ammo { AmmoType = AmmoType.Shotgun, Amount = 5, Name = "Some Shotgun Shells" },
-			new Ammo { AmmoType = AmmoType.Shotgun, Amount = 20, Name = "A lot of Shotgun Shells" }
+            //new Ammo { AmmoType = AmmoType.Handgun, Amount = 8, Name = "Small Handgun Clip" },
+            //new Ammo { AmmoType = AmmoType.Handgun, Amount = 32, Name = "Large Handgun Clip" },
+            //new Ammo { AmmoType = AmmoType.Rifle, Amount = 4, Name = "Small Rifle Clip" },
+            //new Ammo { AmmoType = AmmoType.Rifle, Amount = 16, Name = "Large Rifle Clip" },
+            //new Ammo { AmmoType = AmmoType.Shotgun, Amount = 5, Name = "Some Shotgun Shells" },
+            //new Ammo { AmmoType = AmmoType.Shotgun, Amount = 20, Name = "A lot of Shotgun Shells" }
 
 		};
 

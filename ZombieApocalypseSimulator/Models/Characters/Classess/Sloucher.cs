@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classess
 {
-    class Sloucher: Zed
+    public class Sloucher: Zed
     {
         public override bool CanDodge 
         { 
@@ -19,12 +19,13 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
                 _CanDodge = false;
             }
         }
+
         public Sloucher()
         {
-			PhysicalStrength = rand.Next(11) + 20;
-			PhysicalProwess = rand.Next(6) + 2;
-			PhysicalEndurance = rand.Next(6) + 16;
-			Speed = rand.Next(4) + 7;
+            PhysicalStrength = DieRoll.RollOne(11) + 19;
+            PhysicalProwess = DieRoll.RollOne(6) + 1;
+            PhysicalEndurance = DieRoll.RollOne(6) + 15;
+            Speed = DieRoll.RollOne(4) + 6;
 			MaxHealth = rollHP();
 			Health = MaxHealth;
 			MaxSDC = rollsdc();
@@ -33,30 +34,26 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classess
 
 		public override int toHitMelee()
 		{
-			DieRoll Die = new DieRoll(1, 6);
-			return Die.Roll() + base.bonusPS();
+            return DieRoll.RollOne(6) + base.bonusPS();
 		}
 
         public override int toParry()
         {
-            DieRoll Die = new DieRoll(1, 20);
-            int hit = (int)(Die.Roll());
-            return hit;
+            return DieRoll.RollOne(20) + base.bonusPP();
         }
 		public override int MeleeAttack()
 		{
-			DieRoll Die = new DieRoll(1, 6);
-			return Die.Roll() + base.bonusPS();
+            return DieRoll.RollOne(6) + bonusPS();
 		}
 
 		public override int rollHP()
 		{
-			return rand.Next(6) + 16;
+            return DieRoll.RollOne(6) + 15;
 		}
 
 		public override int rollsdc()
 		{
-			return rand.Next(16) + 33;
+            return DieRoll.RollOne(16) + 32;
 		}
     }
 }

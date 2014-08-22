@@ -11,13 +11,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
 {
     public abstract class Zed : Character
     {
-		protected Random rand;
         public Zed()
         {
             IntelligenceQuotient = 1;
             MentalAffinity = 1;
             MentalEndurance = 1;
-			rand = new Random ();
         }
         public override string ToString()
         {
