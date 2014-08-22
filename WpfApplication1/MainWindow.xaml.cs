@@ -25,21 +25,33 @@ namespace WpfApplication1
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Clears the board and all data objects to make a new instance of the game, should prompt for user input on saving current state
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Opens a saved game file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
         }
 
-        private void Add_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Closes the game, should prompt for user input about saving the current state of the game
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 

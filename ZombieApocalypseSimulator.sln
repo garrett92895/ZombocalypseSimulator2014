@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieApocalypseSimulator", "ZombieApocalypseSimulator\ZombieApocalypseSimulator.csproj", "{25BFB1C3-B41E-40B3-8307-10DAAA5901E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{F829C1F4-CCBA-421A-848E-2F43046856FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieApocalypse", "WpfApplication1\ZombieApocalypse.csproj", "{F829C1F4-CCBA-421A-848E-2F43046856FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
