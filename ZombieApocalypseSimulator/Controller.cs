@@ -341,7 +341,7 @@ namespace ZombieApocalypseSimulator
                     && Field.PossibleRangedTargets(Current, Zeds).Any())
                 {
                     PossibleActions.Add(ActionTypes.UnaimedRangedAttack);
-                    //Checks for the ability to make and aimed shot
+                    //Checks for the ability to make an aimed shot
                     if (SquaresLeft == MaxSquares)
                     {
                         PossibleActions.Add(ActionTypes.AimedRangedAttack);

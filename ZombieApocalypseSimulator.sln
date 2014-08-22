@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieApocalypseSimulator", "ZombieApocalypseSimulator\ZombieApocalypseSimulator.csproj", "{25BFB1C3-B41E-40B3-8307-10DAAA5901E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieApocalypse", "WpfApplication1\ZombieApocalypse.csproj", "{F829C1F4-CCBA-421A-848E-2F43046856FB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZombieApocalypseWPF", "ZombieApocalypseWPF\ZombieApocalypseWPF.csproj", "{6E8F2F2C-F3DB-4C91-AB7A-2B96D4E35DD8}"
 EndProject
 Global
@@ -17,10 +15,6 @@ Global
 		{25BFB1C3-B41E-40B3-8307-10DAAA5901E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25BFB1C3-B41E-40B3-8307-10DAAA5901E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25BFB1C3-B41E-40B3-8307-10DAAA5901E2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F829C1F4-CCBA-421A-848E-2F43046856FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F829C1F4-CCBA-421A-848E-2F43046856FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F829C1F4-CCBA-421A-848E-2F43046856FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F829C1F4-CCBA-421A-848E-2F43046856FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E8F2F2C-F3DB-4C91-AB7A-2B96D4E35DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E8F2F2C-F3DB-4C91-AB7A-2B96D4E35DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E8F2F2C-F3DB-4C91-AB7A-2B96D4E35DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU

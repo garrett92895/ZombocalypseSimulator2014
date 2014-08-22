@@ -20,6 +20,7 @@ namespace WpfApplication1
     /// </summary>
     public partial class CharacterCreator : UserControl
     {
+
         public CharacterCreator()
         {
             InitializeComponent();

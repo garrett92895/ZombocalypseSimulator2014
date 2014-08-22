@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace ZombieApocalypseWPF
 {
@@ -33,7 +36,8 @@ namespace ZombieApocalypseWPF
         /// <param name="e"></param>
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            SavePrompt();
+            //[controller] = new Controller(BoardWidth,BoardHeight);
         }
 
         /// <summary>
@@ -43,7 +47,19 @@ namespace ZombieApocalypseWPF
         /// <param name="e"></param>
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            OpenFileDialog OpenFile = new OpenFileDialog();
+            OpenFile.Filter = "Saved Games|*.zombieapoc";
+            if (OpenFile.ShowDialog() == true)
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                Stream input;
 
+                if ((input = OpenFile.OpenFile()) != null)
+                {
+                    throw new NotImplementedException();
+                }
+                input.Close();
+            }
         }
 
         /// <summary>
@@ -54,7 +70,28 @@ namespace ZombieApocalypseWPF
         /// <param name="e"></param>
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            SavePrompt();
+            this.Close();
+        }
 
+        /// <summary>
+        /// Prompts the user to save their current information
+        /// </summary>
+        private void SavePrompt()
+        {
+            SaveFileDialog SaveFile = new SaveFileDialog();
+            SaveFile.Filter = "Saved Games|*.zombieapoc";
+
+            if (SaveFile.ShowDialog() == true)
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                Stream output = File.Create(SaveFile.FileName);
+
+                if (output != null)
+                {
+                    throw new NotImplementedException();
+                }
+            }
         }
     }
 }

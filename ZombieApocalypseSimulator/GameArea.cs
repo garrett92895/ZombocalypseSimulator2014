@@ -526,7 +526,7 @@ namespace ZombieApocalypseSimulator
                             {
                                 if (C.GetType() == typeof(Player))
                                 {
-                                    if (Neighbor.GetType() == typeof(Zed))
+                                    if (Neighbor.GetType() != typeof(Player))
                                     {
                                         Adjacents.Add(Neighbor);
                                     }
