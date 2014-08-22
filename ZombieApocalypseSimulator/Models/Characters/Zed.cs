@@ -17,6 +17,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             MentalAffinity = 1;
             MentalEndurance = 1;
         }
+
         public override string ToString()
         {
             string s = "";

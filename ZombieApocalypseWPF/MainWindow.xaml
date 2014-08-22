@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
             
-            <uc:CharacterControl x:Name="PlayerControl" Loaded="PlayerControl_Loaded"/>
+            <uc:CharacterControl x:Name="PlayerControl" />
             
             <UniformGrid x:Name="Board"
                          Rows="15"

@@ -17,6 +17,9 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using ZombieApocalypseSimulator.Models.Characters;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
+using ZombieApocalypseSimulator;
+using ZombieApocalypseSimulator.Factories;
+using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseWPF
 {
@@ -28,11 +31,62 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
-            Character pc = new Bruiser();
-            Character zc = new Tank();
 
-            this.PlayerControl.c = pc;
-            this.ZombieControl.c = zc;
+            Controller c = new Controller(10,10);
+            Character NewPlayer = new Player();
+            Coordinate Coor = new Coordinate(2,3);
+            c.AddCharacterToField(NewPlayer, Coor);
+            PlayerControl.c = NewPlayer;
+
+            Character Zed1 = ZedFactory.GetInstance("Sloucher");
+            Coordinate ZedCoor1 = new Coordinate(1, 2);
+            c.AddCharacterToField(Zed1, ZedCoor1);
+            ZombieControl.c = Zed1;
+
+            Character Zed2 = ZedFactory.GetInstance("Sloucher");
+            Coordinate ZedCoor2 = new Coordinate(8, 9);
+            c.AddCharacterToField(Zed2, ZedCoor2);
+
+            Character Zed3 = ZedFactory.GetInstance("Sloucher");
+            Coordinate ZedCoor3 = new Coordinate(7, 7);
+            c.AddCharacterToField(Zed3, ZedCoor3);
+
+            Character Zed4 = ZedFactory.GetInstance("Sloucher");
+            Coordinate ZedCoor4 = new Coordinate(7, 8);
+            c.AddCharacterToField(Zed4, ZedCoor4);
+            
+            Character Zed5 = ZedFactory.GetInstance("Sloucher");
+            Coordinate ZedCoor5 = new Coordinate(7, 9);
+            c.AddCharacterToField(Zed5, ZedCoor5);
+
+            Character Zed6 = ZedFactory.GetInstance("Sloucher");
+            Coordinate ZedCoor6 = new Coordinate(5, 5);
+            c.AddCharacterToField(Zed6, ZedCoor6);
+
+            Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(1, 2);
+            c.AddItemToField(Gun, GunCoor);
+
+            Board.Rows = c.Field.Height;
+            Board.Columns = c.Field.Width;
+
+            for(int i = 0; i < Board.Rows; i++)
+            {
+                for (int j = 0; j < Board.Columns; i++)
+                {
+                    Canvas nc = new Canvas();
+                    nc.Resources.Add("Trap", c.Field.GridSquares[i, j].ActiveTrap);
+                    nc.Resources.Add("Coordinate", c.Field.GridSquares[i, j].Coordinate);
+                    nc.Resources.Add("IsOccupiable", c.Field.GridSquares[i, j].IsOccupiable);
+                    nc.Resources.Add("ItemList", c.Field.GridSquares[i, j].ItemList);
+                    nc.Resources.Add("Character", c.Field.GridSquares[i, j].OccupyingCharacter);
+
+
+
+                }
+
+            }
+
         }
 
         /// <summary>

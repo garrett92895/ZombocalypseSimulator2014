@@ -35,7 +35,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         protected bool _CanParry;
         protected bool _HasDodged;
-        public virtual bool CanParry;
+        public bool CanParry;
         
 
         protected bool _CanDodge;

@@ -31,6 +31,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public Player()
         {
+            Name = "Bill";
             Items = new List<Item>();
             ItemLimit = 5;
             Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
