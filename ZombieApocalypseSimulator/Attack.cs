@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator
 {
-    class Attack
+    public class Attack
     {
         public int Damage { get; set; }
         public bool IsPiercing { get; set; }

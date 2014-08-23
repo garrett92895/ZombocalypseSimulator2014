@@ -43,10 +43,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 			sdc = MaxSDC;
         }
 
-		public override int toHitMelee()
-		{
-            return base.toHitMelee() + 2;
-		}
+        //public override int toHitMelee()
+        //{
+        //    return base.toHitMelee() + 2;
+        //}
 
         public override int toParry()
         {

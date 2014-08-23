@@ -27,10 +27,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 			return new Attack(Die.Roll());
         }
 
-        public override int toHitMelee()
-        {
-            return base.toHitMelee() + 2;
-        }
+        //public override int toHitMelee()
+        //{
+        //    return base.toHitMelee() + 2;
+        //}
 
         public override int toParry()
         {

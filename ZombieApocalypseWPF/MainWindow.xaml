@@ -19,19 +19,19 @@
             <MenuItem Header="File">
                 <MenuItem Header="New" Command="New"/>
                 <MenuItem Header="Open" Command="Open"/>
-                <MenuItem Header="Add">
-                    <MenuItem Header="Zombie" />
-                    <MenuItem Header="Player" />
-                    <MenuItem Header="Item" >
-                        <MenuItem Header="RangedWeapon" />
-                        <MenuItem Header="MeleeWeapon" />
-                        <MenuItem Header="SparePart" />
-                        <MenuItem Header="Health" />
-                        <MenuItem Header="Ammo" />
-                        <MenuItem Header="Trap" />
-                    </MenuItem>
-                </MenuItem>
                 <MenuItem Header="Close" Command="Close"/>
+            </MenuItem>
+            <MenuItem Header="Add">
+                <MenuItem Header="Item" >
+                    <MenuItem Header="RangedWeapon" />
+                    <MenuItem Header="MeleeWeapon" />
+                    <MenuItem Header="SparePart" />
+                    <MenuItem Header="Health" />
+                    <MenuItem Header="Ammo" />
+                    <MenuItem Header="Trap" />
+                </MenuItem>
+                <MenuItem Header="Player" />
+                <MenuItem Header="Zombie" />
             </MenuItem>
         </Menu>
 

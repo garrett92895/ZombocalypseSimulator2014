@@ -28,11 +28,13 @@ namespace ZombieApocalypseWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Controller c;
         public MainWindow()
         {
             InitializeComponent();
 
-            Controller c = new Controller(10,10);
+            c = new Controller(10,10);
             Character NewPlayer = new Player();
             Coordinate Coor = new Coordinate(2,3);
             c.AddCharacterToField(NewPlayer, Coor);
@@ -67,10 +69,17 @@ namespace ZombieApocalypseWPF
             Coordinate GunCoor = new Coordinate(1, 2);
             c.AddItemToField(Gun, GunCoor);
 
+            PopulateBoard();
+
+        }
+
+        private void PopulateBoard()
+        {
+
             Board.Rows = c.Field.Height;
             Board.Columns = c.Field.Width;
 
-            for(int i = 0; i < Board.Rows; i++)
+            for (int i = 0; i < Board.Rows; i++)
             {
                 for (int j = 0; j < Board.Columns; i++)
                 {
@@ -81,12 +90,11 @@ namespace ZombieApocalypseWPF
                     nc.Resources.Add("ItemList", c.Field.GridSquares[i, j].ItemList);
                     nc.Resources.Add("Character", c.Field.GridSquares[i, j].OccupyingCharacter);
 
-
+                    Board.Children.Add(nc);
 
                 }
 
             }
-
         }
 
         /// <summary>
