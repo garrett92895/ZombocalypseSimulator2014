@@ -9,7 +9,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
     public class Bruiser : Player
     {
-        public override virtual int rollsdc()
+        public override int rollsdc()
         {
             int armor = (12 + Dice.Roll(2, 6));
             return armor;

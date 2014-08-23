@@ -78,7 +78,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
             return MeleeAttack;
         }
-        public int RangedAttack()
+        public virtual int RangedAttack()
         {
             if (EquippedWeapon.Condition > 15)
             {

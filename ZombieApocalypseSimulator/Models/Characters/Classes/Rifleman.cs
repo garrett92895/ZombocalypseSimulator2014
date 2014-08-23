@@ -23,7 +23,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             return bonus;
         }
 
-        public override virtual int toHitRanged()
+        public override int RangedAttack()
         {
             byte hit = (byte)(Dice.Roll(1, 20));
             hit += bonusToAttack();

@@ -18,7 +18,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             }
             else if (EquippedWeaponType().Equals("Melee"))
             {
-                damage = MeleeAttack();
+                damage = MeleeAttack().Damage;
             }
             return damage;
         }

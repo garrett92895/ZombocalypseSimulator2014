@@ -47,7 +47,8 @@
             <UniformGrid x:Name="Board"
                          Rows="15"
                          Columns="15"
-                         Grid.Column="1">
+                         Grid.Column="1"
+                         Background="Black">
 
             </UniformGrid>
 
@@ -55,7 +56,5 @@
             <uc:CharacterControl x:Name="ZombieControl" Grid.Column="2"/>
             
         </Grid>
-
-
     </Grid>
 </Window>

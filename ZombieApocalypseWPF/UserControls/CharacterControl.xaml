@@ -7,8 +7,7 @@
              d:DesignHeight="600" d:DesignWidth="300">
     <StackPanel>
         <Label x:Name="CharacterName" Content="{Binding Name}"/>
-        <Image>
-        </Image>
+        <Image Source="{Binding Converter={StaticResource ResourceKey=CtIC}}" />
         <UniformGrid x:Name="AttributeGrid" Columns="2" Rows="11">
             
             <Label Content="HP: " HorizontalContentAlignment="Right" />

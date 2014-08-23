@@ -32,10 +32,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public void FixWeapon(Weapon weapon)
         {
-            if (GetParts <= 11)
-            {
+            //if (GetParts <= 11)
+            //{
 
-            }
+            //}
         }
     }
 }

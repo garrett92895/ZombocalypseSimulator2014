@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\CharacterToImageConverter.cs" />
     <Compile Include="UserControls\CharacterControl.xaml.cs">
       <DependentUpon>CharacterControl.xaml</DependentUpon>
     </Compile>
@@ -105,6 +106,26 @@
       <Project>{25bfb1c3-b41e-40b3-8307-10daaa5901e2}</Project>
       <Name>ZombieApocalypseSimulator</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\CharaterImages\Bruiser.png" />
+    <Resource Include="Images\CharaterImages\Engineer.png" />
+    <Resource Include="Images\CharaterImages\FastAttack.png" />
+    <Resource Include="Images\CharaterImages\Figther.png" />
+    <Resource Include="Images\CharaterImages\HalfZombie.png" />
+    <Resource Include="Images\CharaterImages\Medic.png" />
+    <Resource Include="Images\CharaterImages\Rifleman.png" />
+    <Resource Include="Images\CharaterImages\Shank.png" />
+    <Resource Include="Images\CharaterImages\Sloucher.png" />
+    <Resource Include="Images\CharaterImages\Tank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CharaterImages\Items.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ItemImages\Items.png" />
+    <Resource Include="Images\ItemImages\Trap.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

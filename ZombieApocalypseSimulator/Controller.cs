@@ -549,13 +549,13 @@ namespace ZombieApocalypseSimulator
             List<Character> PossibleVictims = Field.AdjacentCharacters(CurrentPlayer, false);
             Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
 
-            int Strike = CurrentPlayer.toHitMelee();
+            int Strike =  0;//CurrentPlayer.toHitMelee();
             Console.WriteLine("Struck for " + Strike);
             if (Strike > 4 && Strike > Victim.ArmorRating)
             {
                 Attack CharAttack = CurrentPlayer.MeleeAttack();
                 Console.WriteLine("Attack Hit!");
-                Console.WriteLine("Attacked for " + Damage);
+                Console.WriteLine("Attacked for ");// + Damage);
                 int Defense = 0;
                 //Parrying or dodging
                 if (Victim.CanParry)
@@ -602,7 +602,7 @@ namespace ZombieApocalypseSimulator
                 Bonus = 3;
             }
 
-            int Strike = CurrentPlayer.toHitRanged(Bonus);
+            int Strike = 0;//CurrentPlayer.toHitRanged(Bonus);
             if (Strike > 4 && Strike > Victim.ArmorRating)
             {
                 int Damage = Current.RangedAttack();

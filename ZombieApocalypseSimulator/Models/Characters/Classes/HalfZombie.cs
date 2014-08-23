@@ -30,7 +30,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         }
 
 
-        public override int MeleeAttack()
+        public override Attack MeleeAttack()
         {
             int Damage = 0;
             if (EquippedWeapon.Condition > 10)
@@ -43,7 +43,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             {
                 Damage = 0;
             }
-            return Damage;
+            return new Attack(Damage, false);
         }
     }
 }

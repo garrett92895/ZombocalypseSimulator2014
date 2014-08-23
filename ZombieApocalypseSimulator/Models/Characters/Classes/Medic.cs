@@ -7,7 +7,7 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
-    class Medic : Player
+    public class Medic : Player
     {
         public static List<Health> DocsHealthPacks = new List<Health>
         {
