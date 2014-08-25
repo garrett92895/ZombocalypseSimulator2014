@@ -8,7 +8,7 @@ using ZombieApocalypseSimulator.Models.Characters.Classes;
 
 namespace ZombieApocalypseSimulator
 {
-    class ZombieAI
+    public class ZombieAI
     {
         public bool IntelligentAI { get; set; }
         public ZombieAI(bool IsIntelligentAI = false)
@@ -91,7 +91,14 @@ namespace ZombieApocalypseSimulator
         {
             Coordinate move = null;
 
-
+            if(IntelligentAI)
+            {
+                move = IntelligentMove(CurrentPlayer, MaxMoves, MovesLeft, Area, Players, Zombies);
+            }
+            else
+            {
+                move = DumbMove(CurrentPlayer, MaxMoves, MovesLeft, Area, Players, Zombies);
+            }
 
             return move;
         }
@@ -103,11 +110,38 @@ namespace ZombieApocalypseSimulator
 
         private Coordinate DumbMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
         {
-            Coordinate move = null;
+            Coordinate bestMove = null;
 
+            List<Coordinate> moves = Area.PossibleMovesForCharacter(CurrentPlayer, MovesLeft);
+            List<KeyValuePair<Coordinate, Character>> enemies = new List<KeyValuePair<Coordinate, Character>>();
 
+            foreach(Coordinate c in moves)
+            {
+                //The dummy character is only needed for its location, it won't actually exist in the game
+                Character dummy = new Sloucher();
+                dummy.Location = c;
+                List<Character> possibleVictims = Area.AdjacentCharacters(dummy, false);
 
-            return move;
+                //Adds them to the list of possible attacks
+                foreach(Character victim in possibleVictims)
+                {
+                    enemies.Add(new KeyValuePair<Coordinate, Character>(c, victim));
+                }
+            }
+
+            bestMove = enemies.ElementAt(0).Key;
+            int CheapestMoveCost = int.MaxValue;
+            foreach(KeyValuePair<Coordinate, Character> move in enemies)
+            {
+                int ThisMoveCost = Area.ShortestPathCost(CurrentPlayer, move.Key);
+                if(ThisMoveCost < CheapestMoveCost)
+                {
+                    CheapestMoveCost = ThisMoveCost;
+                    bestMove = move.Key;
+                }
+            }
+
+            return bestMove;
         }
 
 
