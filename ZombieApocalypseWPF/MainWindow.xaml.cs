@@ -127,7 +127,7 @@ namespace ZombieApocalypseWPF
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SavePrompt();
-            //[controller] = new Controller(BoardWidth,BoardHeight);
+            c = new Controller();
         }
 
         /// <summary>
