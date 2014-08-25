@@ -241,8 +241,9 @@ namespace ZombieApocalypseSimulator
                         int check = Dice.Roll(1, 20);
                         if(check <= 5)
                         {
-                            CurrentPlayer.isAlive = false;
-
+                            Field.KillCharacter(CurrentPlayer);
+                            PlayerOrder.RemoveCharacter(CurrentPlayer);
+                            Field.AddCharacterToSquare(ZedFactory.RandomSpecial(), CurrentPlayer.Location);
                         }
                     }
                     if (CurrentPlayer.Equals(StatusEffects.NoSDC))
