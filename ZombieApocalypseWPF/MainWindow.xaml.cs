@@ -66,6 +66,7 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
+
             PlayerControl.Level_Up_Button.Click += Level_Up_Player_Button_Click;
             PlayerControl.Level_Down_Button.Click += Level_Down_Player_Button_Click;
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
@@ -307,9 +308,9 @@ namespace ZombieApocalypseWPF
 
         private void Add_Item(object sender, RoutedEventArgs e)
         {
-            AddItemWindow aiw = new AddItemWindow();
-            aiw.Field = c.Field;
-            aiw.Activate();
+            //AddItemWindow aiw = new AddItemWindow();
+            //aiw.Field = c.Field;
+            //aiw.Activate();
         }
 
         private void Add_Player(object sender, RoutedEventArgs e)
