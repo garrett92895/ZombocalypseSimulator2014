@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ZombieApocalypseSimulator.Models.Characters;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
 
@@ -15,43 +17,49 @@ namespace ZombieApocalypseWPF.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Character c = (Character)value;
-            string ret = "";
+
+            Uri uri = null;
 
             if (c is Zed)
             {
                 if (c is Tank)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Tank.png";
+                    uri = new Uri("Images/CharacterImages/Tank.png", UriKind.Relative);
                 else if (c is Sloucher)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Sloucher.png";
+                    uri = new Uri("Images/CharacterImages/Sloucher.png", UriKind.Relative);
                 else if (c is Shank)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Shank.png";
+                    uri = new Uri("Images/CharacterImages/Shank.png", UriKind.Relative);
                 else if (c is FastAttack)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\FastAttack.png";
+                    uri = new Uri("Images/CharacterImages/FastAttack.png", UriKind.Relative);
                 
             }
             else
             {
                 if (c is Bruiser)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharaterImages\\Bruiser.png";
+                    uri = new Uri("Images/CharacterImages/Bruiser.png", UriKind.Relative);
                 else if (c is Engineer)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Engineer.png";
+                    uri = new Uri("Images/CharacterImages/Engineer.png", UriKind.Relative);
                 else if (c is Fighter)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Fighter.png";
+                    uri = new Uri("Images/CharacterImages/Fighter.png", UriKind.Relative);
                 else if (c is HalfZombie)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\HalfZombie.png";
+                    uri = new Uri("Images/CharacterImages/HalfZombie.png", UriKind.Relative);
                 else if (c is Medic)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Medic.png";
+                    uri = new Uri("Images/CharacterImages/Medic.png", UriKind.Relative);
                 else if (c is Rifleman)
-                    ret = "C:\\Users\\jcampbell\\Documents\\GitHub\\ZombocalypseSimulator2014\\ZombieApocalypseWPF\\Images\\CharacterImages\\Rifleman.png";
+                    uri = new Uri("Images/CharacterImages/Rifleman.png", UriKind.Relative);
             }
 
+            if (uri == null)
+                return Brushes.White;
 
-            return ret;
+            ImageSource i = new BitmapImage(uri);
+            return new ImageBrush(i);
+
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }

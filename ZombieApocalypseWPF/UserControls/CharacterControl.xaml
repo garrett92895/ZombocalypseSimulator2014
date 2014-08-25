@@ -7,8 +7,8 @@
              d:DesignHeight="600" d:DesignWidth="300">
     <StackPanel>
         <Label x:Name="CharacterName" Content="{Binding Name}"/>
-        <Image Source="{Binding Converter={StaticResource ResourceKey=CtIC}}" />
-        <UniformGrid x:Name="AttributeGrid" Columns="2" Rows="11">
+        <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="250" Width="250"/>
+        <UniformGrid x:Name="AttributeGrid" Columns="4" Rows="11">
             
             <Label Content="HP: " HorizontalContentAlignment="Right" />
             <Label Content="{Binding Health}" HorizontalContentAlignment="Left" />

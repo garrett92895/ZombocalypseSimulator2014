@@ -31,12 +31,16 @@ namespace ZombieApocalypseWPF
     {
 
         Controller c;
+        public RoutedCommand Add_Item = new RoutedCommand();
+        public RoutedCommand Add_Player = new RoutedCommand();
+        public RoutedCommand Add_Zombie = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
 
             c = new Controller();
-            Character NewPlayer = new Engineer();
+            Character NewPlayer = new Bruiser();
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
             PlayerControl.c = NewPlayer;
@@ -91,15 +95,15 @@ namespace ZombieApocalypseWPF
                     //nc.Resources.Add("ItemList", c.Field.GridSquares[i, j].ItemList);
                     //nc.Resources.Add("Character", c.Field.GridSquares[i, j].OccupyingCharacter);
 
-                    Image ci = new Image();
+                    Rectangle ci = new Rectangle();
 
                     Binding b = new Binding();
                     b.Source = c.Field.GridSquares[i, j].OccupyingCharacter;
                     b.Converter = new CharacterToImageConverter();
 
-                    ci.SetBinding(Image.SourceProperty, b);
-                    ci.Height = 50;
-                    ci.Width = 50;
+                    ci.SetBinding(Rectangle.FillProperty, b);
+                    ci.Height = 45;
+                    ci.Width = 45;
 
 
                     nc.Children.Add(ci);
@@ -178,6 +182,21 @@ namespace ZombieApocalypseWPF
                     throw new NotImplementedException();
                 }
             }
+        }
+
+        private void Add_Item_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_Player_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_Zombie_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
         }
         
     }
