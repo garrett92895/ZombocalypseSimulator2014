@@ -228,13 +228,22 @@ namespace ZombieApocalypseSimulator
                     {
                         SquaresLeft = MaxSquares - MaxSquares;
                     }
-                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
+                    if (CurrentPlayer.Equals(StatusEffects.PTZD))
                     {
-                        CurrentPlayer.Health -= Dice.Roll(1, 4);
+                        int check = Dice.Roll(1, 4);
+                        if (check <= 2)
+                        {
+                            SquaresLeft = MaxSquares - MaxSquares;
+                        }
                     }
                     if (CurrentPlayer.Equals(StatusEffects.Infected))
                     {
-                        
+                        int check = Dice.Roll(1, 20);
+                        if(check <= 5)
+                        {
+                            CurrentPlayer.isAlive = false;
+
+                        }
                     }
                     if (CurrentPlayer.Equals(StatusEffects.NoSDC))
                     {
