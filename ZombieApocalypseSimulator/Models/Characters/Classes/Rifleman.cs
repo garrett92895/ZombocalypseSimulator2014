@@ -10,6 +10,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
     public class Rifleman : Player
     {
+        public List<Ammo> RifleManAmmo = new List<Ammo>(200);
         private readonly byte RiflemanMaxAmmo = 200;
 
         public byte bonusToAttack()
@@ -29,10 +30,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             hit += bonusToAttack();
             return hit;
         }
-        private void maxAmmo()
-        {
-
-        }
+        
 
     }
 }

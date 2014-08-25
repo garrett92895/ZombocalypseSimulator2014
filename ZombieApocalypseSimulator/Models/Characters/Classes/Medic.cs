@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZombieApocalypse;
 using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
@@ -17,9 +18,29 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         };
 
-        public void heal()
+        public void heal(Coordinate c)
         {
+            if (c.GetType() == typeof(Player))
+            {
+                if (DocsHealthPacks.Count > 0)
+                {
+                    int heal = 0;
+                    if (DocsHealthPacks.Equals("A Small Health-kit"))
+                    {
+                        heal = Dice.Roll(1, 10);
+                    }
+                    else if(DocsHealthPacks.Equals("A Medium Health-kit"))
+                    {
+                        heal = Dice.Roll(2, 10);
+                    }
+                    else if (DocsHealthPacks.Equals("A Large Health-kit"))
+                    {
+                        heal = Dice.Roll(3, 10);
+                    }
+                
 
+                }
+            }
         }
     }
 }

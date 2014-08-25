@@ -9,33 +9,39 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
     public class Engineer : Player
     {
-        public List<SparePart> GetParts()
+        public List<SparePart> Part = new List<SparePart>();
+        public void GetParts()
         {
-            List<SparePart> Part = new List<SparePart>();
             for (int i = 0; i < Items.Count(); i++)
             {
                 if (Items.ElementAt(i).GetType() == typeof(SparePart))
                 {
-                    Part.Add((SparePart)Items.ElementAt(i));
+                    if (Part.Count < 11)
+                    {
+                        Part.Add((SparePart)Items.ElementAt(i));
+                    }
                 }
             }
-            return Part;
         }
 
         public void AddTrap()
         {
-            if (Items.Count() < ItemLimit)
+            if (Part.Count > 3)
             {
-                Items.Add(new Trap { Damage = "2d4", StatusEffect = "N/a", Name = "Engineer Trap" });
+                if (Items.Count() < ItemLimit)
+                {
+                    Items.Add(new Trap { Damage = "2d4", StatusEffect = "N/a", Name = "Engineer Trap" });
+                }
             }
         }
 
         public void FixWeapon(Weapon weapon)
         {
-            //if (GetParts <= 11)
-            //{
-
-            //}
+            if (Part.Count > 1)
+            {
+                double fix = (double)weapon.Condition;
+                fix += weapon.Condition * .3;
+            }
         }
     }
 }

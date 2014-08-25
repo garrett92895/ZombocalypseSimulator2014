@@ -10,6 +10,7 @@ using ZombieApocalypseSimulator.Models.Characters;
 using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
+using ZombieApocalypseSimulator.Models.Characters.Classes;
 
 namespace ZombieApocalypseSimulator
 {
@@ -247,7 +248,14 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Melee attack");
                     MeleeAttack();
-                    SquaresLeft -= (int)MaxSquares / 2;
+                    if(CurrentPlayer.GetType() == typeof(Fighter))
+                    {
+                        SquaresLeft -= (int)MaxSquares / 4;    
+                    }
+                    else
+                    {
+                        SquaresLeft -= (int)MaxSquares / 2;
+                    }
                     if (SquaresLeft > 0)
                     {
                         Console.WriteLine("\r\n" + Field.ToString());
@@ -655,5 +663,3 @@ namespace ZombieApocalypseSimulator
         #endregion
     }
 }
-
-
