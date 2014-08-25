@@ -22,6 +22,7 @@ using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseWPF.UserControls;
+using ZombieApocalypseWPF.Windows;
 
 namespace ZombieApocalypseWPF
 {
@@ -272,21 +273,6 @@ namespace ZombieApocalypseWPF
             }
         }
 
-        private void Add_Item_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void Add_Player_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void Add_Zombie_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -317,6 +303,23 @@ namespace ZombieApocalypseWPF
                     break;
 
             }
+        }
+
+        private void Add_Item(object sender, RoutedEventArgs e)
+        {
+            AddItemWindow aiw = new AddItemWindow();
+            aiw.Field = c.Field;
+            aiw.Activate();
+        }
+
+        private void Add_Player(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_Zombie(object sender, RoutedEventArgs e)
+        {
+
         }
         
     }

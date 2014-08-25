@@ -30,9 +30,9 @@
                 <MenuItem Header="Close" Command="Close"/>
             </MenuItem>
             <MenuItem Header="Add">
-              <!--  <MenuItem Header="Item" Command="Add_Item"/>
-                <MenuItem Header="Player" Command="Add_Player"/>
-                <MenuItem Header="Zombie" Command="Add_Zombie"/> -->
+                <MenuItem Header="Item" Click="Add_Item"/>
+                <MenuItem Header="Player" Click="Add_Player"/>
+                <MenuItem Header="Zombie" Click="Add_Zombie"/>
             </MenuItem>
         </Menu>
 
