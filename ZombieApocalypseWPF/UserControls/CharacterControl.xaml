@@ -6,13 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
     <StackPanel>
-        <Label x:Name="CharacterType"
-               Background="Black"
-               Foreground="Firebrick"
-               Height="50"
-               HorizontalContentAlignment="Center"
-               FontSize="24"></Label>
-        
         <Label x:Name="CharacterName" Content="{Binding Name}"/>
         <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="250" Width="250"/>
         <UniformGrid x:Name="AttributeGrid" Columns="4" Rows="11">

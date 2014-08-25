@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,21 +11,9 @@ namespace ZombieApocalypseSimulator
 {
     public enum Direction { UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT };
 
-    public class GridSquare : INotifyPropertyChanged
+    public class GridSquare
     {
-        private Coordinate _Coordinate;
-        /// <summary>
-        /// The Coordinate that tracks the location this GridSquare represents
-        /// </summary>
-        public Coordinate Coordinate 
-        {
-            get { return _Coordinate; }
-            set
-            {
-                _Coordinate = value;
-                NotifyPropertyChanged("Coordinate");
-            }
-        }
+        public Coordinate Coordinate { get; set; }
 
         /// <summary>
         /// Constructor for GridSquare which requires a location in the form of an x and a y position.
@@ -42,7 +28,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="NewItemList"></param>
         /// <param name="NewTrap"></param>
         /// <param name="NewOccupiable"></param>
-        public GridSquare(int NewX, int NewY, Character NewCharacter = null, ObservableCollection<Item> NewItemList = null,
+        public GridSquare(int NewX, int NewY, Character NewCharacter = null, List<Item> NewItemList = null,
             Trap NewTrap = null, bool NewOccupiable = true)
         {
             Coordinate = new Coordinate(NewX, NewY);
@@ -50,7 +36,7 @@ namespace ZombieApocalypseSimulator
             OccupyingCharacter = NewCharacter;
             if (NewItemList == null)
             {
-                NewItemList = new ObservableCollection<Item>();
+                NewItemList = new List<Item>();
             }
             ItemList = NewItemList;
             ActiveTrap = NewTrap;
@@ -68,26 +54,27 @@ namespace ZombieApocalypseSimulator
             get { return _OccupyingCharacter; }
             set
             {
-                _OccupyingCharacter = value;
-                NotifyPropertyChanged("OccupyingCharacter");
+                //if (IsOccupiable)
+                //{
+                    _OccupyingCharacter = value;
+                //}
             }
         }
 
-        private ObservableCollection<Item> _ItemList;
+        private List<Item> _ItemList;
         /// <summary>
         /// Stores all of the Items that are located in this GridSquare in a List.
         /// If no items are located in this GridSquare than this will be an empty List, this should never be null.
         /// If this GridSquare is closed, meaning that the IsOccupiable property is set to false, then the ItemList will be reset to an empty ItemList.
         /// Will not allow for the ItemList to be set to a new List if this GridSquare is not occupiable.
         /// </summary>
-        public ObservableCollection<Item> ItemList
+        public List<Item> ItemList
         {
             get
             { return _ItemList; }
             set
             {
-                _ItemList = value;
-                NotifyPropertyChanged("ItemList");
+                    _ItemList = value;
             }
         }
 
@@ -104,7 +91,6 @@ namespace ZombieApocalypseSimulator
                 if (IsOccupiable)
                 {
                     _ActiveTrap = value;
-                    NotifyPropertyChanged("ActiveTrap");
                 }
             }
         }
@@ -119,7 +105,11 @@ namespace ZombieApocalypseSimulator
             set
             {
                 _IsOccupiable = value;
-                NotifyPropertyChanged("IsOccupiable");
+                //if (!IsOccupiable)
+                //{
+                //    OccupyingCharacter = null;
+                //    ItemList = new List<Item>();
+                //}
             }
         }
 
@@ -169,18 +159,5 @@ namespace ZombieApocalypseSimulator
 
         }
 
-        /// <summary>
-        /// Notifies any events in PropertyChanged that a specific property has been changed
-        /// </summary>
-        /// <param name="Info"></param>
-        private void NotifyPropertyChanged(String Info)
-        {
-            if(PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(Info));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

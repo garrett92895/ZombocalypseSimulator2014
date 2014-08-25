@@ -22,8 +22,11 @@ using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseWPF.UserControls;
+<<<<<<< HEAD
 using ZombieApocalypseWPF.Windows;
 using ZombieApocalypseSimulator.Models.Items.Enums;
+=======
+>>>>>>> origin/master
 
 namespace ZombieApocalypseWPF
 {
@@ -67,7 +70,6 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
-
             PlayerControl.Level_Up_Button.Click += Level_Up_Player_Button_Click;
             PlayerControl.Level_Down_Button.Click += Level_Down_Player_Button_Click;
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
@@ -87,19 +89,7 @@ namespace ZombieApocalypseWPF
             Character NewPlayer3 = new HalfZombie();
             Coordinate Coor3 = new Coordinate(4, 2);
             c.AddCharacterToField(NewPlayer3, Coor3);
-
-            Character NewPlayer4 = new Engineer();
-            Coordinate Coor4 = new Coordinate(4, 3);
-            c.AddCharacterToField(NewPlayer4, Coor4);
-
-            //Character NewPlayer5 = new Fighter();
-            //Coordinate Coor5 = new Coordinate(0, 0);
-            //c.AddCharacterToField(NewPlayer5, Coor5);
-
-            Character NewPlayer6 = new Rifleman();
-            Coordinate Coor6 = new Coordinate(5, 2);
-            c.AddCharacterToField(NewPlayer6, Coor6);
-
+            
             Character Zed1 = ZedFactory.GetInstance("Tank");
             Coordinate ZedCoor1 = new Coordinate(1, 2);
             c.AddCharacterToField(Zed1, ZedCoor1);
@@ -126,6 +116,7 @@ namespace ZombieApocalypseWPF
             Coordinate ZedCoor6 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed6, ZedCoor6);
 
+<<<<<<< HEAD
             //Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
             //Coordinate GunCoor = new Coordinate(1, 2);
             //c.AddItemToField(Gun, GunCoor);
@@ -136,6 +127,11 @@ namespace ZombieApocalypseWPF
             PlayerControl.CharacterType.Content = "Players";
             ZombieControl.CharacterType.Content = "Zombies";
 
+=======
+            Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(1, 2);
+            c.AddItemToField(Gun, GunCoor);
+>>>>>>> origin/master
 
             PopulateBoard();
 
@@ -330,6 +326,21 @@ namespace ZombieApocalypseWPF
             }
         }
 
+        private void Add_Item_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_Player_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_Zombie_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -360,23 +371,6 @@ namespace ZombieApocalypseWPF
                     break;
 
             }
-        }
-
-        private void Add_Item(object sender, RoutedEventArgs e)
-        {
-            //AddItemWindow aiw = new AddItemWindow();
-            //aiw.Field = c.Field;
-            //aiw.Activate();
-        }
-
-        private void Add_Player(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Add_Zombie(object sender, RoutedEventArgs e)
-        {
-
         }
         
     }

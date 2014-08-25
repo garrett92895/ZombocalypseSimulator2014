@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypse;
+using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Models.Items.Enums;
 
@@ -13,20 +14,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
     {
         public string Name { get; set; }
         public int ItemLimit { get; set; }
-        private Weapon _EquippedWeapon;
-        public Weapon EquippedWeapon 
-        {
-            get { return _EquippedWeapon; }
-            set
-            {
-                if (_EquippedWeapon != null)
-                {
-                    _EquippedWeapon.IsEquiped = false;
-                }
-                _EquippedWeapon = value;
-                _EquippedWeapon.IsEquiped = true;
-            }
-        }
+        public Weapon EquippedWeapon { get; set; }
         private byte rollAttributes()
         {
             byte roll = (byte)(Dice.Roll(3, 6));
@@ -47,8 +35,9 @@ namespace ZombieApocalypseSimulator.Models.Characters
             Name = "Bill";
             Items = new List<Item>();
             ItemLimit = 5;
-            Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
-                MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
+            //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
+            //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
+            Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             EquippedWeapon = (Weapon)Items.ElementAt(0);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();
@@ -89,10 +78,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
                     MeleeAttack.IsPiercing = true;
                 }
             }
-            else
-            {
-                Console.WriteLine("Weapon condition too low.");
-            }
             return MeleeAttack;
         }
         public virtual int RangedAttack()
@@ -127,6 +112,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 Items.Add(ItemToAdd);
             }
+        }
+
+        public int toHitRanged(int bonus)
+        {
+            return Dice.Roll("1d20") + bonus;
         }
     
         public List<Weapon> GetWeapons()
