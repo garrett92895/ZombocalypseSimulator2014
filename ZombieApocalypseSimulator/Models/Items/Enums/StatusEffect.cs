@@ -8,6 +8,6 @@ namespace ZombieApocalypseSimulator.Models.Items.Enums
 {
     public enum StatusEffect
     {
-        Poison, Fire, Bleed, PTZD, ArmourBroken, Crippled, Infected
+        Poison, OnFire, Bleed, PTZD, ArmourBroken, Crippled, Infected, Stunned
     }
 }

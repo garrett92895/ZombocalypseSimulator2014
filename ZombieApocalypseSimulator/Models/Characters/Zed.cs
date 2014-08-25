@@ -11,7 +11,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
 {
     public abstract class Zed : Character
     {
-        public bool HasAttacked { get; set; }
         public Zed()
         {
             IntelligenceQuotient = 1;

@@ -23,16 +23,17 @@
         </Grid.RowDefinitions>
 
         <Menu Background="Black"
-              Foreground="Firebrick">
+              Foreground="Firebrick"
+              >
             <MenuItem Header="File">
                 <MenuItem Header="New" Command="New"/>
                 <MenuItem Header="Open" Command="Open"/>
                 <MenuItem Header="Close" Command="Close"/>
             </MenuItem>
             <MenuItem Header="Add">
-                <MenuItem Header="Item" Click="Add_Item"/>
-                <MenuItem Header="Player" Click="Add_Player"/>
-                <MenuItem Header="Zombie" Click="Add_Zombie"/>
+              <!--  <MenuItem Header="Item" Command="Add_Item"/>
+                <MenuItem Header="Player" Command="Add_Player"/>
+                <MenuItem Header="Zombie" Command="Add_Zombie"/> -->
             </MenuItem>
         </Menu>
 
@@ -45,14 +46,31 @@
             
             <uc:CharacterControl x:Name="PlayerControl" />
             
+       <!-- <ScrollViewer x:Name="ScrollableWindow"  Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                <ItemsControl ItemsSource="{Binding Items, ElementName=UI}">
+                    <ItemsControl.ItemsPanel >
+                        <ItemsPanelTemplate >
+                            <UniformGrid x:Name="Board"
+                                Rows="15"
+                                Columns="15"
+                                Grid.Column="1"
+                                Background="Black"
+                            >
+
+                            </UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer> -->
+
             <UniformGrid x:Name="Board"
-                         Rows="15"
-                         Columns="15"
-                         Grid.Column="1"
-                         Background="Black">
+                                Rows="15"
+                                Columns="15"
+                                Grid.Column="1"
+                                Background="Black"
+                            >
 
             </UniformGrid>
-
 
             <uc:CharacterControl x:Name="ZombieControl" Grid.Column="2"/>
             

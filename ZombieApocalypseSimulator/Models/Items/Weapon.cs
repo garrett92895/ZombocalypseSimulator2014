@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypse;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
@@ -13,6 +14,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 		public bool IsEquiped { get; set; }
 		public int Condition { get; set; }
 		public bool IgnoresAR { get; set; }
+        public StatusEffect Effect { get; set; }
 
 		public virtual int UseWeapon()
 		{
@@ -22,11 +24,5 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		}
 
-        public override string ToString()
-        {
-            string s = base.ToString();
-            s += " (" + Condition + ")";
-            return s;
-        }
 	}
 }

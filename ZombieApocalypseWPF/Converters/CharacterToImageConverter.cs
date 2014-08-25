@@ -32,7 +32,7 @@ namespace ZombieApocalypseWPF.Converters
                     uri = new Uri("Images/CharacterImages/FastAttack.png", UriKind.Relative);
                 
             }
-            else
+            else if (c is Player)
             {
                 if (c is Bruiser)
                     uri = new Uri("Images/CharacterImages/Bruiser.png", UriKind.Relative);

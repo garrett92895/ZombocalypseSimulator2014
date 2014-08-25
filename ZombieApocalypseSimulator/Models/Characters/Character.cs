@@ -64,23 +64,169 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 _HasDodged = value;
             }
         }
-        public int ArmorRating { get; set; }
-        public int IntelligenceQuotient { get; set; }
-        public int MentalEndurance { get; set; }
-        public int MentalAffinity { get; set; }
-        public int PhysicalStrength { get; set; }
-        public int PhysicalEndurance { get; set; }
-        public int PhysicalProwess { get; set; }
-        public int PhysicalBeauty { get; set; }
-        public int Speed { get; set; }
-        public int Level { get; set; }
+        private int _ArmorRating;
+        public int ArmorRating 
+        {
+            get
+            {
+                return _ArmorRating;
+            }
+
+            set
+            {
+                _ArmorRating = value;
+                NotifyPropertyChanged("ArmorRating");
+            }
+        }
+
+        private int _IntelligenceQuotient;
+        public int IntelligenceQuotient
+        {
+            get
+            {
+                return _IntelligenceQuotient;
+            }
+
+            set
+            {
+                _IntelligenceQuotient = value;
+                NotifyPropertyChanged("IntelligenceQuotient");
+            }
+        }
+
+        private int _MentalEndurance;
+        public int MentalEndurance
+        {
+            get
+            {
+                return _MentalEndurance;
+            }
+
+            set
+            {
+                _MentalEndurance = value;
+                NotifyPropertyChanged("MentalEndurance");
+            }
+        }
+
+        private int _MentalAffinity;
+        public int MentalAffinity
+        {
+            get
+            {
+                return _MentalAffinity;
+            }
+
+            set
+            {
+                _MentalAffinity = value;
+                NotifyPropertyChanged("MentalAffinity");
+            }
+        }
+
+        private int _PhysicalStrength;
+        public int PhysicalStrength
+        {
+            get
+            {
+                return _PhysicalStrength;
+            }
+
+            set
+            {
+                _PhysicalStrength = value;
+                NotifyPropertyChanged("PhysicalStrength");
+            }
+        }
+
+        private int _PhysicalEndurance;
+        public int PhysicalEndurance
+        {
+            get
+            {
+                return _PhysicalEndurance;
+            }
+
+            set
+            {
+                _PhysicalEndurance = value;
+                NotifyPropertyChanged("PhysicalEndurance");
+            }
+        }
+
+        private int _PhysicalProwess;
+        public int PhysicalProwess
+        {
+            get
+            {
+                return _PhysicalProwess;
+            }
+
+            set
+            {
+                _PhysicalProwess = value;
+                NotifyPropertyChanged("PhysicalProwess");
+            }
+        }
+
+        private int _PhysicalBeauty;
+        public int PhysicalBeauty
+        {
+            get
+            {
+                return _PhysicalBeauty;
+            }
+
+            set
+            {
+                _PhysicalBeauty = value;
+                NotifyPropertyChanged("PhysicalBeauty");
+            }
+        }
+
+        private int _Speed;
+        public int Speed
+        {
+            get
+            {
+                return _Speed;
+            }
+
+            set
+            {
+                _Speed = value;
+                NotifyPropertyChanged("Speed");
+            }
+        }
+
+        private int _level = 1;
+        public int Level { get { return _level; }
+            set
+            {
+                _level = value;
+                NotifyPropertyChanged("Level");
+            }
+        }
 
         public List<Item> Items { get; set; }
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
 
         public int MaxSDC { get; set; }
-        public int sdc { get; set; }
+
+        private int _sdc;
+        public int sdc 
+        { 
+            get 
+            { 
+                return _sdc; 
+            } 
+            set 
+            { 
+                _sdc = value; 
+                NotifyPropertyChanged("sdc"); 
+            } 
+        }
 
         public void SetLife()
         {
@@ -88,6 +234,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             MaxHealth = Health;
             sdc = rollsdc();
             MaxSDC = sdc;
+            isAlive = true;
         }
 
         public virtual void takeDamage(Attack attack)
@@ -188,26 +335,51 @@ namespace ZombieApocalypseSimulator.Models.Characters
             return s;
         }
 
-        public byte level()
+        public byte LevelUp()
         {
             byte bonus = 0;
             byte level = (byte)Level;
-            for (int i = 0; i < level; i++)
-            {
-                MaxHealth += Dice.Roll(1, 6);
-                MaxSDC += Dice.Roll(1, 4);
-                IntelligenceQuotient += Dice.Roll(1, 3);
-                MentalEndurance += Dice.Roll(1, 3);
-                MentalAffinity += Dice.Roll(1, 3);
-                PhysicalStrength += Dice.Roll(1, 3);
-                PhysicalProwess += Dice.Roll(1, 3);
-                PhysicalBeauty += Dice.Roll(1, 3);
-                PhysicalEndurance += Dice.Roll(1, 3);
-            }
+            Level++;
+            MaxHealth += Dice.Roll(1, 6);
+            MaxSDC += Dice.Roll(1, 4);
+            IntelligenceQuotient += Dice.Roll(1, 3);
+            MentalEndurance += Dice.Roll(1, 3);
+            MentalAffinity += Dice.Roll(1, 3);
+            PhysicalStrength += Dice.Roll(1, 3);
+            PhysicalProwess += Dice.Roll(1, 3);
+            PhysicalBeauty += Dice.Roll(1, 3);
+            PhysicalEndurance += Dice.Roll(1, 3);
+
+            return bonus;
+        }
+
+
+        public byte LevelDown()
+        {
+            byte bonus = 0;
+            byte level = (byte)Level;
+            Level--;
+            MaxHealth -= Dice.Roll(1, 6);
+            MaxSDC -= Dice.Roll(1, 4);
+            IntelligenceQuotient -= Dice.Roll(1, 3);
+            MentalEndurance -= Dice.Roll(1, 3);
+            MentalAffinity -= Dice.Roll(1, 3);
+            PhysicalStrength -= Dice.Roll(1, 3);
+            PhysicalProwess -= Dice.Roll(1, 3);
+            PhysicalBeauty -= Dice.Roll(1, 3);
+            PhysicalEndurance -= Dice.Roll(1, 3);
+
             return bonus;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String Info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(Info));
+            }
+        }
 
     }
 }

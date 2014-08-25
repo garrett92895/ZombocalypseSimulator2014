@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Models.Items;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
@@ -30,7 +31,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             {
                 if (Items.Count() < ItemLimit)
                 {
-                    Items.Add(new Trap { Damage = "2d4", StatusEffect = "N/a", Name = "Engineer Trap" });
+                    Items.Add(new Trap { Damage = "2d4", StatusEffect = StatusEffect.Stunned, Name = "Engineer Trap" });
                 }
             }
         }

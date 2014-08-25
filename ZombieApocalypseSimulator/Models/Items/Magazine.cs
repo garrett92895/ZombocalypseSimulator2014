@@ -6,14 +6,31 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
-    public class Magazine : Item
+    public class Magazine
     {
+        public Magazine()
+        {
+            ClipSize = 20;
+            _clip = new Ammo[ClipSize];
+            CurrentIndex = 0;
+        }
 
-        public Magazine(int MagSize = 20)
+        public Magazine(int MagSize)
         {
             ClipSize = MagSize;
             _clip = new Ammo[ClipSize];
             CurrentIndex = 0;
+        }
+
+        public Magazine(int MagSize, int NumRounds)
+        {
+            ClipSize = MagSize;
+            _clip = new Ammo[ClipSize];
+            CurrentIndex = 0;
+            for (int i = 0; i < NumRounds; i++)
+            {
+                this.Push(new Ammo());
+            }
         }
 
         public void Empty()
@@ -28,19 +45,11 @@ namespace ZombieApocalypseSimulator.Models.Items
 
         public Ammo Pop()
         {
-            if (CurrentIndex == 0)
-            {
-                return _clip[CurrentIndex];
-            }
             return _clip[--CurrentIndex];
         }
 
         public Ammo Peek()
         {
-            if (CurrentIndex == 0)
-            {
-                return _clip[CurrentIndex];
-            }
             return _clip[(CurrentIndex - 1)];
         }
 
@@ -59,9 +68,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 
         public bool HasNext()
         {
-            //I don't know what this is supposed to do so it just returns true for now
-            return true;
-            //return (this.Peek().IsUsed);
+            return (!this.Peek().IsUsed);
         }
 
         private int ClipSize { get; set; }
