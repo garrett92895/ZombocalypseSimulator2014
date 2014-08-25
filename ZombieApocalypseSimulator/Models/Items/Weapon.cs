@@ -22,11 +22,5 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		}
 
-        public override string ToString()
-        {
-            string s = base.ToString();
-            s += " (" + Condition + ")";
-            return s;
-        }
 	}
 }
