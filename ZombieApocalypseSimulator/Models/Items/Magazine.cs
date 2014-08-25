@@ -8,14 +8,8 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
     public class Magazine : Item
     {
-        public Magazine()
-        {
-            ClipSize = 20;
-            _clip = new Ammo[ClipSize];
-            CurrentIndex = 0;
-        }
 
-        public Magazine(int MagSize)
+        public Magazine(int MagSize = 20)
         {
             ClipSize = MagSize;
             _clip = new Ammo[ClipSize];
@@ -34,11 +28,19 @@ namespace ZombieApocalypseSimulator.Models.Items
 
         public Ammo Pop()
         {
+            if (CurrentIndex == 0)
+            {
+                return _clip[CurrentIndex];
+            }
             return _clip[--CurrentIndex];
         }
 
         public Ammo Peek()
         {
+            if (CurrentIndex == 0)
+            {
+                return _clip[CurrentIndex];
+            }
             return _clip[(CurrentIndex - 1)];
         }
 
@@ -57,7 +59,9 @@ namespace ZombieApocalypseSimulator.Models.Items
 
         public bool HasNext()
         {
-            return (this.Peek().IsUsed);
+            //I don't know what this is supposed to do so it just returns true for now
+            return true;
+            //return (this.Peek().IsUsed);
         }
 
         private int ClipSize { get; set; }

@@ -23,11 +23,19 @@ namespace ZombieApocalypseSimulator
 
         public Character Pop()
         {
+            if (currentIndex == 0)
+            {
+                return _characters[0];
+            }
             return _characters[--currentIndex];
         }
 
         public Character Peek()
         {
+            if (currentIndex == 0)
+            {
+                return _characters[currentIndex];
+            }
             return _characters[(currentIndex - 1)];
         }
 
