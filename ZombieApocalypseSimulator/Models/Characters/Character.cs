@@ -209,5 +209,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
     }
 }
