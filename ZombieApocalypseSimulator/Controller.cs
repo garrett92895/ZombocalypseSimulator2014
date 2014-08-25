@@ -35,11 +35,13 @@ namespace ZombieApocalypseSimulator
         private Character CurrentPlayer;
         private int MaxSquares;
         private int SquaresLeft;
+        public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
         public List<Coordinate> CorpseSquares;
         public CharacterStack PlayerOrder;
         public CharacterStack ZedOrder;
+        
         #endregion
 
         #region Ctor and Run
@@ -49,6 +51,7 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
+            AI = new ZombieAI();
         }
 
         public void Run()
@@ -67,8 +70,8 @@ namespace ZombieApocalypseSimulator
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
-                    
-                    PlayNextTurn();
+
+                    PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
             }
@@ -190,7 +193,7 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Turn Cycle
-        private void PlayNextTurn()
+        private void PlayNextTurn(bool AI = false)
         {
             //CurrentPlayer = GetNextCharacter();
 
@@ -198,80 +201,87 @@ namespace ZombieApocalypseSimulator
             MaxSquares = SquaresLeft;
             Console.WriteLine(Field.ToString());
 
-            while (SquaresLeft > 0)
+            if (!AI)
             {
-                Console.WriteLine("\r\nSquares Left: " + SquaresLeft);
-                Console.WriteLine(CurrentPlayer.GetType().ToString());
+                while (SquaresLeft > 0)
+                {
+                    Console.WriteLine("\r\nSquares Left: " + SquaresLeft);
+                    Console.WriteLine(CurrentPlayer.GetType().ToString());
 
-                ActionTypes PlayerAction = GetActionFromPlayer(SquaresLeft);
+                    ActionTypes PlayerAction = GetActionFromPlayer(SquaresLeft);
 
-                //Take Selected Action
-                if (PlayerAction.Equals(ActionTypes.Move))
-                {
-                    Console.WriteLine("Move");
-                    SquaresLeft = SquaresLeft - Move();
-                    Console.WriteLine(Field.ToString());
-                }
-                else if (PlayerAction.Equals(ActionTypes.EndTurn))
-                {
-                    Console.WriteLine("Ended turn");
-                    SquaresLeft -= MaxSquares;
-                }
-                else if (PlayerAction.Equals(ActionTypes.Equip))
-                {
-                    Console.WriteLine("Equip");
-                    Equip();
-                }
-                else if (PlayerAction.Equals(ActionTypes.DropItem))
-                {
-                    Console.WriteLine("Drop item");
-                    DropItem();
-                    SquaresLeft--;
-                }
-                else if (PlayerAction.Equals(ActionTypes.GiveItem))
-                {
-                    Console.WriteLine("Give item");
-                    GiveItem();
-                    SquaresLeft -= 3;
-                }
-                else if (PlayerAction.Equals(ActionTypes.PickUpItem))
-                {
-                    Console.WriteLine("Pick up item");
-                    PickUpItem();
-                    SquaresLeft -= 2;
-                }
-                else if (PlayerAction.Equals(ActionTypes.CharacterScreen))
-                {
-                    CharacterScreen();
-                }
-                else if (PlayerAction.Equals(ActionTypes.MeleeAttack))
-                {
-                    Console.WriteLine("Melee attack");
-                    MeleeAttack();
-                    if(CurrentPlayer.GetType() == typeof(Fighter))
+                    //Take Selected Action
+                    if (PlayerAction.Equals(ActionTypes.Move))
                     {
-                        SquaresLeft -= (int)MaxSquares / 4;    
+                        Console.WriteLine("Move");
+                        SquaresLeft = SquaresLeft - Move();
+                        Console.WriteLine(Field.ToString());
                     }
-                    else
+                    else if (PlayerAction.Equals(ActionTypes.EndTurn))
                     {
+                        Console.WriteLine("Ended turn");
+                        SquaresLeft -= MaxSquares;
+                    }
+                    else if (PlayerAction.Equals(ActionTypes.Equip))
+                    {
+                        Console.WriteLine("Equip");
+                        Equip();
+                    }
+                    else if (PlayerAction.Equals(ActionTypes.DropItem))
+                    {
+                        Console.WriteLine("Drop item");
+                        DropItem();
+                        SquaresLeft--;
+                    }
+                    else if (PlayerAction.Equals(ActionTypes.GiveItem))
+                    {
+                        Console.WriteLine("Give item");
+                        GiveItem();
+                        SquaresLeft -= 3;
+                    }
+                    else if (PlayerAction.Equals(ActionTypes.PickUpItem))
+                    {
+                        Console.WriteLine("Pick up item");
+                        PickUpItem();
+                        SquaresLeft -= 2;
+                    }
+                    else if (PlayerAction.Equals(ActionTypes.CharacterScreen))
+                    {
+                        CharacterScreen();
+                    }
+                    else if (PlayerAction.Equals(ActionTypes.MeleeAttack))
+                    {
+                        Console.WriteLine("Melee attack");
+                        MeleeAttack();
+                        if (CurrentPlayer.GetType() == typeof(Fighter))
+                        {
+                            SquaresLeft -= (int)MaxSquares / 4;
+                        }
+                        else
+                        {
+                            SquaresLeft -= (int)MaxSquares / 2;
+                        }
+                        if (SquaresLeft > 0)
+                        {
+                            Console.WriteLine("\r\n" + Field.ToString());
+                        }
+                    }
+                    else if ((PlayerAction.Equals(ActionTypes.UnaimedRangedAttack)
+                        || PlayerAction.Equals(ActionTypes.AimedRangedAttack))
+                        && CurrentPlayer.GetType() == typeof(Player))
+                    {
+                        Console.WriteLine("Ranged attack");
+                        RangedAttack(PlayerAction);
                         SquaresLeft -= (int)MaxSquares / 2;
+                        Console.WriteLine(Field.ToString());
                     }
-                    if (SquaresLeft > 0)
-                    {
-                        Console.WriteLine("\r\n" + Field.ToString());
-                    }
-                }
-                else if ((PlayerAction.Equals(ActionTypes.UnaimedRangedAttack)
-                    || PlayerAction.Equals(ActionTypes.AimedRangedAttack))
-                    && CurrentPlayer.GetType() == typeof(Player))
-                {
-                    Console.WriteLine("Ranged attack");
-                    RangedAttack(PlayerAction);
-                    SquaresLeft -= (int)MaxSquares / 2;
-                    Console.WriteLine(Field.ToString());
-                }
 
-                KillDeadCharacters();
+                    KillDeadCharacters();
+                }
+            }
+            else
+            {
+                ActionTypes ZombieAction = AI.
             }
         }
 

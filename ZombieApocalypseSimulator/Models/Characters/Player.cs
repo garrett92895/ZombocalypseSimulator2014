@@ -76,6 +76,10 @@ namespace ZombieApocalypseSimulator.Models.Characters
                     MeleeAttack.IsPiercing = true;
                 }
             }
+            else
+            {
+                Console.WriteLine("Weapon condition too low.");
+            }
             return MeleeAttack;
         }
         public virtual int RangedAttack()
