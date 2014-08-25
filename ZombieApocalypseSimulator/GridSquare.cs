@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator
@@ -132,9 +133,21 @@ namespace ZombieApocalypseSimulator
                 return "P";
             }
 
-            if (OccupyingCharacter is Zed)
+            else if (OccupyingCharacter is Sloucher)
             {
-                return "Z";
+                return "s";
+            }
+            else if(OccupyingCharacter is Tank)
+            {
+                return "T";
+            }
+            else if (OccupyingCharacter is FastAttack)
+            {
+                return "F";
+            }
+            else if (OccupyingCharacter is Shank)
+            {
+                return "S";
             }
 
             if (ItemList.Count > 0)

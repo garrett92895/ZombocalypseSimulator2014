@@ -594,10 +594,20 @@ namespace ZombieApocalypseSimulator
                 //Checks for a botch on the defender's part
                 if(NaturalDefense == 1)
                 {
-                    Console.WriteLine("Enemy rolled a bitch! Attacker damage x2");
+                    Console.WriteLine("Enemy rolled a botch! Attacker damage x2");
                     CharAttack.Damage *= 2;
                 }
-                CharAttack.Damage = (int)(CharAttack.Damage * DetermineMultiplier(CurrentPlayer, Victim));
+                double Times = DetermineMultiplier(CurrentPlayer, Victim);
+                if(Times == 2)
+                {
+                    Console.WriteLine("Attack is twice as effective!");
+                }
+                else if(Times == .5)
+                {
+                    Console.WriteLine("Attack is half as effective!");
+                }
+                CharAttack.Damage = (int)(Times * CharAttack.Damage);
+
                 //Battle
                 if (CharAttack.Damage > TotalDefense)
                 {

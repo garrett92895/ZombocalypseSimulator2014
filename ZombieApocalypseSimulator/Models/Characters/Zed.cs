@@ -16,6 +16,12 @@ namespace ZombieApocalypseSimulator.Models.Characters
             IntelligenceQuotient = 1;
             MentalAffinity = 1;
             MentalEndurance = 1;
+            ArmorRating = 14;
+        }
+
+        public override bool HasWeapon()
+        {
+            return false;
         }
 
         public override string ToString()

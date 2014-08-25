@@ -164,9 +164,9 @@ namespace ZombieApocalypseSimulator.Models.Characters
             return bonus;
         }
 
-        public abstract virtual bool HasWeapon();
+        public abstract bool HasWeapon();
 
-        public abstract virtual double DetermineWeaponEffectiveness(Weapon weapon);
+        public abstract double DetermineWeaponEffectiveness(Weapon weapon);
 
         public override string ToString()
         {
