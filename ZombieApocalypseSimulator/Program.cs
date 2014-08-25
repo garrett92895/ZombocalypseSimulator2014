@@ -45,7 +45,7 @@ namespace ZombieApocalypseSimulator
             
             Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
             NewPlayer.EquippedWeapon = Gun;
-            Console.WriteLine(NewPlayer.EquippedWeapon.Damage);
+            //Console.WriteLine(NewPlayer.EquippedWeapon.Damage);
 
             c.Run();
         }

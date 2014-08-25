@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +13,21 @@ namespace ZombieApocalypseSimulator
 {
     public enum Direction { UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT };
 
-    public class GridSquare
+    public class GridSquare : INotifyPropertyChanged
     {
-        public Coordinate Coordinate { get; set; }
+        private Coordinate _Coordinate;
+        /// <summary>
+        /// The Coordinate that tracks the location this GridSquare represents
+        /// </summary>
+        public Coordinate Coordinate 
+        {
+            get { return _Coordinate; }
+            set
+            {
+                _Coordinate = value;
+                NotifyPropertyChanged("Coordinate");
+            }
+        }
 
         /// <summary>
         /// Constructor for GridSquare which requires a location in the form of an x and a y position.
@@ -54,27 +68,26 @@ namespace ZombieApocalypseSimulator
             get { return _OccupyingCharacter; }
             set
             {
-                //if (IsOccupiable)
-                //{
-                    _OccupyingCharacter = value;
-                //}
+                _OccupyingCharacter = value;
+                NotifyPropertyChanged("OccupyingCharacter");
             }
         }
 
-        private List<Item> _ItemList;
+        private ObservableCollection<Item> _ItemList;
         /// <summary>
         /// Stores all of the Items that are located in this GridSquare in a List.
         /// If no items are located in this GridSquare than this will be an empty List, this should never be null.
         /// If this GridSquare is closed, meaning that the IsOccupiable property is set to false, then the ItemList will be reset to an empty ItemList.
         /// Will not allow for the ItemList to be set to a new List if this GridSquare is not occupiable.
         /// </summary>
-        public List<Item> ItemList
+        public ObservableCollection<Item> ItemList
         {
             get
             { return _ItemList; }
             set
             {
-                    _ItemList = value;
+                _ItemList = value;
+                NotifyPropertyChanged("ItemList");
             }
         }
 
@@ -91,6 +104,7 @@ namespace ZombieApocalypseSimulator
                 if (IsOccupiable)
                 {
                     _ActiveTrap = value;
+                    NotifyPropertyChanged("ActiveTrap");
                 }
             }
         }
@@ -105,11 +119,7 @@ namespace ZombieApocalypseSimulator
             set
             {
                 _IsOccupiable = value;
-                //if (!IsOccupiable)
-                //{
-                //    OccupyingCharacter = null;
-                //    ItemList = new List<Item>();
-                //}
+                NotifyPropertyChanged("IsOccupiable");
             }
         }
 
@@ -159,5 +169,18 @@ namespace ZombieApocalypseSimulator
 
         }
 
+        /// <summary>
+        /// Notifies any events in PropertyChanged that a specific property has been changed
+        /// </summary>
+        /// <param name="Info"></param>
+        private void NotifyPropertyChanged(String Info)
+        {
+            if(PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(Info));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
