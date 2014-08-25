@@ -121,7 +121,7 @@ namespace ZombieApocalypseSimulator.Factories
                 }
                 _weapon.Condition = Int32.Parse(WeaponParams[3]);
                 _weapon.Damage = WeaponParams[4];
-                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[5]));
+                _weapon.CurrentClip = new Magazine(20,Int32.Parse(WeaponParams[5]));
                 return _weapon;
             }
         }

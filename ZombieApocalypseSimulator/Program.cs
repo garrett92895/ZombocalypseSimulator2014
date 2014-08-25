@@ -19,7 +19,7 @@ namespace ZombieApocalypseSimulator
             c.AddCharacterToField(NewPlayer, Coor);
 
             Character Zed1 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor1 = new Coordinate(1, 4);
+            Coordinate ZedCoor1 = new Coordinate(1, 5);
             c.AddCharacterToField(Zed1, ZedCoor1);
 
             Character Zed2 = ZedFactory.GetInstance("Sloucher");

@@ -12,5 +12,17 @@ namespace ZombieApocalypseSimulator.Models.Items
         public bool IsUsed { get; set; }
 		public AmmoType AmmoType { get; set; }
         public StatusEffect Effect { get; set; }
+
+        public Ammo()
+        {
+            IsUsed = false;
+            AmmoType = Enums.AmmoType.Handgun;
+        }
+
+        public Ammo(AmmoType Type)
+        {
+            IsUsed = false;
+            this.AmmoType = Type;
+        }
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypse;
+using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Models.Items.Enums;
 
@@ -34,8 +35,9 @@ namespace ZombieApocalypseSimulator.Models.Characters
             Name = "Bill";
             Items = new List<Item>();
             ItemLimit = 5;
-            Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
-                MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
+            //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
+            //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
+            Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             EquippedWeapon = (Weapon)Items.ElementAt(0);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();

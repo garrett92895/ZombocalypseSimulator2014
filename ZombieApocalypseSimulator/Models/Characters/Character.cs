@@ -88,6 +88,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             MaxHealth = Health;
             sdc = rollsdc();
             MaxSDC = sdc;
+            isAlive = true;
         }
 
         public virtual void takeDamage(Attack attack)

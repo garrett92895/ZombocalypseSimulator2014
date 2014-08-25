@@ -624,7 +624,7 @@ namespace ZombieApocalypseSimulator
             int y = BeginCoor.Y;
 
             //Iterates over every GridSquare in the line of sight to see if it is Closes or Occupied
-            for (int x = BeginCoor.X; x <= EndCoor.X; x++)
+            for (int x = BeginCoor.X; x < EndCoor.X; x++)
             {
                 Coordinate NextCoor;
                 if (steep)
