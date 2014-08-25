@@ -57,6 +57,7 @@ namespace ZombieApocalypseSimulator
         {
             while (true)
             {
+                Console.WriteLine("Start of Turn Order");
                 PlayerOrder = DetermineTurnOrder(Players);
                 ZedOrder = DetermineTurnOrder(Zeds);
 
@@ -69,9 +70,9 @@ namespace ZombieApocalypseSimulator
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
-
-                    PlayNextTurnAI();
+                    PlayNextTurn();
                 }
+
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
             }
         }
@@ -172,7 +173,6 @@ namespace ZombieApocalypseSimulator
                 c.CanDodge = true;
 
                 _turnOrder.Push(c);
-
             }
             return _turnOrder;
         }
@@ -398,12 +398,6 @@ namespace ZombieApocalypseSimulator
                         PossibleActions.Add(ActionTypes.AimedRangedAttack);
                     }
                 }
-                //Testing Ranged Weapons
-                Console.WriteLine(Current.GetType() == typeof(Player));
-                Console.WriteLine((SquaresLeft * 2) >= MaxSquares);
-                Console.WriteLine(Current.EquippedWeaponType().Equals("Ranged"));
-                Console.WriteLine(Current.CanShoot());
-                Field.PossibleRangedTargets(Current, Zeds).Any()
             }
 
             return PossibleActions;

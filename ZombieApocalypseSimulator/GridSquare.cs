@@ -73,14 +73,14 @@ namespace ZombieApocalypseSimulator
             }
         }
 
-        private ObservableCollection<Item> _ItemList;
+        private List<Item> _ItemList;
         /// <summary>
         /// Stores all of the Items that are located in this GridSquare in a List.
         /// If no items are located in this GridSquare than this will be an empty List, this should never be null.
         /// If this GridSquare is closed, meaning that the IsOccupiable property is set to false, then the ItemList will be reset to an empty ItemList.
         /// Will not allow for the ItemList to be set to a new List if this GridSquare is not occupiable.
         /// </summary>
-        public ObservableCollection<Item> ItemList
+        public List<Item> ItemList
         {
             get
             { return _ItemList; }
