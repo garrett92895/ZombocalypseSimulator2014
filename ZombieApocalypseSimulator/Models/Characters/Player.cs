@@ -130,7 +130,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         /// at all
         /// </summary>
         /// <returns></returns>
-        public bool HasWeapon()
+        public override bool HasWeapon()
         {
             bool HasWeapon = false;
             if (GetWeapons().Any())
@@ -138,6 +138,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 HasWeapon = true;
             }
             return HasWeapon;
+        }
+
+        public override double DetermineWeaponEffectiveness(Weapon weapon)
+        {
+            return 1;
         }
 
         public bool CanShoot()

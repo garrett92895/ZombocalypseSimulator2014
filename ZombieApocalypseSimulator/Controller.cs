@@ -556,35 +556,60 @@ namespace ZombieApocalypseSimulator
         {
             List<Character> PossibleVictims = Field.AdjacentCharacters(CurrentPlayer, false);
             Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
-
-            int Strike =  0;//CurrentPlayer.toHitMelee();
-            Console.WriteLine("Struck for " + Strike);
-            if (Strike > 4 && Strike > Victim.ArmorRating)
+            
+            int NaturalStrike = DieRoll.RollOne(20);
+            int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
+            Console.WriteLine("Struck for " + TotalStrike);
+            if ((TotalStrike > 4 && TotalStrike > Victim.ArmorRating) || NaturalStrike == 20)
             {
                 Attack CharAttack = CurrentPlayer.MeleeAttack();
+
                 Console.WriteLine("Attack Hit!");
-                Console.WriteLine("Attacked for ");// + Damage);
-                int Defense = 0;
-                //Parrying or dodging
-                if (Victim.CanParry)
+                Console.WriteLine("Attacked for {0}", CharAttack.Damage);// + Damage);
+                if(NaturalStrike == 20)
                 {
-                    Defense = Victim.toParry();
+                    CharAttack.Damage *= 2;
+                    Console.WriteLine("Critical hit! Damage x2");
+                }
+                int NaturalDefense = DieRoll.RollOne(20);
+                int TotalDefense = 0;
+                bool AttemptedToDefend = false;
+                //Parrying or dodging
+                if (Victim.CanParry && !(CurrentPlayer.GetType() == typeof(Tank)))
+                {
+                    TotalDefense = NaturalDefense + Victim.toParry();
                     Victim.CanParry = false;
-                    Console.WriteLine("Enemy parried for " + Defense);
+                    Console.WriteLine("Enemy parried for " + TotalDefense);
+                    AttemptedToDefend = true;
                 }
                 else if (Victim.CanDodge)
                 {
-                    Defense = Victim.toDodge();
+                    TotalDefense = NaturalDefense + Victim.toDodge();
                     Victim.CanDodge = false;
                     Victim.HasDodged = true;
-                    Console.WriteLine("Enemy dodged for " + Defense);
+                    Console.WriteLine("Enemy dodged for " + TotalDefense);
+                    AttemptedToDefend = true;
                 }
-
-                //Battle
-                if (CharAttack.Damage > Defense)
+                
+                //Checks for a botch on the defender's part
+                if(NaturalDefense == 1)
                 {
-                    Console.WriteLine("Enemy was hit for {0} damage", CharAttack.Damage);
-                    Victim.takeDamage(CharAttack.Damage);
+                    Console.WriteLine("Enemy rolled a bitch! Attacker damage x2");
+                    CharAttack.Damage *= 2;
+                }
+                CharAttack.Damage = (int)(CharAttack.Damage * DetermineMultiplier(CurrentPlayer, Victim));
+                //Battle
+                if (CharAttack.Damage > TotalDefense)
+                {
+                    if (AttemptedToDefend && NaturalDefense == 20)
+                    {
+                        Console.WriteLine("Enemy rolled a natural 20 to defend! Attack failed.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Enemy was hit for {0} damage", CharAttack.Damage);
+                        Victim.takeDamage(CharAttack);
+                    }
                 }
                 else
                 {
@@ -629,7 +654,7 @@ namespace ZombieApocalypseSimulator
                 if (Damage > Defense)
                 {
                     Console.WriteLine("Enemy hit for {0} damage", Damage);
-                    Victim.takeDamage(Damage);
+                    Victim.takeDamage(new Attack(Damage));
                 }
                 else
                 {
@@ -658,6 +683,26 @@ namespace ZombieApocalypseSimulator
             }
 
             return CIO.PromptForMenuSelection(VictimChoices, false);
+        }
+
+        #endregion
+
+        #region Logic Helper Methods
+
+        private double DetermineMultiplier(Character Attacker, Character Defender)
+        {
+            double Multiplier = 1;
+
+            if(Attacker.GetType() == typeof(Player))
+            {
+                Player PlayerAttacker = (Player)Attacker;
+                if (PlayerAttacker.EquippedWeapon != null)
+                {
+                    Multiplier = Defender.DetermineWeaponEffectiveness(PlayerAttacker.EquippedWeapon);
+                }
+            }
+
+            return Multiplier;
         }
 
         #endregion

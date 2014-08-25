@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZombieApocalypseSimulator.Models.Items;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
@@ -51,6 +53,25 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             return DieRoll.RollOne(11) + 19;
 		}
 
+        public override double DetermineWeaponEffectiveness(Weapon weapon)
+        {
+            double Multiplier = 1;
+            Type WeaponType = weapon.GetType();
 
+            if (WeaponType == typeof(MeleeWeapon))
+            {
+                MeleeWeapon meleeWeapon = (MeleeWeapon)weapon;
+                if (meleeWeapon.MeleeWeaponType.Equals(MeleeWeaponType.Blunt))
+                {
+                    Multiplier = 2;
+                }
+                else if (meleeWeapon.MeleeWeaponType.Equals(MeleeWeaponType.Slash))
+                {
+                    Multiplier = .5;
+                }
+            }
+
+            return Multiplier;
+        }
     }
 }

@@ -89,12 +89,16 @@ namespace ZombieApocalypseSimulator.Models.Characters
             MaxSDC = sdc;
         }
 
-        public virtual void takeDamage(int dam)
+        public virtual void takeDamage(Attack attack)
         {
-            while (dam != 0 && sdc != 0)
+            int dam = attack.Damage;
+            if (!attack.IsPiercing)
             {
-                dam--;
-                sdc--;
+                while (dam != 0 && sdc != 0)
+                {
+                    dam--;
+                    sdc--;
+                }
             }
             Health -= dam;
         }
@@ -159,7 +163,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
             return bonus;
         }
-   
+
+        public abstract virtual bool HasWeapon();
+
+        public abstract virtual double DetermineWeaponEffectiveness(Weapon weapon);
+
         public override string ToString()
         {
             string s = "";

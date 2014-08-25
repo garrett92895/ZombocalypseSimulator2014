@@ -120,9 +120,9 @@ namespace ZombieApocalypseSimulator.Factories
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Shotgun;
                 }
-                _weapon.Condition = Int32.Parse(WeaponParams[3]);
+                _weapon.Condition = Int32.Parse(WeaponParams[2]);
                 _weapon.Damage = WeaponParams[4];
-                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[5]));
+                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[4]));
                 return _weapon;
             }
         }
