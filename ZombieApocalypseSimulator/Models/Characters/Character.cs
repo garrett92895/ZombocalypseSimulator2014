@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
-    public abstract class Character
+    public abstract class Character : INotifyPropertyChanged
     {
 
         public int MaxHealth { get; set; }
@@ -205,5 +206,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
             return bonus;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

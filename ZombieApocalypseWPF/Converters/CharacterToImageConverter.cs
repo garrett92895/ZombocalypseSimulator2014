@@ -49,7 +49,7 @@ namespace ZombieApocalypseWPF.Converters
             }
 
             if (uri == null)
-                return Brushes.White;
+                return Brushes.Firebrick;
 
             ImageSource i = new BitmapImage(uri);
             return new ImageBrush(i);
