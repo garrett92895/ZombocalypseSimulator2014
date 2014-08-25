@@ -65,8 +65,7 @@ namespace ZombieApocalypseSimulator.Factories
                 return _weapon;
             }
         }
-
-
+        
         /*
          * The format for the weapons factory is as follows:
          *  "Name|Range|Type|Condition|Damage|(Ranged Only) Ammo Count"
@@ -108,11 +107,11 @@ namespace ZombieApocalypseSimulator.Factories
             {                
                 RangedWeapon _weapon = new RangedWeapon();
                 _weapon.Name = WeaponParams[0];
-                if (WeaponParams[2].Equals(MeleeWeaponType.Blunt.GetType()))
+                if (WeaponParams[2].Equals(RangedWeaponType.Rifle.GetType()))
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Rifle;
                 }
-                else if (WeaponParams[2].Equals(MeleeWeaponType.Pierce.GetType()))
+                else if (WeaponParams[2].Equals(RangedWeaponType.Handgun.GetType()))
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Handgun;
                 }
@@ -120,9 +119,9 @@ namespace ZombieApocalypseSimulator.Factories
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Shotgun;
                 }
-                _weapon.Condition = Int32.Parse(WeaponParams[2]);
+                _weapon.Condition = Int32.Parse(WeaponParams[3]);
                 _weapon.Damage = WeaponParams[4];
-                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[4]));
+                _weapon.CurrentClip = new Magazine(Int32.Parse(WeaponParams[5]));
                 return _weapon;
             }
         }

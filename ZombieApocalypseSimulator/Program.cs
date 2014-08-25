@@ -19,7 +19,7 @@ namespace ZombieApocalypseSimulator
             c.AddCharacterToField(NewPlayer, Coor);
 
             Character Zed1 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor1 = new Coordinate(1, 2);
+            Coordinate ZedCoor1 = new Coordinate(1, 4);
             c.AddCharacterToField(Zed1, ZedCoor1);
 
             Character Zed2 = ZedFactory.GetInstance("Sloucher");
@@ -42,7 +42,7 @@ namespace ZombieApocalypseSimulator
             Coordinate ZedCoor6 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed6, ZedCoor6);
 
-            Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
+            Item Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
             Coordinate GunCoor = new Coordinate(1, 2);
             c.AddItemToField(Gun, GunCoor);
 
