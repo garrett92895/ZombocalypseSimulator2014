@@ -54,8 +54,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\CharacterToImageConverter.cs" />
+    <Compile Include="Converters\ItemToImageConverter.cs" />
     <Compile Include="UserControls\CharacterControl.xaml.cs">
       <DependentUpon>CharacterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddItemWindow.xaml.cs">
+      <DependentUpon>AddItemWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -70,6 +74,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="UserControls\CharacterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,23 +117,49 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\CharaterImages\Bruiser.png" />
-    <Resource Include="Images\CharaterImages\Engineer.png" />
-    <Resource Include="Images\CharaterImages\FastAttack.png" />
-    <Resource Include="Images\CharaterImages\Figther.png" />
-    <Resource Include="Images\CharaterImages\HalfZombie.png" />
-    <Resource Include="Images\CharaterImages\Medic.png" />
-    <Resource Include="Images\CharaterImages\Rifleman.png" />
-    <Resource Include="Images\CharaterImages\Shank.png" />
-    <Resource Include="Images\CharaterImages\Sloucher.png" />
-    <Resource Include="Images\CharaterImages\Tank.png" />
+    <Content Include="Images\CharacterImages\Bruiser.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Engineer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\FastAttack.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Figther.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\HalfZombie.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Medic.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Rifleman.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Shank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Sloucher.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterImages\Tank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\CharaterImages\Items.png" />
+    <Content Include="Images\CharacterImages\Items.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\ItemImages\Items.png" />
-    <Resource Include="Images\ItemImages\Trap.png" />
+    <Content Include="Images\ItemImages\Items.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\ItemImages\Trap.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
-    public class Magazine
+    public class Magazine : Item
     {
         public Magazine()
         {

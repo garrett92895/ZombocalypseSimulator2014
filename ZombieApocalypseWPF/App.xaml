@@ -4,6 +4,7 @@
              xmlns:c="clr-namespace:ZombieApocalypseWPF.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <c:ItemToImageConverter x:Key="ItIC" />
         <c:CharacterToImageConverter x:Key="CtIC"/>
     </Application.Resources>
 </Application>

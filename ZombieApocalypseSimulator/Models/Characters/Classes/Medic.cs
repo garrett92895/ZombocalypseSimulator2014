@@ -28,6 +28,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
                     if (DocsHealthPacks.Equals("A Small Health-kit"))
                     {
                         heal = Dice.Roll(1, 10);
+                        
                     }
                     else if(DocsHealthPacks.Equals("A Medium Health-kit"))
                     {
@@ -37,8 +38,21 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
                     {
                         heal = Dice.Roll(3, 10);
                     }
-                
+                }
+            }
+        }
 
+        public void revive(Coordinate c)
+        {
+            if (c.GetType() == typeof(Corpse))
+            {
+                if (DocsHealthPacks.Count > 1)
+                {
+                    int rev = Dice.Roll(1, 20);
+                    if (rev >= 14)
+                    {
+                        
+                    }
                 }
             }
         }
