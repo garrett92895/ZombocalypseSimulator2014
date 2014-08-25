@@ -585,10 +585,10 @@ namespace ZombieApocalypseSimulator
         private void Reload()
         {
             Player Current = CurrentPlayer as Player;
-            if (Current.EquippedWeaponType().Equals("Ranged")
-                    && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
-            {
-            }
+            //if (Current.EquippedWeaponType().Equals("Ranged")
+            //        && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
+            //{
+            //}
         }
 
         /// <summary>
