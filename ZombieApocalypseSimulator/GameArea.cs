@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -170,7 +171,7 @@ namespace ZombieApocalypseSimulator
             try
             {
                 GridSquare Square = GetGridSquareAt(Location);
-                Items = Square.ItemList;
+                Items = Square.ItemList.ToList<Item>();
             }
             catch (ArgumentOutOfRangeException ex)
             {
@@ -283,7 +284,7 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
-                Target.ItemList.AddRange(C.Items);
+                Target.ItemList.ToList<Item>().AddRange(C.Items);
             }
 
             Target.OccupyingCharacter = null;

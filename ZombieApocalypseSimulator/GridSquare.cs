@@ -52,7 +52,7 @@ namespace ZombieApocalypseSimulator
             {
                 NewItemList = new List<Item>();
             }
-            ItemList = NewItemList;
+            ItemList = new ObservableCollection<Item>(NewItemList);
             ActiveTrap = NewTrap;
         }
 

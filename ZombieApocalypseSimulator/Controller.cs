@@ -59,10 +59,16 @@ namespace ZombieApocalypseSimulator
             {
                 PlayerOrder = DetermineTurnOrder(Players);
                 ZedOrder = DetermineTurnOrder(Zeds);
+                if(Players.Count() == 0)
+                {
+                    Console.WriteLine("Game over, zombies have taken over the world.");
+                    Environment.Exit(0);
+                }
 
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
+                    
                     PlayNextTurn();
                 }
 
@@ -170,6 +176,11 @@ namespace ZombieApocalypseSimulator
 
                 c.CanParry = true;
                 c.CanDodge = true;
+                if(c.GetType() == typeof(Zed))
+                {
+                    Zed z = (Zed)c;
+                    z.HasAttacked = false;
+                }
 
                 _turnOrder.Push(c);
 
@@ -405,11 +416,11 @@ namespace ZombieApocalypseSimulator
                     }
                 }
                 //Testing Ranged Weapons
-                Console.WriteLine(Current.GetType() == typeof(Player));
-                Console.WriteLine((SquaresLeft * 2) >= MaxSquares);
-                Console.WriteLine(Current.EquippedWeaponType().Equals("Ranged"));
-                Console.WriteLine(Current.CanShoot());
-                Field.PossibleRangedTargets(Current, Zeds).Any()
+                //Console.WriteLine(Current.GetType() == typeof(Player));
+                //Console.WriteLine((SquaresLeft * 2) >= MaxSquares);
+                //Console.WriteLine(Current.EquippedWeaponType().Equals("Ranged"));
+                //Console.WriteLine(Current.CanShoot());
+                Field.PossibleRangedTargets(Current, Zeds).Any();
             }
 
             return PossibleActions;
@@ -479,6 +490,11 @@ namespace ZombieApocalypseSimulator
             for (int i = 0; i < KilledCharacters.Count; i++)
             {
                 Players.RemoveAt(KilledCharacters.ElementAt(i));
+            }
+            if(Players.Count() == 0)
+            {
+                Console.WriteLine("Game Over.");
+                Environment.Exit(0);
             }
         }
 
@@ -642,6 +658,8 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Enemy dodged for " + TotalDefense);
                     AttemptedToDefend = true;
                 }
+
+                
 
                 //Checks for a botch on the defender's part
                 if (NaturalDefense == 1)
