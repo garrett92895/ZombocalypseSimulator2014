@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -164,9 +165,9 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-        public List<Item> GetItemsInSquare(Coordinate Location)
+        public ObservableCollection<Item> GetItemsInSquare(Coordinate Location)
         {
-            List<Item> Items = new List<Item>();
+            ObservableCollection<Item> Items = new ObservableCollection<Item>();
             try
             {
                 GridSquare Square = GetGridSquareAt(Location);
@@ -283,7 +284,10 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
-                Target.ItemList.AddRange(C.Items);
+                foreach (Item i in C.Items)
+                {
+                    Target.ItemList.Add(i);
+                }
             }
 
             Target.OccupyingCharacter = null;

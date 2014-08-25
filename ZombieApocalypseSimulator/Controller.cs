@@ -11,6 +11,7 @@ using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
+using System.Collections.ObjectModel;
 
 namespace ZombieApocalypseSimulator
 {
@@ -409,7 +410,7 @@ namespace ZombieApocalypseSimulator
                 Console.WriteLine((SquaresLeft * 2) >= MaxSquares);
                 Console.WriteLine(Current.EquippedWeaponType().Equals("Ranged"));
                 Console.WriteLine(Current.CanShoot());
-                Field.PossibleRangedTargets(Current, Zeds).Any()
+                Field.PossibleRangedTargets(Current, Zeds).Any();
             }
 
             return PossibleActions;
@@ -590,7 +591,7 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void PickUpItem()
         {
-            List<Item> ItemsInSquare = Field.GetItemsInSquare(CurrentPlayer.Location);
+            ObservableCollection<Item> ItemsInSquare = Field.GetItemsInSquare(CurrentPlayer.Location);
             List<string> ItemNames = new List<string>();
 
             for (int i = 0; i < ItemsInSquare.Count(); i++)

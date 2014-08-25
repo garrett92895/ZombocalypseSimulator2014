@@ -86,7 +86,19 @@ namespace ZombieApocalypseWPF
             Character NewPlayer3 = new HalfZombie();
             Coordinate Coor3 = new Coordinate(4, 2);
             c.AddCharacterToField(NewPlayer3, Coor3);
-            
+
+            Character NewPlayer4 = new Engineer();
+            Coordinate Coor4 = new Coordinate(4, 3);
+            c.AddCharacterToField(NewPlayer4, Coor4);
+
+            //Character NewPlayer5 = new Fighter();
+            //Coordinate Coor5 = new Coordinate(0, 0);
+            //c.AddCharacterToField(NewPlayer5, Coor5);
+
+            Character NewPlayer6 = new Rifleman();
+            Coordinate Coor6 = new Coordinate(5, 2);
+            c.AddCharacterToField(NewPlayer6, Coor6);
+
             Character Zed1 = ZedFactory.GetInstance("Tank");
             Coordinate ZedCoor1 = new Coordinate(1, 2);
             c.AddCharacterToField(Zed1, ZedCoor1);
@@ -113,9 +125,13 @@ namespace ZombieApocalypseWPF
             Coordinate ZedCoor6 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed6, ZedCoor6);
 
-            Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
-            Coordinate GunCoor = new Coordinate(1, 2);
-            c.AddItemToField(Gun, GunCoor);
+            //Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
+            //Coordinate GunCoor = new Coordinate(1, 2);
+            //c.AddItemToField(Gun, GunCoor);
+
+            PlayerControl.CharacterType.Content = "Players";
+            ZombieControl.CharacterType.Content = "Zombies";
+
 
             PopulateBoard();
 

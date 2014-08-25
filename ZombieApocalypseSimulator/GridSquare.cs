@@ -42,7 +42,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="NewItemList"></param>
         /// <param name="NewTrap"></param>
         /// <param name="NewOccupiable"></param>
-        public GridSquare(int NewX, int NewY, Character NewCharacter = null, List<Item> NewItemList = null,
+        public GridSquare(int NewX, int NewY, Character NewCharacter = null, ObservableCollection<Item> NewItemList = null,
             Trap NewTrap = null, bool NewOccupiable = true)
         {
             Coordinate = new Coordinate(NewX, NewY);
@@ -50,7 +50,7 @@ namespace ZombieApocalypseSimulator
             OccupyingCharacter = NewCharacter;
             if (NewItemList == null)
             {
-                NewItemList = new List<Item>();
+                NewItemList = new ObservableCollection<Item>();
             }
             ItemList = NewItemList;
             ActiveTrap = NewTrap;
