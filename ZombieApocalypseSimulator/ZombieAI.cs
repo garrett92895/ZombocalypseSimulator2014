@@ -10,13 +10,19 @@ namespace ZombieApocalypseSimulator
 {
     public class ZombieAI
     {
+        #region Properties
         public bool IntelligentAI { get; set; }
+        #endregion
+
+        #region Ctor
         public ZombieAI(bool IsIntelligentAI = false)
         {
             IntelligentAI = false;
         }
+        #endregion
 
-        public ActionTypes DecideAction(List<ActionTypes> PossibleActions, Character CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
+        #region Deciding Actions
+        public ActionTypes DecideAction(List<ActionTypes> PossibleActions, Character CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             ActionTypes action = 0;
             Zed zombie = (Zed)CurrentPlayer;
@@ -33,12 +39,12 @@ namespace ZombieApocalypseSimulator
             return action;
         }
 
-        private ActionTypes IntelligentAction(List<ActionTypes> PossibleActions, Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
+        private ActionTypes IntelligentAction(List<ActionTypes> PossibleActions, Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             throw new NotImplementedException();
         }
 
-        private ActionTypes DumbAction(List<ActionTypes> PossibleActions, Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
+        private ActionTypes DumbAction(List<ActionTypes> PossibleActions, Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             ActionTypes action = 0;
 
@@ -86,8 +92,10 @@ namespace ZombieApocalypseSimulator
 
             return action;
         }
+        #endregion
 
-        public Coordinate DetermineMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
+        #region Deciding best moves
+        public Coordinate DetermineMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             Coordinate move = null;
 
@@ -103,12 +111,12 @@ namespace ZombieApocalypseSimulator
             return move;
         }
 
-        private Coordinate IntelligentMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
+        private Coordinate IntelligentMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             throw new NotImplementedException();
         }
 
-        private Coordinate DumbMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Player> Players, List<Zed> Zombies)
+        private Coordinate DumbMove(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             Coordinate bestMove = null;
 
@@ -129,21 +137,27 @@ namespace ZombieApocalypseSimulator
                 }
             }
 
-            bestMove = enemies.ElementAt(0).Key;
-            int CheapestMoveCost = int.MaxValue;
-            foreach(KeyValuePair<Coordinate, Character> move in enemies)
+            if (enemies.Count() != 0)
             {
-                int ThisMoveCost = Area.ShortestPathCost(CurrentPlayer, move.Key);
-                if(ThisMoveCost < CheapestMoveCost)
+                bestMove = enemies.ElementAt(0).Key;
+                int CheapestMoveCost = int.MaxValue;
+                foreach (KeyValuePair<Coordinate, Character> move in enemies)
                 {
-                    CheapestMoveCost = ThisMoveCost;
-                    bestMove = move.Key;
+                    int ThisMoveCost = Area.ShortestPathCost(CurrentPlayer, move.Key);
+                    if (ThisMoveCost < CheapestMoveCost)
+                    {
+                        CheapestMoveCost = ThisMoveCost;
+                        bestMove = move.Key;
+                    }
                 }
+            }
+            else
+            {
+                bestMove = moves.ElementAt(new Random().Next(moves.Count()));
             }
 
             return bestMove;
         }
-
-
+        #endregion
     }
 }

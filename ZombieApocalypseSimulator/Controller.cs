@@ -50,6 +50,7 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
+            AI = new ZombieAI();
         }
 
         public void Run()
@@ -69,7 +70,7 @@ namespace ZombieApocalypseSimulator
                 {
                     CurrentPlayer = ZedOrder.Pop();
 
-                    PlayNextTurn();
+                    PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
             }
@@ -297,6 +298,23 @@ namespace ZombieApocalypseSimulator
                 }
 
                 KillDeadCharacters();
+            }
+        }
+
+        private void PlayNextTurnAI()
+        {
+                        SquaresLeft = CurrentPlayer.squares();
+            MaxSquares = SquaresLeft;
+            Console.WriteLine(Field.ToString());
+
+            List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
+            ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
+
+            if(BestAction.Equals(ActionTypes.Move))
+            {
+                Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
+                Field.MoveCharacterToSquare(CurrentPlayer, BestMove);
+
             }
         }
 
