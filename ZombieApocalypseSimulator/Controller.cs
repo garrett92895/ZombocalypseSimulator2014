@@ -11,11 +11,9 @@ using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-<<<<<<< HEAD
 using ZombieApocalypseSimulator.Models.Items.Enums;
 using System.Collections.ObjectModel;
-=======
->>>>>>> origin/master
+
 
 namespace ZombieApocalypseSimulator
 {
@@ -221,7 +219,7 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
-<<<<<<< HEAD
+
                     if (CurrentPlayer.Equals(StatusEffect.OnFire))
                     {
                         CurrentPlayer.Health -= Dice.Roll(1, 4);
@@ -246,8 +244,6 @@ namespace ZombieApocalypseSimulator
                     {
                         CurrentPlayer.sdc = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
                     }
-=======
->>>>>>> origin/master
                 }
                 else if (PlayerAction.Equals(ActionTypes.Equip))
                 {

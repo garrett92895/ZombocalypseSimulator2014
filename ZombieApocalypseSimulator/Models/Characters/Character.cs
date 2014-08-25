@@ -373,7 +373,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-<<<<<<< HEAD
         private void NotifyPropertyChanged(String Info)
         {
             if (PropertyChanged != null)
@@ -382,7 +381,5 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
-=======
->>>>>>> origin/master
     }
 }

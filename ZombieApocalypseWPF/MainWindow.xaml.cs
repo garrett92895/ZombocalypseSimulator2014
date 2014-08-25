@@ -22,11 +22,7 @@ using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseWPF.UserControls;
-<<<<<<< HEAD
-using ZombieApocalypseWPF.Windows;
 using ZombieApocalypseSimulator.Models.Items.Enums;
-=======
->>>>>>> origin/master
 
 namespace ZombieApocalypseWPF
 {
@@ -116,7 +112,6 @@ namespace ZombieApocalypseWPF
             Coordinate ZedCoor6 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed6, ZedCoor6);
 
-<<<<<<< HEAD
             //Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
             //Coordinate GunCoor = new Coordinate(1, 2);
             //c.AddItemToField(Gun, GunCoor);
@@ -127,11 +122,9 @@ namespace ZombieApocalypseWPF
             PlayerControl.CharacterType.Content = "Players";
             ZombieControl.CharacterType.Content = "Zombies";
 
-=======
             Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
             Coordinate GunCoor = new Coordinate(1, 2);
             c.AddItemToField(Gun, GunCoor);
->>>>>>> origin/master
 
             PopulateBoard();
 
