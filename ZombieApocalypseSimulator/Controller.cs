@@ -645,7 +645,7 @@ namespace ZombieApocalypseSimulator
                 Bonus = 3;
             }
 
-            int Strike = 0;//CurrentPlayer.toHitRanged(Bonus);
+            int Strike = Current.toHitRanged(Bonus);
             if (Strike > 4 && Strike > Victim.ArmorRating)
             {
                 int Damage = Current.RangedAttack();
