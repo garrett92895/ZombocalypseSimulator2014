@@ -153,11 +153,67 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
-                bestMove = moves.ElementAt(new Random().Next(moves.Count()));
+                //bestMove = moves.ElementAt(new Random().Next(moves.Count()));
+                if (Players.Count() > 0)
+                {
+                    Players.ElementAt(new Random().Next(Players.Count()));
+                    int CheapestMoveCost = int.MaxValue;
+                    foreach (Coordinate c in moves)
+                    {
+                        int ThisMoveCost = Area.ShortestPathCost(CurrentPlayer, c);
+                        if (ThisMoveCost < CheapestMoveCost)
+                        {
+                            CheapestMoveCost = ThisMoveCost;
+                            bestMove = c;
+                            break;
+                        }
+                    }
+                }
             }
 
             return bestMove;
         }
+        #endregion
+
+        #region Deciding attacks
+        public Character DetermineAttack(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
+        {
+            Character victim = null;
+
+            if (IntelligentAI)
+            {
+                victim = IntelligentAttack(CurrentPlayer, MaxMoves, MovesLeft, Area, Players, Zombies);
+            }
+            else
+            {
+                victim = DumbAttack(CurrentPlayer, MaxMoves, MovesLeft, Area, Players, Zombies);
+            }
+
+            return victim;
+        }
+
+        private Character IntelligentAttack(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Character DumbAttack(Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
+        {
+            Character victim = null;
+
+            List<Character> Enemies = Area.AdjacentCharacters(CurrentPlayer, false);
+            victim = Enemies.ElementAt(0);
+            foreach(Character c in Enemies)
+            {
+                if(c.Health < victim.Health)
+                {
+                    victim = c;
+                }
+            }
+
+            return victim;
+        }
+
         #endregion
     }
 }
