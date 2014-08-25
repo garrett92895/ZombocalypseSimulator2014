@@ -216,6 +216,30 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
+                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
+                    {
+                        CurrentPlayer.Health -= Dice.Roll(1, 4);
+                    }
+                    if (CurrentPlayer.Equals(StatusEffects.Crippled))
+                    {
+                        SquaresLeft = MaxSquares / 2;
+                    }
+                    if (CurrentPlayer.Equals(StatusEffects.Stunned))
+                    {
+                        SquaresLeft = MaxSquares - MaxSquares;
+                    }
+                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
+                    {
+                        CurrentPlayer.Health -= Dice.Roll(1, 4);
+                    }
+                    if (CurrentPlayer.Equals(StatusEffects.Infected))
+                    {
+                        
+                    }
+                    if (CurrentPlayer.Equals(StatusEffects.NoSDC))
+                    {
+                        CurrentPlayer.sdc = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
+                    }
                 }
                 else if (PlayerAction.Equals(ActionTypes.Equip))
                 {
