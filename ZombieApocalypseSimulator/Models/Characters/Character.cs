@@ -365,7 +365,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
+<<<<<<< HEAD
         public event PropertyChangedEventHandler PropertyChanged;
 
+=======
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+>>>>>>> origin/master
     }
 }

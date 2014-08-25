@@ -28,7 +28,8 @@ namespace ZombieApocalypseSimulator
         UnaimedRangedAttack,
         PickUpItem,
         DropItem,
-        GiveItem
+        GiveItem,
+        Reload
     }
 
     public class Controller
@@ -58,6 +59,7 @@ namespace ZombieApocalypseSimulator
         {
             while (true)
             {
+                Console.WriteLine("Start of Turn Order");
                 PlayerOrder = DetermineTurnOrder(Players);
                 ZedOrder = DetermineTurnOrder(Zeds);
 
@@ -70,9 +72,9 @@ namespace ZombieApocalypseSimulator
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
-                    
                     PlayNextTurn();
                 }
+
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
             }
         }
@@ -173,22 +175,21 @@ namespace ZombieApocalypseSimulator
                 c.CanDodge = true;
 
                 _turnOrder.Push(c);
-
             }
             return _turnOrder;
         }
 
         private int minValue(int[] values, int _ignoreIndex = -1)
         {
-            int maxIndex = 0;
+            int minIndex = 0;
             for (int i = 0; i < values.Length; i++)
             {
-                if (values[i] > values[maxIndex] && i != _ignoreIndex)
+                if (values[i] < values[minIndex] && i != _ignoreIndex)
                 {
-                    maxIndex = i;
+                    minIndex = i;
                 }
             }
-            return maxIndex;
+            return minIndex;
         }
         #endregion
 
@@ -578,6 +579,19 @@ namespace ZombieApocalypseSimulator
             Item PlayerChoiceItem = ItemsInSquare.ElementAt(PlayerChoice);
             ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
             Field.RemoveItemInSquare(PlayerChoiceItem, CurrentPlayer.Location);
+        }
+
+        /// <summary>
+        /// Checks if the user has: a ranged weapon equipped, a non-empty clip in said weapon,
+        /// and ammo to load. If any are false, reloading will fail. 
+        /// </summary>
+        private void Reload()
+        {
+            Player Current = CurrentPlayer as Player;
+            //if (Current.EquippedWeaponType().Equals("Ranged")
+            //        && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
+            //{
+            //}
         }
 
         /// <summary>

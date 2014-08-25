@@ -419,6 +419,7 @@ namespace ZombieApocalypseSimulator
                     if (I.GetType() == typeof(Corpse))
                     {
                         Revive = ((Corpse)I).RollRevive();
+                        break;
                     }
                     else
                     {
@@ -623,9 +624,18 @@ namespace ZombieApocalypseSimulator
             }
             int y = BeginCoor.Y;
 
-            //Iterates over every GridSquare in the line of sight to see if it is Closes or Occupied
-            for (int x = BeginCoor.X; x < EndCoor.X; x++)
+            LocationComparer CoorCompare = new LocationComparer();
+
+            //Iterates over every GridSquare in the line of sight to see if it is Closed or Occupied
+            for (int x = BeginCoor.X; x <= EndCoor.X; x++)
             {
+                error -= deltay;
+                if (error < 0)
+                {
+                    y += yIncrement;
+                    error += deltax;
+                }
+
                 Coordinate NextCoor;
                 if (steep)
                 {
@@ -636,15 +646,11 @@ namespace ZombieApocalypseSimulator
                     NextCoor = new Coordinate(x, y);
                 }
                 GridSquare Examine = GetGridSquareAt(NextCoor);
-                if (!Examine.IsOccupiable || Examine.OccupyingCharacter != null)
+
+                if (!CoorCompare.Equals(EndCoor, NextCoor) && (!Examine.IsOccupiable || Examine.OccupyingCharacter != null))
                 {
+                    Console.WriteLine(NextCoor);
                     return false;
-                }
-                error -= deltay;
-                if (error < 0)
-                {
-                    y += yIncrement;
-                    error += deltax;
                 }
             }
             return true;
