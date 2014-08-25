@@ -186,5 +186,24 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
             return s;
         }
+
+        public byte level()
+        {
+            byte bonus = 0;
+            byte level = (byte)Level;
+            for (int i = 0; i < level; i++)
+            {
+                MaxHealth += Dice.Roll(1, 6);
+                MaxSDC += Dice.Roll(1, 4);
+                IntelligenceQuotient += Dice.Roll(1, 3);
+                MentalEndurance += Dice.Roll(1, 3);
+                MentalAffinity += Dice.Roll(1, 3);
+                PhysicalStrength += Dice.Roll(1, 3);
+                PhysicalProwess += Dice.Roll(1, 3);
+                PhysicalBeauty += Dice.Roll(1, 3);
+                PhysicalEndurance += Dice.Roll(1, 3);
+            }
+            return bonus;
+        }
     }
 }
