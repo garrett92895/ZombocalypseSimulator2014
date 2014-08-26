@@ -7,6 +7,22 @@
              d:DesignHeight="600" d:DesignWidth="300">
     <StackPanel>
         <Label x:Name="CharacterType" Background="Black" Foreground="Firebrick" FontSize="24" FontWeight="ExtraBold"></Label>
+       
+        <ComboBox x:Name="CharacterComboBox">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="50" Width="50" />
+                        <Label Content="Name: " />
+                        <Label Content="{Binding Name}" />
+                        <Label Content="Level: " />
+                        <Label Content="{Binding Level}" />
+        
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
         <Label x:Name="CharacterName" Content="{Binding Name}"/>
         <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="250" Width="250"/>
         <UniformGrid x:Name="AttributeGrid" Columns="4" Rows="11">

@@ -125,6 +125,8 @@ namespace ZombieApocalypseWPF
             Coordinate ZedCoor6 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed6, ZedCoor6);
 
+            PlayerControl.CharacterComboBox.ItemsSource = c.Players;
+
             //Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
             //Coordinate GunCoor = new Coordinate(1, 2);
             //c.AddItemToField(Gun, GunCoor);
@@ -168,7 +170,7 @@ namespace ZombieApocalypseWPF
                     Binding b2 = new Binding("ItemList");
                     b2.Source = c.Field.GridSquares[i, j];
                     b2.Converter = new ItemToImageConverter();
-                    
+
                     Binding b3 = new Binding("IsOccupiable");
                     b3.Source = c.Field.GridSquares[i, j];
                     b3.Converter = new BoolToImageConverter();
@@ -185,10 +187,9 @@ namespace ZombieApocalypseWPF
                     r3.Height = 50;
                     r3.Width = 50;
 
-                    nc.Children.Add(r3);
-
                     nc.Children.Add(r2);
                     nc.Children.Add(r);
+                    nc.Children.Add(r3);
 
                     nc.Margin = new Thickness(1);
                     nc.Background = Brushes.Firebrick;
@@ -239,6 +240,9 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
+
+            if (tempgq.OccupyingCharacter != null)
+                return;
 
             tempgq.IsOccupiable = !tempgq.IsOccupiable;
 
