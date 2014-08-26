@@ -24,5 +24,10 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		}
 
+        public override string ToString()
+        {
+            return base.ToString() + "\n Current Condition:" + Condition;
+        }
+
 	}
 }

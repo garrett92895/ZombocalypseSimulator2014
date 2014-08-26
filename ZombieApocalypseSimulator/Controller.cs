@@ -131,7 +131,7 @@ namespace ZombieApocalypseSimulator
 
             if (C.Location != null)
             {
-                if (C.GetType() == typeof(Player))
+                if (C is Player)
                 {
                     Players.Add(C);
                 }
@@ -225,8 +225,7 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
 
-
-                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
+                    //Status Effect Calculation
 
                     if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
@@ -257,6 +256,11 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Equip");
                     Equip();
+                }
+                else if (PlayerAction.Equals(ActionTypes.Reload))
+                {
+                    Console.WriteLine("Reload");
+                    Reload();
                 }
                 else if (PlayerAction.Equals(ActionTypes.DropItem))
                 {
@@ -355,10 +359,20 @@ namespace ZombieApocalypseSimulator
             //Options for Players
             if (CurrentPlayer.GetType() == typeof(Player))
             {
+                //Checks for the ability to equip a weapon
                 Player Current = (Player)CurrentPlayer;
                 if (Current.HasWeapon())
                 {
                     PossibleActions.Add(ActionTypes.Equip);
+                }
+                //Checks for the ability to Reload a firearm
+                if (Current.EquippedWeaponType().Equals("Ranged"))
+                {
+                    RangedWeapon _weapon = Current.EquippedWeapon as RangedWeapon;
+                    if (_weapon.CurrentClip.Amount() < _weapon.CurrentClip.ClipSize && Current.HasAmmo())
+                    {
+                        PossibleActions.Add(ActionTypes.Reload);
+                    }                    
                 }
                 //Checks for the ability to pick up an item
                 if (SquaresLeft >= 2
@@ -592,10 +606,16 @@ namespace ZombieApocalypseSimulator
         private void Reload()
         {
             Player Current = CurrentPlayer as Player;
-            //if (Current.EquippedWeaponType().Equals("Ranged")
-            //        && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
-            //{
-            //}
+            RangedWeapon _weapon = Current.EquippedWeapon as RangedWeapon;
+            for (int i = 0; i < CurrentPlayer.Items.Count; i++)
+            {
+                if (CurrentPlayer.Items.ElementAt(i).GetType() == typeof(Ammo) && !_weapon.CurrentClip.IsFull())
+                {
+                    _weapon.CurrentClip.Push(CurrentPlayer.Items.ElementAt(i) as Ammo);
+                    CurrentPlayer.Items.RemoveAt(i--);
+                }
+            }
+            Console.WriteLine("Successful reload");
         }
 
         /// <summary>
@@ -677,6 +697,7 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
+                CurrentPlayer.MeleeAttack();
                 Console.WriteLine("Attack ineffective");
             }
         }
@@ -722,6 +743,7 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
+                Current.RangedAttack();
                 Console.WriteLine("Attack ineffective");
             }
         }

@@ -35,10 +35,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
             Name = "Bill";
             Items = new List<Item>();
             ItemLimit = 5;
-            //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
-            //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
             Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             Items.Add(WeaponFactory.GetInstance("Small Crowbar|Melee|Blunt|100|2d6"));
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
             EquippedWeapon = (Weapon)Items.ElementAt(0);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();
@@ -125,7 +134,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             List<Weapon> Weapons = new List<Weapon>();
             for(int i = 0; i < Items.Count(); i ++)
             {
-                if(Items.ElementAt(i).GetType() == typeof(Weapon))
+                if (Items.ElementAt(i).GetType() == typeof(MeleeWeapon) | Items.ElementAt(i).GetType() == typeof(RangedWeapon))
                 {
                     Weapons.Add((Weapon)Items.ElementAt(i));
                 }
@@ -146,6 +155,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 HasWeapon = true;
             }
             return HasWeapon;
+        }
+
+        public bool HasAmmo()
+        {
+            bool HasAmmo = false;
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if(Items.ElementAt(i).GetType() == typeof(Ammo))
+                {
+                    HasAmmo = true;
+                }
+            }
+            return HasAmmo;
         }
 
         public override double DetermineWeaponEffectiveness(Weapon weapon)

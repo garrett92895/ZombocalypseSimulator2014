@@ -56,7 +56,7 @@ namespace ZombieApocalypseSimulator.Models.Items
         public int Amount()
         {
             int UnusedRounds =0;
-            for (int i = 0; i < _clip.Length; i++)
+            for (int i = 0; i < CurrentIndex; i++)
             {
                 if (!_clip[i].IsUsed)
                 {
@@ -71,7 +71,23 @@ namespace ZombieApocalypseSimulator.Models.Items
             return (!this.Peek().IsUsed);
         }
 
-        private int ClipSize { get; set; }
+        public bool IsFull()
+        {
+            return CurrentIndex == ClipSize;
+        }
+
+        private int _clipsize { get; set; }
+        public int ClipSize 
+        { 
+            get
+            {
+                return _clipsize;
+            }
+            set
+            {
+                _clipsize = value;
+            } 
+        }
         private Ammo[] _clip { get; set; }
         private int CurrentIndex;
     }
