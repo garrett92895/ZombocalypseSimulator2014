@@ -60,15 +60,19 @@ namespace ZombieApocalypseSimulator
             while (true)
             {
                 Console.WriteLine("Start of Turn Order");
+                Console.WriteLine("Player order calculation");
                 PlayerOrder = DetermineTurnOrder(Players);
+                Console.WriteLine("Zed order calculation");
                 ZedOrder = DetermineTurnOrder(Zeds);
 
+                Console.WriteLine("Start of Player Round");
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
                     PlayNextTurn();
                 }
 
+                Console.WriteLine("Start of Zed Round");
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
@@ -160,16 +164,16 @@ namespace ZombieApocalypseSimulator
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
-            int[] rolls = new int[_characters.Count];
+            //int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
             {
-                rolls[i] = Dice.Roll(1, 20);
+                _characters[i].Initiative = Dice.Roll(1, 20);
             }
-            int LastIndex = -1;
-            for (int i = 0; i < _characters.Count; i++)
+            //_characters.Sort(rolls);
+            List<Character> SortedCharacters = _characters.OrderByDescending(c => c.Initiative).ToList();
+            for (int i = 0; i < SortedCharacters.Count; i++)
             {
-                LastIndex = minValue(rolls, LastIndex);
-                Character c = _characters[LastIndex];
+                Character c = SortedCharacters.ElementAt(i);
 
                 c.CanParry = true;
                 c.CanDodge = true;

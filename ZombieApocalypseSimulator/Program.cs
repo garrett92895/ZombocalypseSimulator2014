@@ -32,7 +32,7 @@ namespace ZombieApocalypseSimulator
             c.AddCharacterToField(Zed3, ZedCoor3);
 
             Character Zed4 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor4 = new Coordinate(2, 2);
+            Coordinate ZedCoor4 = new Coordinate(2, 5);
             c.AddCharacterToField(Zed4, ZedCoor4);
 
             Character Zed5 = ZedFactory.GetInstance("Sloucher");
