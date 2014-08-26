@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace ZombieApocalypseSimulator
 {
     public enum Direction { UP, UP_RIGHT, RIGHT, DOWN_RIGHT, DOWN, DOWN_LEFT, LEFT, UP_LEFT };
 
-    public class GridSquare
+    public class GridSquare : INotifyPropertyChanged
     {
         public Coordinate Coordinate { get; set; }
 
@@ -56,7 +57,8 @@ namespace ZombieApocalypseSimulator
             {
                 //if (IsOccupiable)
                 //{
-                    _OccupyingCharacter = value;
+                _OccupyingCharacter = value;
+                NotifyPropertyChanged("OccupyingCharacter");
                 //}
             }
         }
@@ -74,7 +76,8 @@ namespace ZombieApocalypseSimulator
             { return _ItemList; }
             set
             {
-                    _ItemList = value;
+                _ItemList = value;
+                NotifyPropertyChanged("ItemList");
             }
         }
 
@@ -91,6 +94,7 @@ namespace ZombieApocalypseSimulator
                 if (IsOccupiable)
                 {
                     _ActiveTrap = value;
+                    NotifyPropertyChanged("ActiveTrap");
                 }
             }
         }
@@ -105,6 +109,7 @@ namespace ZombieApocalypseSimulator
             set
             {
                 _IsOccupiable = value;
+                NotifyPropertyChanged("IsOccupiable");
                 //if (!IsOccupiable)
                 //{
                 //    OccupyingCharacter = null;
@@ -159,5 +164,18 @@ namespace ZombieApocalypseSimulator
 
         }
 
+        /// <summary>
+        /// Notifies any events in PropertyChanged that a specific property has been changed
+        /// </summary>
+        /// <param name="Info"></param>
+        private void NotifyPropertyChanged(String Info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(Info));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

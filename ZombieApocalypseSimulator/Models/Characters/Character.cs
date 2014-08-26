@@ -9,7 +9,9 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
+
     public abstract class Character : INotifyPropertyChanged, IComparable, IComparable<Character>
+
     {
 
         public int MaxHealth { get; set; }
@@ -31,6 +33,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 {
                     isAlive = true;
                 }
+                NotifyPropertyChanged("Health");
             }
         }
 
@@ -64,6 +67,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 _HasDodged = value;
             }
         }
+
         private int _ArmorRating;
         public int ArmorRating 
         {
@@ -71,7 +75,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _ArmorRating;
             }
-
             set
             {
                 _ArmorRating = value;
@@ -86,7 +89,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _IntelligenceQuotient;
             }
-
             set
             {
                 _IntelligenceQuotient = value;
@@ -101,7 +103,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _MentalEndurance;
             }
-
             set
             {
                 _MentalEndurance = value;
@@ -116,14 +117,13 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _MentalAffinity;
             }
-
             set
             {
                 _MentalAffinity = value;
                 NotifyPropertyChanged("MentalAffinity");
             }
         }
-
+        
         private int _PhysicalStrength;
         public int PhysicalStrength
         {
@@ -131,7 +131,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _PhysicalStrength;
             }
-
             set
             {
                 _PhysicalStrength = value;
@@ -146,7 +145,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _PhysicalEndurance;
             }
-
             set
             {
                 _PhysicalEndurance = value;
@@ -161,7 +159,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _PhysicalProwess;
             }
-
             set
             {
                 _PhysicalProwess = value;
@@ -176,7 +173,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _PhysicalBeauty;
             }
-
             set
             {
                 _PhysicalBeauty = value;
@@ -191,7 +187,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 return _Speed;
             }
-
             set
             {
                 _Speed = value;
@@ -199,11 +194,16 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
-        private int _level = 1;
-        public int Level { get { return _level; }
+        private int _Level = 1;
+        public int Level
+        {
+            get
+            {
+                return _Level;
+            }
             set
             {
-                _level = value;
+                _Level = value;
                 NotifyPropertyChanged("Level");
             }
         }
@@ -213,20 +213,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public bool isAlive { get; set; }
 
         public int MaxSDC { get; set; }
-
-        private int _sdc;
-        public int sdc 
-        { 
-            get 
-            { 
-                return _sdc; 
-            } 
-            set 
-            { 
-                _sdc = value; 
-                NotifyPropertyChanged("sdc"); 
-            } 
-        }
+        public int sdc { get; set; }
 
         private int _initiative { get; set; }
         public int Initiative
@@ -362,11 +349,8 @@ namespace ZombieApocalypseSimulator.Models.Characters
             PhysicalProwess += Dice.Roll(1, 3);
             PhysicalBeauty += Dice.Roll(1, 3);
             PhysicalEndurance += Dice.Roll(1, 3);
-
             return bonus;
         }
-
-
         public byte LevelDown()
         {
             byte bonus = 0;
@@ -381,11 +365,13 @@ namespace ZombieApocalypseSimulator.Models.Characters
             PhysicalProwess -= Dice.Roll(1, 3);
             PhysicalBeauty -= Dice.Roll(1, 3);
             PhysicalEndurance -= Dice.Roll(1, 3);
-
             return bonus;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Notifies any events in PropertyChanged that a specific property has been changed
+        /// </summary>
+        /// <param name="Info"></param>
         private void NotifyPropertyChanged(String Info)
         {
             if (PropertyChanged != null)
@@ -395,16 +381,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
         }
 
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
         public int CompareTo(object obj)
         {
             throw new NotImplementedException();
         }
 
+
         public int CompareTo(Character other)
         {
             throw new NotImplementedException();
         }
-        
 
     }
 }

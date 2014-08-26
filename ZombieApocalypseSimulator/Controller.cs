@@ -11,8 +11,8 @@ using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-using ZombieApocalypseSimulator.Models.Items.Enums;
 using System.Collections.ObjectModel;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 
 namespace ZombieApocalypseSimulator
@@ -225,27 +225,30 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
 
+
                     if (CurrentPlayer.Equals(StatusEffect.OnFire))
+
+                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
                         CurrentPlayer.Health -= Dice.Roll(1, 4);
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.Crippled))
+                    if (CurrentPlayer.Equals(StatusEffects.Crippled))
                     {
                         SquaresLeft = MaxSquares / 2;
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.Stunned))
+                    if (CurrentPlayer.Equals(StatusEffects.Stunned))
                     {
                         SquaresLeft = MaxSquares - MaxSquares;
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
+                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
                         CurrentPlayer.Health -= Dice.Roll(1, 4);
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.Infected))
+                    if (CurrentPlayer.Equals(StatusEffects.Infected))
                     {
 
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.ArmourBroken))
+                    if (CurrentPlayer.Equals(StatusEffects.NoSDC))
                     {
                         CurrentPlayer.sdc = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
                     }
