@@ -11,9 +11,6 @@ using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-using System.Collections.ObjectModel;
-using ZombieApocalypseSimulator.Models.Items.Enums;
-
 
 namespace ZombieApocalypseSimulator
 {
@@ -28,8 +25,7 @@ namespace ZombieApocalypseSimulator
         UnaimedRangedAttack,
         PickUpItem,
         DropItem,
-        GiveItem,
-        Reload
+        GiveItem
     }
 
     public class Controller
@@ -37,9 +33,9 @@ namespace ZombieApocalypseSimulator
         #region Props and Backing Fields
         public GameArea Field { get; set; }
         private Character CurrentPlayer;
-        public ZombieAI AI { get; set; }
         private int MaxSquares;
         private int SquaresLeft;
+        public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
         public List<Coordinate> CorpseSquares;
@@ -61,25 +57,27 @@ namespace ZombieApocalypseSimulator
         {
             while (true)
             {
-                Console.WriteLine("Start of The Turn");
                 PlayerOrder = DetermineTurnOrder(Players);
-                Console.WriteLine("Zed order calculation");
                 ZedOrder = DetermineTurnOrder(Zeds);
+                if(Players.Count() == 0)
+                {
+                    Console.WriteLine("Game over, zombies have taken over the world.");
+                    Environment.Exit(0);
+                }
 
-                Console.WriteLine("Start of Player Round");
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
+                    
                     PlayNextTurn();
                 }
 
-                Console.WriteLine("Start of Zed Round");
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
-                    PlayNextTurn();
-                }
 
+                    PlayNextTurnAI();
+                }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
             }
         }
@@ -186,15 +184,15 @@ namespace ZombieApocalypseSimulator
 
         private int minValue(int[] values, int _ignoreIndex = -1)
         {
-            int minIndex = 0;
+            int maxIndex = 0;
             for (int i = 0; i < values.Length; i++)
             {
-                if (values[i] < values[minIndex] && i != _ignoreIndex)
+                if (values[i] > values[maxIndex] && i != _ignoreIndex)
                 {
-                    minIndex = i;
+                    maxIndex = i;
                 }
             }
-            return minIndex;
+            return maxIndex;
         }
         #endregion
 
@@ -225,10 +223,6 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
-
-
-                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
-
                     if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
                         CurrentPlayer.Health -= Dice.Roll(1, 4);
@@ -316,14 +310,14 @@ namespace ZombieApocalypseSimulator
 
         private void PlayNextTurnAI()
         {
-            SquaresLeft = CurrentPlayer.squares();
+                        SquaresLeft = CurrentPlayer.squares();
             MaxSquares = SquaresLeft;
             Console.WriteLine(Field.ToString());
 
             List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
             ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
 
-            if (BestAction.Equals(ActionTypes.Move))
+            if(BestAction.Equals(ActionTypes.Move))
             {
                 Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
                 Field.MoveCharacterToSquare(CurrentPlayer, BestMove);
@@ -415,6 +409,12 @@ namespace ZombieApocalypseSimulator
                         PossibleActions.Add(ActionTypes.AimedRangedAttack);
                     }
                 }
+                //Testing Ranged Weapons
+                //Console.WriteLine(Current.GetType() == typeof(Player));
+                //Console.WriteLine((SquaresLeft * 2) >= MaxSquares);
+                //Console.WriteLine(Current.EquippedWeaponType().Equals("Ranged"));
+                //Console.WriteLine(Current.CanShoot());
+                Field.PossibleRangedTargets(Current, Zeds).Any();
             }
 
             return PossibleActions;
@@ -484,6 +484,11 @@ namespace ZombieApocalypseSimulator
             for (int i = 0; i < KilledCharacters.Count; i++)
             {
                 Players.RemoveAt(KilledCharacters.ElementAt(i));
+            }
+            if(Players.Count() == 0)
+            {
+                Console.WriteLine("Game Over.");
+                Environment.Exit(0);
             }
         }
 
@@ -661,7 +666,7 @@ namespace ZombieApocalypseSimulator
                     AttemptedToDefend = true;
                 }
 
-
+                
 
                 //Checks for a botch on the defender's part
                 if (NaturalDefense == 1)
