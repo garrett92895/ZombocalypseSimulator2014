@@ -47,7 +47,7 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Ctor and Run
-        public Controller(int Width = 15, int Height=15)
+        public Controller(int Width = 15, int Height = 15)
         {
             Field = new GameArea(Width, Height);
             Zeds = new List<Character>();
@@ -59,16 +59,19 @@ namespace ZombieApocalypseSimulator
         {
             while (true)
             {
-                Console.WriteLine("Start of Turn Order");
+                Console.WriteLine("Start of The Turn");
                 PlayerOrder = DetermineTurnOrder(Players);
+                Console.WriteLine("Zed order calculation");
                 ZedOrder = DetermineTurnOrder(Zeds);
 
+                Console.WriteLine("Start of Player Round");
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
                     PlayNextTurn();
                 }
 
+                Console.WriteLine("Start of Zed Round");
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
@@ -119,7 +122,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="Location"></param>
         public void AddCharacterToField(Character C, Coordinate Location = null)
         {
-            if(Location == null)
+            if (Location == null)
             {
                 Location = Field.GetViableSquare();
             }
@@ -160,16 +163,16 @@ namespace ZombieApocalypseSimulator
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
-            int[] rolls = new int[_characters.Count];
+            //int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
             {
-                rolls[i] = Dice.Roll(1, 20);
+                _characters[i].Initiative = Dice.Roll(1, 20);
             }
-            int LastIndex = -1;
-            for (int i = 0; i < _characters.Count; i++)
+            //_characters.Sort(rolls);
+            List<Character> SortedCharacters = _characters.OrderByDescending(c => c.Initiative).ToList();
+            for (int i = 0; i < SortedCharacters.Count; i++)
             {
-                LastIndex = minValue(rolls, LastIndex);
-                Character c = _characters[LastIndex];
+                Character c = SortedCharacters.ElementAt(i);
 
                 c.CanParry = true;
                 c.CanDodge = true;
@@ -280,9 +283,9 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Melee attack");
                     MeleeAttack();
-                    if(CurrentPlayer.GetType() == typeof(Fighter))
+                    if (CurrentPlayer.GetType() == typeof(Fighter))
                     {
-                        SquaresLeft -= (int)MaxSquares / 4;    
+                        SquaresLeft -= (int)MaxSquares / 4;
                     }
                     else
                     {
@@ -601,7 +604,7 @@ namespace ZombieApocalypseSimulator
         {
             List<Character> PossibleVictims = Field.AdjacentCharacters(CurrentPlayer, false);
             Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
-            
+
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
             Console.WriteLine("Struck for " + TotalStrike);
@@ -611,7 +614,7 @@ namespace ZombieApocalypseSimulator
 
                 Console.WriteLine("Attack Hit!");
                 Console.WriteLine("Attacked for {0}", CharAttack.Damage);// + Damage);
-                if(NaturalStrike == 20)
+                if (NaturalStrike == 20)
                 {
                     CharAttack.Damage *= 2;
                     Console.WriteLine("Critical hit! Damage x2");
@@ -635,19 +638,19 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Enemy dodged for " + TotalDefense);
                     AttemptedToDefend = true;
                 }
-                
+
                 //Checks for a botch on the defender's part
-                if(NaturalDefense == 1)
+                if (NaturalDefense == 1)
                 {
                     Console.WriteLine("Enemy rolled a botch! Attacker damage x2");
                     CharAttack.Damage *= 2;
                 }
                 double Times = DetermineMultiplier(CurrentPlayer, Victim);
-                if(Times == 2)
+                if (Times == 2)
                 {
                     Console.WriteLine("Attack is twice as effective!");
                 }
-                else if(Times == .5)
+                else if (Times == .5)
                 {
                     Console.WriteLine("Attack is half as effective!");
                 }
@@ -748,7 +751,7 @@ namespace ZombieApocalypseSimulator
         {
             double Multiplier = 1;
 
-            if(Attacker.GetType() == typeof(Player))
+            if (Attacker.GetType() == typeof(Player))
             {
                 Player PlayerAttacker = (Player)Attacker;
                 if (PlayerAttacker.EquippedWeapon != null)

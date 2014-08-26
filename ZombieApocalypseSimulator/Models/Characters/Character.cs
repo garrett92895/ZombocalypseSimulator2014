@@ -9,8 +9,10 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
-    public abstract class Character : INotifyPropertyChanged
+    public abstract class Character : INotifyPropertyChanged, IComparable, IComparable<Character>
     {
+
+
 
         public int MaxHealth { get; set; }
         private int _Health;
@@ -213,6 +215,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public int MaxSDC { get; set; }
         public int sdc { get; set; }
 
+        private int _initiative { get; set; }
+        public int Initiative
+        {
+            get
+            {
+                return _initiative;
+            }
+            set
+            {
+                _initiative = value;
+            }
+        }
+
         public void SetLife()
         {
             Health = rollHP();
@@ -367,5 +382,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        public int CompareTo(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int CompareTo(Character other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
