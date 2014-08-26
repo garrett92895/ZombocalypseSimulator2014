@@ -11,8 +11,8 @@ using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-using ZombieApocalypseSimulator.Models.Items.Enums;
 using System.Collections.ObjectModel;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 
 namespace ZombieApocalypseSimulator
@@ -61,14 +61,17 @@ namespace ZombieApocalypseSimulator
             {
                 Console.WriteLine("Start of The Turn");
                 PlayerOrder = DetermineTurnOrder(Players);
+                Console.WriteLine("Zed order calculation");
                 ZedOrder = DetermineTurnOrder(Zeds);
 
+                Console.WriteLine("Start of Player Round");
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
                     PlayNextTurn();
                 }
 
+                Console.WriteLine("Start of Zed Round");
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
@@ -160,16 +163,16 @@ namespace ZombieApocalypseSimulator
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
-            int[] rolls = new int[_characters.Count];
+            //int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
             {
-                rolls[i] = Dice.Roll(1, 20);
+                _characters[i].Initiative = Dice.Roll(1, 20);
             }
-            int LastIndex = -1;
-            for (int i = 0; i < _characters.Count; i++)
+            //_characters.Sort(rolls);
+            List<Character> SortedCharacters = _characters.OrderByDescending(c => c.Initiative).ToList();
+            for (int i = 0; i < SortedCharacters.Count; i++)
             {
-                LastIndex = minValue(rolls, LastIndex);
-                Character c = _characters[LastIndex];
+                Character c = SortedCharacters.ElementAt(i);
 
                 c.CanParry = true;
                 c.CanDodge = true;
@@ -221,27 +224,30 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
 
+
                     if (CurrentPlayer.Equals(StatusEffect.OnFire))
+
+                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
                         CurrentPlayer.Health -= Dice.Roll(1, 4);
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.Crippled))
+                    if (CurrentPlayer.Equals(StatusEffects.Crippled))
                     {
                         SquaresLeft = MaxSquares / 2;
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.Stunned))
+                    if (CurrentPlayer.Equals(StatusEffects.Stunned))
                     {
                         SquaresLeft = MaxSquares - MaxSquares;
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
+                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
                         CurrentPlayer.Health -= Dice.Roll(1, 4);
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.Infected))
+                    if (CurrentPlayer.Equals(StatusEffects.Infected))
                     {
 
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.ArmourBroken))
+                    if (CurrentPlayer.Equals(StatusEffects.NoSDC))
                     {
                         CurrentPlayer.sdc = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
                     }
@@ -582,14 +588,14 @@ namespace ZombieApocalypseSimulator
         /// Checks if the user has: a ranged weapon equipped, a non-empty clip in said weapon,
         /// and ammo to load. If any are false, reloading will fail. 
         /// </summary>
-        //private void Reload()
-        //{
-        //    Player Current = CurrentPlayer as Player;
-        //    if (Current.EquippedWeaponType().Equals("Ranged")
-        //            && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
-        //    {
-        //    }
-        //}
+        private void Reload()
+        {
+            Player Current = CurrentPlayer as Player;
+            //if (Current.EquippedWeaponType().Equals("Ranged")
+            //        && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
+            //{
+            //}
+        }
 
         /// <summary>
         /// Performs a melee attack on a victim
