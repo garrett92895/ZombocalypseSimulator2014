@@ -634,8 +634,7 @@ namespace ZombieApocalypseSimulator
         }
 
         /// <summary>
-        /// Checks if the user has: a ranged weapon equipped, a non-empty clip in said weapon,
-        /// and ammo to load. If any are false, reloading will fail. 
+        /// Reloads the Players equipped weapon until the magazine is full or the Player runs out of ammo.
         /// </summary>
         private void Reload()
         {
@@ -735,6 +734,12 @@ namespace ZombieApocalypseSimulator
             }
         }
 
+        /// <summary>
+        /// Lists all of the possible victims in view of the player,
+        /// and then preforms a RangedAttack (Aimed or Unaimed depending
+        /// on the PlayerAction parameter) on the victim the player chooses
+        /// </summary>
+        /// <param name="PlayerAction"></param>
         private void RangedAttack(ActionTypes PlayerAction)
         {
             List<Character> PossibleVictims = Field.PossibleRangedTargets(CurrentPlayer, Zeds);
