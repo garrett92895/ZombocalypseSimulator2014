@@ -89,7 +89,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             string s = "";
             s += "Class: Medic";
             s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + sdc + "/" + MaxSDC;
+            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
             s += "\r\nLevel: " + Level;
             s += "\r\nSpeed: " + Speed;
             s += "\r\nIQ: " + IntelligenceQuotient;

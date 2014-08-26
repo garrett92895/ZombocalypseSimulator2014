@@ -42,7 +42,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 			MaxHealth = rollHP();
 			Health = MaxHealth;
 			MaxSDC = rollsdc();
-			sdc = MaxSDC;
+			SDC = MaxSDC;
         }
 
         //public override int toHitMelee()

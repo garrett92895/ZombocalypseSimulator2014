@@ -126,12 +126,15 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(Zed6, ZedCoor6);
 
             PlayerControl.CharacterComboBox.ItemsSource = c.Players;
+            PlayerControl.CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
+            ZombieControl.CharacterComboBox.ItemsSource = c.Zeds;
+            ZombieControl.CharacterComboBox.SelectionChanged += ZombieComboBox_SelectionChanged;
 
-            //Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
-            //Coordinate GunCoor = new Coordinate(1, 2);
-            //c.AddItemToField(Gun, GunCoor);
 
-             //Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+
+            Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            c.Field.GridSquares[1, 1].ActiveTrap = akbar;
+
 
             PlayerControl.CharacterType.Content = "Players";
             ZombieControl.CharacterType.Content = "Zombies";
@@ -139,6 +142,19 @@ namespace ZombieApocalypseWPF
 
             PopulateBoard();
 
+        }
+
+        private void ZombieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            this.SelectedZombie = (Zed)cb.SelectedItem;
+            
+        }
+
+        private void PlayerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            this.SelectedPlayer = (Player)cb.SelectedItem;
         }
 
         private void PopulateBoard()

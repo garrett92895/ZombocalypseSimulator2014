@@ -26,39 +26,45 @@
         <Label x:Name="CharacterName" Content="{Binding Name}"/>
         <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="250" Width="250"/>
         <UniformGrid x:Name="AttributeGrid" Columns="4" Rows="11">
-            
+
+            <Label Content="Max HP: " HorizontalContentAlignment="Right" />
+            <TextBox Text="{Binding MaxHealth}" HorizontalContentAlignment="Left" />
+
             <Label Content="HP: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding Health}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding Health}" HorizontalContentAlignment="Left" />
+
+            <Label Content="Max SDC: " HorizontalContentAlignment="Right" />
+            <TextBox Text="{Binding MaxSDC}" HorizontalContentAlignment="Left" />
 
             <Label Content="SDC: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding sdc}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding SDC}" HorizontalContentAlignment="Left" />
 
             <Label Content="AR: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding ArmorRating}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding ArmorRating}" HorizontalContentAlignment="Left" />
 
             <Label Content="IQ: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding IntelligenceQuotient}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding IntelligenceQuotient}" HorizontalContentAlignment="Left" />
 
             <Label Content="ME: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding MentalEndurance}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding MentalEndurance}" HorizontalContentAlignment="Left" />
 
             <Label Content="MA: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding MentalAffinity}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding MentalAffinity}" HorizontalContentAlignment="Left" />
 
             <Label Content="PS: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding PhysicalStrength}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding PhysicalStrength}" HorizontalContentAlignment="Left" />
 
             <Label Content="PE: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding PhysicalEndurance}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding PhysicalEndurance}" HorizontalContentAlignment="Left" />
 
             <Label Content="PP: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding PhysicalProwess}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding PhysicalProwess}" HorizontalContentAlignment="Left" />
 
             <Label Content="PB: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding PhysicalBeauty}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding PhysicalBeauty}" HorizontalContentAlignment="Left" />
 
             <Label Content="Speed: " HorizontalContentAlignment="Right" />
-            <Label Content="{Binding Speed}" HorizontalContentAlignment="Left" />
+            <TextBox Text="{Binding Speed}" HorizontalContentAlignment="Left" />
 
         </UniformGrid>
         

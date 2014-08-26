@@ -13,8 +13,21 @@ namespace ZombieApocalypseSimulator.Models.Characters
     {
 
 
+        private int _MaxHealth;
+        public int MaxHealth 
+        {
+            get 
+            {
+                return _MaxHealth;
+            }
+            set
+            {
+                _MaxHealth = value;
 
-        public int MaxHealth { get; set; }
+                NotifyPropertyChanged("MaxHealth");
+            }
+        }
+
         private int _Health;
         public int Health
         {
@@ -212,8 +225,35 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
 
-        public int MaxSDC { get; set; }
-        public int sdc { get; set; }
+        private int _MaxSDC;
+        public int MaxSDC 
+        {
+            get
+            {
+                return _MaxSDC;
+            }
+            set
+            {
+                _MaxSDC = value;
+
+                NotifyPropertyChanged("MaxSDC");
+            }
+        }
+
+        private int _SDC = 0;
+        public int SDC
+        {
+            get
+            {
+                return _SDC;
+            }
+            set
+            {
+                _SDC = value;
+
+                NotifyPropertyChanged("SDC");
+            }
+        }
 
         private int _initiative { get; set; }
         public int Initiative
@@ -232,8 +272,8 @@ namespace ZombieApocalypseSimulator.Models.Characters
         {
             Health = rollHP();
             MaxHealth = Health;
-            sdc = rollsdc();
-            MaxSDC = sdc;
+            SDC = rollsdc();
+            MaxSDC = SDC;
             isAlive = true;
         }
 
@@ -242,10 +282,10 @@ namespace ZombieApocalypseSimulator.Models.Characters
             int dam = attack.Damage;
             if (!attack.IsPiercing)
             {
-                while (dam != 0 && sdc != 0)
+                while (dam != 0 && SDC != 0)
                 {
                     dam--;
-                    sdc--;
+                    SDC--;
                 }
             }
             Health -= dam;
@@ -321,7 +361,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             string s = "";
             s += "Class: NotImplemented";
             s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + sdc + "/" + MaxSDC;
+            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
             s += "\r\nLevel: " + Level;
             s += "\r\nSpeed: " + Speed;            
             s += "\r\nIQ: " + IntelligenceQuotient;

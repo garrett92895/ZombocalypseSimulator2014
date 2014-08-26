@@ -250,7 +250,7 @@ namespace ZombieApocalypseSimulator
                     }
                     if (CurrentPlayer.Equals(StatusEffects.NoSDC))
                     {
-                        CurrentPlayer.sdc = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
+                        CurrentPlayer.SDC = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
                     }
                 }
                 else if (PlayerAction.Equals(ActionTypes.Equip))
