@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,7 @@ namespace ZombieApocalypseSimulator
     {
         static void Main(string[] args)
         {
-            Controller c = new Controller(10,10);
+            Controller c = new Controller(10, 10);
 
             Player NewPlayer = new Player();
             Coordinate Coor = new Coordinate(2, 3);
@@ -23,35 +24,35 @@ namespace ZombieApocalypseSimulator
             Coordinate ZedCoor1 = new Coordinate(1, 2);
             c.AddCharacterToField(Zed1, ZedCoor1);
 
-            Character Zed2 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor2 = new Coordinate(1, 3);
-            c.AddCharacterToField(Zed2, ZedCoor2);
+            //Character Zed2 = ZedFactory.GetInstance("Tank");
+            //Coordinate ZedCoor2 = new Coordinate(1, 3);
+            //c.AddCharacterToField(Zed2, ZedCoor2);
 
-            Character Zed3 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor3 = new Coordinate(1, 4);
-            c.AddCharacterToField(Zed3, ZedCoor3);
+            //Character Zed3 = ZedFactory.GetInstance("Shank");
+            //Coordinate ZedCoor3 = new Coordinate(1, 4);
+            //c.AddCharacterToField(Zed3, ZedCoor3);
 
-            Character Zed4 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor4 = new Coordinate(2, 5);
-            c.AddCharacterToField(Zed4, ZedCoor4);
+            //Character Zed4 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor4 = new Coordinate(2, 2);
+            //c.AddCharacterToField(Zed4, ZedCoor4);
 
-            Character Zed5 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor5 = new Coordinate(2, 4);
-            c.AddCharacterToField(Zed5, ZedCoor5);
+            //Character Zed5 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor5 = new Coordinate(2, 4);
+            //c.AddCharacterToField(Zed5, ZedCoor5);
 
-            Character Zed6 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor6 = new Coordinate(3, 3);
-            c.AddCharacterToField(Zed6, ZedCoor6);
+            //Character Zed6 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor6 = new Coordinate(3, 3);
+            //c.AddCharacterToField(Zed6, ZedCoor6);
 
-            Character Zed7 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor7 = new Coordinate(3, 2);
-            c.AddCharacterToField(Zed7, ZedCoor7);
+            //Character Zed7 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor7 = new Coordinate(3, 2);
+            //c.AddCharacterToField(Zed7, ZedCoor7);
 
-            Character Zed8 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor8 = new Coordinate(3, 4);
-            c.AddCharacterToField(Zed8, ZedCoor8);
+            //Character Zed8 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor8 = new Coordinate(3, 4);
+            //c.AddCharacterToField(Zed8, ZedCoor8);
 
-            
+
             //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
             //NewPlayer.EquippedWeapon = Gun;
             //Console.WriteLine(NewPlayer.EquippedWeapon.Damage);

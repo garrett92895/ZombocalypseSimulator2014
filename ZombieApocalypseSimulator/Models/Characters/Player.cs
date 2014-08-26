@@ -15,7 +15,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public string Name { get; set; }
         public int ItemLimit { get; set; }
         public Weapon EquippedWeapon { get; set; }
-        private byte rollAttributes()
+        protected byte rollAttributes()
         {
             byte roll = (byte)(Dice.Roll(3, 6));
             if (roll == 16 || roll == 17 || roll == 18)

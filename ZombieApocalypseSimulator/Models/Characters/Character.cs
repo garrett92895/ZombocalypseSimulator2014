@@ -9,10 +9,10 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
-
     public abstract class Character : INotifyPropertyChanged, IComparable, IComparable<Character>
-
     {
+
+
 
         public int MaxHealth { get; set; }
         private int _Health;
@@ -380,7 +380,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -389,11 +388,9 @@ namespace ZombieApocalypseSimulator.Models.Characters
             throw new NotImplementedException();
         }
 
-
         public int CompareTo(Character other)
         {
             throw new NotImplementedException();
         }
-
     }
 }
