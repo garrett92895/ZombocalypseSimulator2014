@@ -25,7 +25,8 @@ namespace ZombieApocalypseSimulator
         UnaimedRangedAttack,
         PickUpItem,
         DropItem,
-        GiveItem
+        GiveItem,
+        Reload
     }
 
     public class Controller
