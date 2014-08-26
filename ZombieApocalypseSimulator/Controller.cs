@@ -284,7 +284,9 @@ namespace ZombieApocalypseSimulator
                 else if (PlayerAction.Equals(ActionTypes.MeleeAttack))
                 {
                     Console.WriteLine("Melee attack");
-                    MeleeAttack();
+                    List<Character> PossibleVictims = Field.AdjacentCharacters(CurrentPlayer, false);
+                    Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
+                    MeleeAttack(Victim);
                     if (CurrentPlayer.GetType() == typeof(Fighter))
                     {
                         SquaresLeft -= (int)MaxSquares / 4;
@@ -623,11 +625,8 @@ namespace ZombieApocalypseSimulator
         /// <summary>
         /// Performs a melee attack on a victim
         /// </summary>
-        private void MeleeAttack()
+        private void MeleeAttack(Character Victim)
         {
-            List<Character> PossibleVictims = Field.AdjacentCharacters(CurrentPlayer, false);
-            Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
-
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
             Console.WriteLine("Struck for " + TotalStrike);
@@ -661,6 +660,8 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Enemy dodged for " + TotalDefense);
                     AttemptedToDefend = true;
                 }
+
+
 
                 //Checks for a botch on the defender's part
                 if (NaturalDefense == 1)
