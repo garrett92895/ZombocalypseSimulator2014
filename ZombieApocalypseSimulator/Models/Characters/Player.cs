@@ -95,7 +95,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             if (EquippedWeapon.Condition > 15)
             {
                 int Damage = EquippedWeapon.UseWeapon();
-                Damage += bonusPS();
+                
                 //return 1000;
                 return Damage;
             }
