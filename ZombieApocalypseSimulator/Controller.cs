@@ -47,7 +47,7 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Ctor and Run
-        public Controller(int Width = 15, int Height=15)
+        public Controller(int Width = 15, int Height = 15)
         {
             Field = new GameArea(Width, Height);
             Zeds = new List<Character>();
@@ -59,7 +59,7 @@ namespace ZombieApocalypseSimulator
         {
             while (true)
             {
-                Console.WriteLine("Start of Turn Order");
+                Console.WriteLine("Start of The Turn");
                 PlayerOrder = DetermineTurnOrder(Players);
                 ZedOrder = DetermineTurnOrder(Zeds);
 
@@ -119,7 +119,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="Location"></param>
         public void AddCharacterToField(Character C, Coordinate Location = null)
         {
-            if(Location == null)
+            if (Location == null)
             {
                 Location = Field.GetViableSquare();
             }
@@ -277,9 +277,9 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Melee attack");
                     MeleeAttack();
-                    if(CurrentPlayer.GetType() == typeof(Fighter))
+                    if (CurrentPlayer.GetType() == typeof(Fighter))
                     {
-                        SquaresLeft -= (int)MaxSquares / 4;    
+                        SquaresLeft -= (int)MaxSquares / 4;
                     }
                     else
                     {
@@ -582,14 +582,14 @@ namespace ZombieApocalypseSimulator
         /// Checks if the user has: a ranged weapon equipped, a non-empty clip in said weapon,
         /// and ammo to load. If any are false, reloading will fail. 
         /// </summary>
-        private void Reload()
-        {
-            Player Current = CurrentPlayer as Player;
-            if (Current.EquippedWeaponType().Equals("Ranged")
-                    && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
-            {
-            }
-        }
+        //private void Reload()
+        //{
+        //    Player Current = CurrentPlayer as Player;
+        //    if (Current.EquippedWeaponType().Equals("Ranged")
+        //            && Current.EquippedWeapon.CurrentClip().Count < Current.EquippedWeapon.CurrentClip.MagSize)
+        //    {
+        //    }
+        //}
 
         /// <summary>
         /// Performs a melee attack on a victim
@@ -598,7 +598,7 @@ namespace ZombieApocalypseSimulator
         {
             List<Character> PossibleVictims = Field.AdjacentCharacters(CurrentPlayer, false);
             Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
-            
+
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
             Console.WriteLine("Struck for " + TotalStrike);
@@ -608,7 +608,7 @@ namespace ZombieApocalypseSimulator
 
                 Console.WriteLine("Attack Hit!");
                 Console.WriteLine("Attacked for {0}", CharAttack.Damage);// + Damage);
-                if(NaturalStrike == 20)
+                if (NaturalStrike == 20)
                 {
                     CharAttack.Damage *= 2;
                     Console.WriteLine("Critical hit! Damage x2");
@@ -632,19 +632,19 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Enemy dodged for " + TotalDefense);
                     AttemptedToDefend = true;
                 }
-                
+
                 //Checks for a botch on the defender's part
-                if(NaturalDefense == 1)
+                if (NaturalDefense == 1)
                 {
                     Console.WriteLine("Enemy rolled a botch! Attacker damage x2");
                     CharAttack.Damage *= 2;
                 }
                 double Times = DetermineMultiplier(CurrentPlayer, Victim);
-                if(Times == 2)
+                if (Times == 2)
                 {
                     Console.WriteLine("Attack is twice as effective!");
                 }
-                else if(Times == .5)
+                else if (Times == .5)
                 {
                     Console.WriteLine("Attack is half as effective!");
                 }
@@ -745,7 +745,7 @@ namespace ZombieApocalypseSimulator
         {
             double Multiplier = 1;
 
-            if(Attacker.GetType() == typeof(Player))
+            if (Attacker.GetType() == typeof(Player))
             {
                 Player PlayerAttacker = (Player)Attacker;
                 if (PlayerAttacker.EquippedWeapon != null)
