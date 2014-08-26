@@ -37,6 +37,7 @@ namespace ZombieApocalypseSimulator
         #region Props and Backing Fields
         public GameArea Field { get; set; }
         private Character CurrentPlayer;
+        public ZombieAI AI { get; set; }
         private int MaxSquares;
         private int SquaresLeft;
         public List<Character> Zeds;
@@ -53,6 +54,7 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
+            AI = new ZombieAI();
         }
 
         public void Run()
@@ -307,6 +309,27 @@ namespace ZombieApocalypseSimulator
                 }
 
                 KillDeadCharacters();
+            }
+        }
+
+        private void PlayNextTurnAI()
+        {
+            SquaresLeft = CurrentPlayer.squares();
+            MaxSquares = SquaresLeft;
+            Console.WriteLine(Field.ToString());
+
+            List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
+            ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
+
+            if (BestAction.Equals(ActionTypes.Move))
+            {
+                Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
+                Field.MoveCharacterToSquare(CurrentPlayer, BestMove);
+
+            }
+            else
+            {
+                MeleeAttack(AI.DetermineAttack((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds));
             }
         }
 
