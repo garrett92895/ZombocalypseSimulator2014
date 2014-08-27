@@ -68,6 +68,7 @@
     <Compile Include="Models\Characters\Classes\Sloucher.cs" />
     <Compile Include="Models\Characters\Classes\StatusEffects.cs" />
     <Compile Include="Models\Characters\Classes\Tank.cs" />
+    <Compile Include="Models\Characters\Classes\Trader.cs" />
     <Compile Include="Models\Characters\Player.cs" />
     <Compile Include="Models\Characters\Zed.cs" />
     <Compile Include="Models\Items\Ammo.cs" />

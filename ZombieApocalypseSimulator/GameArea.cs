@@ -563,11 +563,11 @@ namespace ZombieApocalypseSimulator
         {
 
             List<Character> LegalTargets = new List<Character>();
+            Coordinate BeginCoor = new Coordinate(C.Location.X, C.Location.Y);
 
             foreach (Character Target in Targets)
             {
                 //Sets up the two points to begin the algorithm
-                Coordinate BeginCoor = new Coordinate(C.Location.X, C.Location.Y);
                 Coordinate EndCoor = new Coordinate(Target.Location.X, Target.Location.Y);
 
                 if (HasLineOfSight(BeginCoor, EndCoor))
@@ -589,32 +589,40 @@ namespace ZombieApocalypseSimulator
         /// <returns></returns>
         private bool HasLineOfSight(Coordinate BeginCoor, Coordinate EndCoor)
         {
-            //Finds out if the absolute value of the slope is 0 or 1
-            bool steep = Math.Abs(EndCoor.Y - BeginCoor.Y) > Math.Abs(EndCoor.X - BeginCoor.X);
+            int x0 = BeginCoor.Y;
+            int y0 = BeginCoor.X;
+            int x1 = EndCoor.Y;
+            int y1 = EndCoor.X;
+            ////Finds out if the absolute value of the slope is 0 or 1
+            bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
 
             //Massage the data to get it how we want it
             if (steep)
             {
-                int Temp = BeginCoor.Y;
-                BeginCoor.Y = BeginCoor.X;
-                BeginCoor.X = BeginCoor.Y;
-                Temp = EndCoor.Y;
-                EndCoor.Y = EndCoor.X;
-                EndCoor.X = Temp;
+                int Temp = y0;
+                y0 = x0;
+                x0 = Temp;
+                Temp = y1;
+                y1 = x1;
+                x1 = Temp;
             }
-            if (BeginCoor.X > EndCoor.X)
+
+            if (x0 > x1)
             {
-                Coordinate Temp = BeginCoor;
-                BeginCoor = EndCoor;
-                EndCoor = Temp;
+                int Temp = x0;
+                x0 = x1;
+                x1 = Temp;
+                Temp = y0;
+                y0 = y1;
+                y1 = Temp;
             }
 
             //Prepares variables needed for path
-            int deltax = EndCoor.X - BeginCoor.X;
-            int deltay = Math.Abs(EndCoor.Y - BeginCoor.Y);
+            int deltax = x1 - x0;
+            int deltay = Math.Abs(y1 - y0);
             int error = deltax / 2;
             int yIncrement;
-            if (BeginCoor.Y < EndCoor.Y)
+            if (y0 < y1)
             {
                 yIncrement = 1;
             }
@@ -622,12 +630,12 @@ namespace ZombieApocalypseSimulator
             {
                 yIncrement = -1;
             }
-            int y = BeginCoor.Y;
+            int y = y0;
 
             LocationComparer CoorCompare = new LocationComparer();
 
             //Iterates over every GridSquare in the line of sight to see if it is Closed or Occupied
-            for (int x = BeginCoor.X; x <= EndCoor.X; x++)
+            for (int x = x0 + 1; x < x1; x++)
             {
                 error -= deltay;
                 if (error < 0)
@@ -635,22 +643,27 @@ namespace ZombieApocalypseSimulator
                     y += yIncrement;
                     error += deltax;
                 }
-
                 Coordinate NextCoor;
                 if (steep)
                 {
-                    NextCoor = new Coordinate(y, x);
+                    NextCoor = new Coordinate(x, y);
                 }
                 else
                 {
-                    NextCoor = new Coordinate(x, y);
+                    NextCoor = new Coordinate(y, x);
                 }
-                GridSquare Examine = GetGridSquareAt(NextCoor);
 
-                if (!CoorCompare.Equals(EndCoor, NextCoor) && (!Examine.IsOccupiable || Examine.OccupyingCharacter != null))
+                try
                 {
-                    Console.WriteLine(NextCoor);
-                    return false;
+                    GridSquare Examine = GetGridSquareAt(NextCoor);
+                    if (!Examine.IsOccupiable || Examine.OccupyingCharacter != null)
+                    {
+                        return false;
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    //Do nothing
                 }
             }
             return true;
@@ -675,7 +688,7 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         public void ClearBoard()
         {
-            GridSquares = new GridSquare[Height, Width];
+            GridSquares = new GridSquare[Width, Height];
 
             for (int i = 0; i < Width; i++)
             {
@@ -693,13 +706,14 @@ namespace ZombieApocalypseSimulator
         public override string ToString()
         {
 
-            string ReturnValue = "";
+            string ReturnValue = "  0 1 2 3 4 5 6 7 8 9\n";
 
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Height; i++)
             {
-                for (int j = 0; j < Height; j++)
+                ReturnValue += i + "|";
+                for (int j = 0; j < Width; j++)
                 {
-                    ReturnValue += GridSquares[i, j].ToString() + "|";
+                    ReturnValue += GridSquares[j, i].ToString() + "|";
                 }
                 ReturnValue += "\n";
             }

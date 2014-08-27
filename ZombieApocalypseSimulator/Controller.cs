@@ -59,19 +59,16 @@ namespace ZombieApocalypseSimulator
         {
             while (true)
             {
-                Console.WriteLine("Start of The Turn");
+                Console.WriteLine("Start of The Turn Order");
                 PlayerOrder = DetermineTurnOrder(Players);
-                Console.WriteLine("Zed order calculation");
                 ZedOrder = DetermineTurnOrder(Zeds);
 
-                Console.WriteLine("Start of Player Round");
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
                     PlayNextTurn();
                 }
 
-                Console.WriteLine("Start of Zed Round");
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
@@ -434,10 +431,13 @@ namespace ZombieApocalypseSimulator
                 Character P = Players.ElementAt(i);
                 if (!P.isAlive)
                 {
+                    if (P.GetType() == typeof(Player))
+                    {
+                        CorpseSquares.Add(P.Location);
+                    }
                     Field.KillCharacter(P);
                     KilledCharacters.Add(i);
                     PlayerOrder.RemoveCharacter(P);
-                    CorpseSquares.Add(P.Location);
                 }
             }
             for (int i = 0; i < KilledCharacters.Count; i++)
@@ -580,7 +580,15 @@ namespace ZombieApocalypseSimulator
 
             int PlayerChoice = CIO.PromptForMenuSelection(ItemNames, false);
             Item PlayerChoiceItem = ItemsInSquare.ElementAt(PlayerChoice);
-            ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
+            if (PlayerChoiceItem.GetType() == typeof(Item))
+            {
+                ((Player)CurrentPlayer).Money += PlayerChoiceItem.Value;
+            }
+            else
+            {
+                ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
+            }
+            
             Field.RemoveItemInSquare(PlayerChoiceItem, CurrentPlayer.Location);
         }
 

@@ -209,6 +209,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         }
 
         public List<Item> Items { get; set; }
+        public int Money { get; set; }
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
 
