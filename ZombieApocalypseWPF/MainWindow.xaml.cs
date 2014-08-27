@@ -91,9 +91,9 @@ namespace ZombieApocalypseWPF
             Coordinate Coor4 = new Coordinate(4, 3);
             c.AddCharacterToField(NewPlayer4, Coor4);
 
-            //Character NewPlayer5 = new Fighter();
-            //Coordinate Coor5 = new Coordinate(0, 0);
-            //c.AddCharacterToField(NewPlayer5, Coor5);
+            Character NewPlayer5 = new Fighter();
+            Coordinate Coor5 = new Coordinate(0, 0);
+            c.AddCharacterToField(NewPlayer5, Coor5);
 
             Character NewPlayer6 = new Rifleman();
             Coordinate Coor6 = new Coordinate(5, 2);
