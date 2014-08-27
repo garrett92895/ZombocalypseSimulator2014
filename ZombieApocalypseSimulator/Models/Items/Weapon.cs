@@ -21,6 +21,7 @@ namespace ZombieApocalypseSimulator.Models.Items
             DieRoll ConditionDie = new DieRoll(2, 6);
             Condition -= ConditionDie.Roll();
 			
+            //change after demo
             return new DieRoll(10,60).Roll();
              
         }

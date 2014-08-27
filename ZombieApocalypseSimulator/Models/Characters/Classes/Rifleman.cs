@@ -48,7 +48,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public override int RangedAttack()
         {
-            byte hit = (byte)(DieRoll.RollOne(20));
+            byte hit = (byte)(new DieRoll(1, 20).Roll());
             hit += bonusToAttack();
             return hit;
         }

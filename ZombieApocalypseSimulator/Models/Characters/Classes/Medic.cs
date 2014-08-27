@@ -49,15 +49,15 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
                     int heal = 0;
                     if (DocsHealthPacks.Equals("A Small Health-kit"))
                     {
-                        heal = DieRoll.RollOne(10);
+                        heal = new DieRoll(1, 10).Roll();
                     }
                     else if(DocsHealthPacks.Equals("A Medium Health-kit"))
                     {
-                        heal = DieRoll.RollOne(20);
+                        heal = new DieRoll(2, 10).Roll();;
                     }
                     else if (DocsHealthPacks.Equals("A Large Health-kit"))
                     {
-                        heal = DieRoll.RollOne(30);
+                        heal = new DieRoll(3, 10).Roll(); ;
                     }
                     character.Health += heal;
                     Console.WriteLine("You heald for " + heal + "health points.");
@@ -72,7 +72,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             {
                 if (DocsHealthPacks.Count > 1)
                 {
-                    int rev = DieRoll.RollOne(20);
+                    int rev = new DieRoll(1, 20).Roll(); ;
                     if (rev >= 14)
                     {
                         revive = true;
