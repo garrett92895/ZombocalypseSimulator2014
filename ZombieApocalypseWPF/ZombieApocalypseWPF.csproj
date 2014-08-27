@@ -56,7 +56,6 @@
     <Compile Include="Converters\BoolToImageConverter.cs" />
     <Compile Include="Converters\CharacterToImageConverter.cs" />
     <Compile Include="Converters\ItemToImageConverter.cs" />
-    <Compile Include="Coordinate.cs" />
     <Compile Include="UserControls\CharacterControl.xaml.cs">
       <DependentUpon>CharacterControl.xaml</DependentUpon>
     </Compile>

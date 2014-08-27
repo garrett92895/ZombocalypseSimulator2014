@@ -17,13 +17,11 @@ namespace ZombieApocalypseWPF.Converters
         {
 
             Uri uri = null;
+            if (value is IEnumerable<Item>)
+                if (((List<Item>)value).Count > 0)
+                    uri = new Uri("Images/ItemImages/Items.png", UriKind.Relative);
 
-            if (value is Trap)
-                uri = new Uri("Images/ItemImages/Trap.png", UriKind.Relative);
-            else if (value is List<Item> && ((List<Item>)value).Count != 0)
-                uri = new Uri("Images/ItemImages/Items.png", UriKind.Relative);
-            else if (value is ObservableCollection<Item> && ((ObservableCollection<Item>)value).Count != 0)
-                uri = new Uri("Images/ItemImages/Items.png", UriKind.Relative);
+
 
             if (uri == null)
                 return Brushes.Firebrick;

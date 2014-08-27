@@ -15,14 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Models.Characters;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
-using ZombieApocalypseWPF.UserControls;
-using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseWPF
 {
