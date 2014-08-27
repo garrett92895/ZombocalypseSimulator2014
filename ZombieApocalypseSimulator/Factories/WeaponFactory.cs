@@ -36,7 +36,7 @@ namespace ZombieApocalypseSimulator.Factories
                     _weapon.Name = "Swiper";
                 }
                 _weapon.Condition = Rand.Next(90);
-                _weapon.Damage = Rand.Next(1,5)+"d"+Rand.Next(1,12);
+                _weapon.Damage = new DieRoll(Rand.Next(1,5), Rand.Next(1,12));
 
                 return _weapon;
             }
@@ -60,7 +60,7 @@ namespace ZombieApocalypseSimulator.Factories
                     _weapon.Name = "Boomstick";
                 }
                 _weapon.Condition = Rand.Next(60);
-                _weapon.Damage = Rand.Next(1, 7) + "d" + Rand.Next(1, 6);
+                _weapon.Damage = new DieRoll(Rand.Next(1, 7), Rand.Next(1, 6));
 
                 return _weapon;
             }
@@ -96,11 +96,11 @@ namespace ZombieApocalypseSimulator.Factories
                 }
                 else
                 {
-                    _weapon.MeleeWeaponType = MeleeWeaponType.Blunt;
+                    _weapon.MeleeWeaponType = MeleeWeaponType.Slash;
                     
                 }
                 _weapon.Condition = Int32.Parse(WeaponParams[3]);
-                _weapon.Damage = WeaponParams[4];
+                _weapon.Damage = MakeDieRollFromString(WeaponParams[4]);
                 return _weapon;
             }
             else
@@ -120,10 +120,18 @@ namespace ZombieApocalypseSimulator.Factories
                     _weapon.RangedWeaponType = RangedWeaponType.Shotgun;
                 }
                 _weapon.Condition = Int32.Parse(WeaponParams[3]);
-                _weapon.Damage = WeaponParams[4];
+                _weapon.Damage = MakeDieRollFromString(WeaponParams[4]);
                 _weapon.CurrentClip = new Magazine(20,Int32.Parse(WeaponParams[5]));
                 return _weapon;
             }
+        }
+
+        private static DieRoll MakeDieRollFromString(string DieRollString)
+        {
+            string[] DieValues = DieRollString.Split(new char[] {'d'});
+            int NumOfDice = Int32.Parse(DieValues[0]);
+            int NumOfSides = Int32.Parse(DieValues[1]);
+            return new DieRoll(NumOfDice, NumOfSides);
         }
 
     }
