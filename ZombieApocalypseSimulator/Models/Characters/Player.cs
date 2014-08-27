@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Models.Items.Enums;
@@ -17,13 +16,13 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public Weapon EquippedWeapon { get; set; }
         protected byte rollAttributes()
         {
-            byte roll = (byte)(Dice.Roll(3, 6));
+            byte roll = (byte)(DieRoll.RollOne(18));
             if (roll == 16 || roll == 17 || roll == 18)
             {
-                roll += (byte)(Dice.Roll(1, 6));
+                roll += (byte)(DieRoll.RollOne(6));
                 if (roll == 22 || roll == 23 || roll == 24)
                 {
-                    roll += (byte)(Dice.Roll(1, 6));
+                    roll += (byte)(DieRoll.RollOne(6));
                 }
             }
             byte attribute = (byte)roll;

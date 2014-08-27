@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 
@@ -18,10 +17,9 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             ItemLimit = 5;
             //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
             //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
-            Items.Add(new Health { AmountHealed = "2d10", Description = "A Medium Health-kit", Name = "Health Pack" });
             Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             Items.Add(WeaponFactory.GetInstance("Small Crowbar|Melee|Blunt|100|2d6"));
-            //EquippedWeapon = (Weapon)Items.ElementAt(0);
+            EquippedWeapon = (Weapon)Items.ElementAt(1);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();
             MentalAffinity = rollAttributes();
@@ -51,15 +49,15 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
                     int heal = 0;
                     if (DocsHealthPacks.Equals("A Small Health-kit"))
                     {
-                        heal = Dice.Roll(1, 10);
+                        heal = DieRoll.RollOne(10);
                     }
                     else if(DocsHealthPacks.Equals("A Medium Health-kit"))
                     {
-                        heal = Dice.Roll(2, 10);
+                        heal = DieRoll.RollOne(20);
                     }
                     else if (DocsHealthPacks.Equals("A Large Health-kit"))
                     {
-                        heal = Dice.Roll(3, 10);
+                        heal = DieRoll.RollOne(30);
                     }
                     character.Health += heal;
                     Console.WriteLine("You heald for " + heal + "health points.");
@@ -74,7 +72,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             {
                 if (DocsHealthPacks.Count > 1)
                 {
-                    int rev = Dice.Roll(1, 20);
+                    int rev = DieRoll.RollOne(20);
                     if (rev >= 14)
                     {
                         revive = true;

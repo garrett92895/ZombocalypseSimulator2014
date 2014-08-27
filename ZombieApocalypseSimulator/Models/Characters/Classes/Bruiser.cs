@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 
@@ -18,10 +17,9 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             ItemLimit = 5;
             //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
             //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
-            Items.Add(new Health { AmountHealed = "2d10", Description = "A Medium Health-kit", Name = "Health Pack" });
             Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             Items.Add(WeaponFactory.GetInstance("Small Crowbar|Melee|Blunt|100|2d6"));
-            //EquippedWeapon = (Weapon)Items.ElementAt(0);
+            EquippedWeapon = (Weapon)Items.ElementAt(0);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();
             MentalAffinity = rollAttributes();
@@ -36,14 +34,14 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public override int rollsdc()
         {
-            int armor = (12 + Dice.Roll(2, 6));
+            int armor = (12 + DieRoll.RollOne(12));
             return armor;
         }
 
         public bool Shout()
         {
             bool isEffective = false;
-            int shoutRoll = Dice.Roll(1, 30);
+            int shoutRoll = DieRoll.RollOne(30);
             if (shoutRoll <= MentalAffinity)
             {
                 isEffective = true;
