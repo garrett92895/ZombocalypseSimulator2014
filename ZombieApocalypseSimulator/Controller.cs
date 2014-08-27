@@ -166,7 +166,7 @@ namespace ZombieApocalypseSimulator
             //int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
             {
-                _characters[i].Initiative = DieRoll.RollOne(20);
+                _characters[i].Initiative = new DieRoll(1, 20).Roll();
             }
             //_characters.Sort(rolls);
             List<Character> SortedCharacters = _characters.OrderByDescending(c => c.Initiative).ToList();
@@ -229,7 +229,7 @@ namespace ZombieApocalypseSimulator
 
                     if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
-                        CurrentPlayer.Health -= DieRoll.RollOne(4);
+                        CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
                     }
                     if (CurrentPlayer.Equals(StatusEffects.Crippled))
                     {
@@ -241,7 +241,7 @@ namespace ZombieApocalypseSimulator
                     }
                     if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
-                        CurrentPlayer.Health -= DieRoll.RollOne(4);
+                        CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
                     }
                     if (CurrentPlayer.Equals(StatusEffects.Infected))
                     {

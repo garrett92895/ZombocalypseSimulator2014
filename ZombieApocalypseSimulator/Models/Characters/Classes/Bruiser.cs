@@ -34,14 +34,14 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public override int rollsdc()
         {
-            int armor = (12 + DieRoll.RollOne(12));
+            int armor = (12 + new DieRoll(2, 6).Roll());
             return armor;
         }
 
         public bool Shout()
         {
             bool isEffective = false;
-            int shoutRoll = DieRoll.RollOne(30);
+            int shoutRoll = new DieRoll(1, 30).Roll();
             if (shoutRoll <= MentalAffinity)
             {
                 isEffective = true;

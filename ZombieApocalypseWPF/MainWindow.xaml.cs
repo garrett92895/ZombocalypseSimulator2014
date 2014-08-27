@@ -15,14 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Models.Characters;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
-using ZombieApocalypseWPF.UserControls;
-using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseWPF
 {
@@ -132,13 +130,16 @@ namespace ZombieApocalypseWPF
 
 
 
-            Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
-            c.Field.GridSquares[1, 1].ActiveTrap = akbar;
+            //Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            //c.Field.GridSquares[1, 1].ActiveTrap = akbar;
 
 
             PlayerControl.CharacterType.Content = "Players";
             ZombieControl.CharacterType.Content = "Zombies";
 
+            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(9, 9);
+            c.AddItemToField(Gun, GunCoor);
 
             PopulateBoard();
 
@@ -191,17 +192,21 @@ namespace ZombieApocalypseWPF
                     b3.Source = c.Field.GridSquares[i, j];
                     b3.Converter = new BoolToImageConverter();
 
+                    Binding b4 = new Binding("ActualHeight");
+                    b4.Source = nc;
+
+
                     r.SetBinding(Rectangle.FillProperty, b);
-                    r.Height = 45;
-                    r.Width = 45;
+                    r.SetBinding(Rectangle.HeightProperty, b4);
+                    r.SetBinding(Rectangle.WidthProperty, b4);
 
                     r2.SetBinding(Rectangle.FillProperty, b2);
-                    r2.Height = 45;
-                    r2.Width = 45;
+                    r2.SetBinding(Rectangle.HeightProperty, b4);
+                    r2.SetBinding(Rectangle.WidthProperty, b4);
 
                     r3.SetBinding(Rectangle.FillProperty, b3);
-                    r3.Height = 50;
-                    r3.Width = 50;
+                    r3.SetBinding(Rectangle.HeightProperty, b4);
+                    r3.SetBinding(Rectangle.WidthProperty, b4);
 
                     nc.Children.Add(r2);
                     nc.Children.Add(r);

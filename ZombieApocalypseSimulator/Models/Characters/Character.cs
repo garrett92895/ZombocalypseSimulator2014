@@ -379,15 +379,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
             byte bonus = 0;
             byte level = (byte)Level;
             Level++;
-            MaxHealth += DieRoll.RollOne(6);
-            MaxSDC += DieRoll.RollOne(4);
-            IntelligenceQuotient += DieRoll.RollOne(3);
-            MentalEndurance += DieRoll.RollOne(3);
-            MentalAffinity += DieRoll.RollOne(3);
-            PhysicalStrength += DieRoll.RollOne(3);
-            PhysicalProwess += DieRoll.RollOne(3);
-            PhysicalBeauty += DieRoll.RollOne(3);
-            PhysicalEndurance += DieRoll.RollOne(3);
+            MaxHealth += new DieRoll(1, 6).Roll();
+            MaxSDC += new DieRoll(1, 4).Roll();
+            IntelligenceQuotient += new DieRoll(1, 3).Roll();
+            MentalEndurance += new DieRoll(1, 3).Roll();
+            MentalAffinity += new DieRoll(1, 3).Roll();
+            PhysicalStrength += new DieRoll(1, 3).Roll();
+            PhysicalProwess += new DieRoll(1, 3).Roll();
+            PhysicalBeauty += new DieRoll(1, 3).Roll();
+            PhysicalEndurance += new DieRoll(1, 3).Roll();
             return bonus;
         }
         public byte LevelDown()
@@ -395,15 +395,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
             byte bonus = 0;
             byte level = (byte)Level;
             Level--;
-            MaxHealth -= DieRoll.RollOne(6);
-            MaxSDC -= DieRoll.RollOne(4);
-            IntelligenceQuotient -= DieRoll.RollOne(3);
-            MentalEndurance -= DieRoll.RollOne(3);
-            MentalAffinity -= DieRoll.RollOne(3);
-            PhysicalStrength -= DieRoll.RollOne(3);
-            PhysicalProwess -= DieRoll.RollOne(3);
-            PhysicalBeauty -= DieRoll.RollOne(3);
-            PhysicalEndurance -= DieRoll.RollOne(3);
+            MaxHealth -= new DieRoll(1, 6).Roll();
+            MaxSDC -= new DieRoll(1, 4).Roll(); ;
+            IntelligenceQuotient -= new DieRoll(1, 3).Roll();
+            MentalEndurance -= new DieRoll(1, 3).Roll();
+            MentalAffinity -= new DieRoll(1, 3).Roll();
+            PhysicalStrength -= new DieRoll(1, 3).Roll();
+            PhysicalProwess -= new DieRoll(1, 3).Roll();
+            PhysicalBeauty -= new DieRoll(1, 3).Roll();
+            PhysicalEndurance -= new DieRoll(1, 3).Roll();
             return bonus;
         }
 
