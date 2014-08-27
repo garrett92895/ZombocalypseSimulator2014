@@ -15,14 +15,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Models.Characters;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
-using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
-using ZombieApocalypseWPF.UserControls;
-using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseWPF
 {
@@ -91,9 +89,9 @@ namespace ZombieApocalypseWPF
             Coordinate Coor4 = new Coordinate(4, 3);
             c.AddCharacterToField(NewPlayer4, Coor4);
 
-            //Character NewPlayer5 = new Fighter();
-            //Coordinate Coor5 = new Coordinate(0, 0);
-            //c.AddCharacterToField(NewPlayer5, Coor5);
+            Character NewPlayer5 = new Fighter();
+            Coordinate Coor5 = new Coordinate(0, 0);
+            c.AddCharacterToField(NewPlayer5, Coor5);
 
             Character NewPlayer6 = new Rifleman();
             Coordinate Coor6 = new Coordinate(5, 2);
@@ -125,18 +123,39 @@ namespace ZombieApocalypseWPF
             Coordinate ZedCoor6 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed6, ZedCoor6);
 
-            //Item Gun = WeaponFactory.GetInstance("Ranged|Shotgun|80|3d6|4");
-            //Coordinate GunCoor = new Coordinate(1, 2);
-            //c.AddItemToField(Gun, GunCoor);
+            PlayerControl.CharacterComboBox.ItemsSource = c.Players;
+            PlayerControl.CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
+            ZombieControl.CharacterComboBox.ItemsSource = c.Zeds;
+            ZombieControl.CharacterComboBox.SelectionChanged += ZombieComboBox_SelectionChanged;
 
-             //Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+
+
+            //Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            //c.Field.GridSquares[1, 1].ActiveTrap = akbar;
+
 
             PlayerControl.CharacterType.Content = "Players";
             ZombieControl.CharacterType.Content = "Zombies";
 
+            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(9, 9);
+            c.AddItemToField(Gun, GunCoor);
 
             PopulateBoard();
 
+        }
+
+        private void ZombieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            this.SelectedZombie = (Zed)cb.SelectedItem;
+            
+        }
+
+        private void PlayerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            this.SelectedPlayer = (Player)cb.SelectedItem;
         }
 
         private void PopulateBoard()
@@ -168,27 +187,30 @@ namespace ZombieApocalypseWPF
                     Binding b2 = new Binding("ItemList");
                     b2.Source = c.Field.GridSquares[i, j];
                     b2.Converter = new ItemToImageConverter();
-                    
+
                     Binding b3 = new Binding("IsOccupiable");
                     b3.Source = c.Field.GridSquares[i, j];
                     b3.Converter = new BoolToImageConverter();
 
+                    Binding b4 = new Binding("ActualHeight");
+                    b4.Source = nc;
+
+
                     r.SetBinding(Rectangle.FillProperty, b);
-                    r.Height = 45;
-                    r.Width = 45;
+                    r.SetBinding(Rectangle.HeightProperty, b4);
+                    r.SetBinding(Rectangle.WidthProperty, b4);
 
                     r2.SetBinding(Rectangle.FillProperty, b2);
-                    r2.Height = 45;
-                    r2.Width = 45;
+                    r2.SetBinding(Rectangle.HeightProperty, b4);
+                    r2.SetBinding(Rectangle.WidthProperty, b4);
 
                     r3.SetBinding(Rectangle.FillProperty, b3);
-                    r3.Height = 50;
-                    r3.Width = 50;
-
-                    nc.Children.Add(r3);
+                    r3.SetBinding(Rectangle.HeightProperty, b4);
+                    r3.SetBinding(Rectangle.WidthProperty, b4);
 
                     nc.Children.Add(r2);
                     nc.Children.Add(r);
+                    nc.Children.Add(r3);
 
                     nc.Margin = new Thickness(1);
                     nc.Background = Brushes.Firebrick;
@@ -239,6 +261,9 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
+
+            if (tempgq.OccupyingCharacter != null)
+                return;
 
             tempgq.IsOccupiable = !tempgq.IsOccupiable;
 

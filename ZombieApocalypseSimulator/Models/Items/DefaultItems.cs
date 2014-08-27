@@ -11,13 +11,13 @@ namespace ZombieApocalypseSimulator.Models.Items
 	{
 		public static List<MeleeWeapon> MeleeWeaponList = new List<MeleeWeapon>
 		{
-			new MeleeWeapon { Condition = 100, Damage = "1d6", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Slash, Name = "Survival Knife", IgnoresAR = false},
-			new MeleeWeapon { Condition = 100, Damage = "3d6", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Slash, Name = "Machete", IgnoresAR = true},
-			new MeleeWeapon { Condition = 100, Damage = "2d8", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Pierce, Name = "Rapier", IgnoresAR = true},
-			new MeleeWeapon { Condition = 100, Damage = "2d4", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Pierce, Name = "Shiv", IgnoresAR = true},
-			new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false},
-			new MeleeWeapon { Condition = 100, Damage = "2d8", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Large Crowbar", IgnoresAR = false},
-			new MeleeWeapon { Condition = 100, Damage = "2d12", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Blunt, Name = "12-pound sledgehammer", IgnoresAR = false}
+            //new MeleeWeapon { Condition = 100, Damage = "1d6", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Slash, Name = "Survival Knife", IgnoresAR = false},
+            //new MeleeWeapon { Condition = 100, Damage = "3d6", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Slash, Name = "Machete", IgnoresAR = true},
+            //new MeleeWeapon { Condition = 100, Damage = "2d8", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Pierce, Name = "Rapier", IgnoresAR = true},
+            //new MeleeWeapon { Condition = 100, Damage = "2d4", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Pierce, Name = "Shiv", IgnoresAR = true},
+            //new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false},
+            //new MeleeWeapon { Condition = 100, Damage = "2d8", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Large Crowbar", IgnoresAR = false},
+            //new MeleeWeapon { Condition = 100, Damage = "2d12", IsEquiped = false, MeleeWeaponType = MeleeWeaponType.Blunt, Name = "12-pound sledgehammer", IgnoresAR = false}
 		};
 
 		public static List<RangedWeapon> RangedWeaponList = new List<RangedWeapon>

@@ -49,7 +49,6 @@
     <Compile Include="CharacterStack.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Coordinate.cs" />
-    <Compile Include="Dice.cs" />
     <Compile Include="Factories\WeaponFactory.cs" />
     <Compile Include="Factories\ZedFactory.cs" />
     <Compile Include="DieRoll.cs" />

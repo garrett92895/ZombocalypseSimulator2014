@@ -4,17 +4,29 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
-
     public abstract class Character : INotifyPropertyChanged, IComparable, IComparable<Character>
-
     {
 
-        public int MaxHealth { get; set; }
+
+        private int _MaxHealth;
+        public int MaxHealth 
+        {
+            get 
+            {
+                return _MaxHealth;
+            }
+            set
+            {
+                _MaxHealth = value;
+
+                NotifyPropertyChanged("MaxHealth");
+            }
+        }
+
         private int _Health;
         public int Health
         {
@@ -213,8 +225,35 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
 
-        public int MaxSDC { get; set; }
-        public int sdc { get; set; }
+        private int _MaxSDC;
+        public int MaxSDC 
+        {
+            get
+            {
+                return _MaxSDC;
+            }
+            set
+            {
+                _MaxSDC = value;
+
+                NotifyPropertyChanged("MaxSDC");
+            }
+        }
+
+        private int _SDC = 0;
+        public int SDC
+        {
+            get
+            {
+                return _SDC;
+            }
+            set
+            {
+                _SDC = value;
+
+                NotifyPropertyChanged("SDC");
+            }
+        }
 
         private int _initiative { get; set; }
         public int Initiative
@@ -233,8 +272,8 @@ namespace ZombieApocalypseSimulator.Models.Characters
         {
             Health = rollHP();
             MaxHealth = Health;
-            sdc = rollsdc();
-            MaxSDC = sdc;
+            SDC = rollsdc();
+            MaxSDC = SDC;
             isAlive = true;
         }
 
@@ -243,10 +282,10 @@ namespace ZombieApocalypseSimulator.Models.Characters
             int dam = attack.Damage;
             if (!attack.IsPiercing)
             {
-                while (dam != 0 && sdc != 0)
+                while (dam != 0 && SDC != 0)
                 {
                     dam--;
-                    sdc--;
+                    SDC--;
                 }
             }
             Health -= dam;
@@ -322,7 +361,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             string s = "";
             s += "Class: NotImplemented";
             s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + sdc + "/" + MaxSDC;
+            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
             s += "\r\nLevel: " + Level;
             s += "\r\nSpeed: " + Speed;            
             s += "\r\nIQ: " + IntelligenceQuotient;
@@ -341,15 +380,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
             byte bonus = 0;
             byte level = (byte)Level;
             Level++;
-            MaxHealth += Dice.Roll(1, 6);
-            MaxSDC += Dice.Roll(1, 4);
-            IntelligenceQuotient += Dice.Roll(1, 3);
-            MentalEndurance += Dice.Roll(1, 3);
-            MentalAffinity += Dice.Roll(1, 3);
-            PhysicalStrength += Dice.Roll(1, 3);
-            PhysicalProwess += Dice.Roll(1, 3);
-            PhysicalBeauty += Dice.Roll(1, 3);
-            PhysicalEndurance += Dice.Roll(1, 3);
+            MaxHealth += new DieRoll(1, 6).Roll();
+            MaxSDC += new DieRoll(1, 4).Roll();
+            IntelligenceQuotient += new DieRoll(1, 3).Roll();
+            MentalEndurance += new DieRoll(1, 3).Roll();
+            MentalAffinity += new DieRoll(1, 3).Roll();
+            PhysicalStrength += new DieRoll(1, 3).Roll();
+            PhysicalProwess += new DieRoll(1, 3).Roll();
+            PhysicalBeauty += new DieRoll(1, 3).Roll();
+            PhysicalEndurance += new DieRoll(1, 3).Roll();
             return bonus;
         }
         public byte LevelDown()
@@ -357,15 +396,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
             byte bonus = 0;
             byte level = (byte)Level;
             Level--;
-            MaxHealth -= Dice.Roll(1, 6);
-            MaxSDC -= Dice.Roll(1, 4);
-            IntelligenceQuotient -= Dice.Roll(1, 3);
-            MentalEndurance -= Dice.Roll(1, 3);
-            MentalAffinity -= Dice.Roll(1, 3);
-            PhysicalStrength -= Dice.Roll(1, 3);
-            PhysicalProwess -= Dice.Roll(1, 3);
-            PhysicalBeauty -= Dice.Roll(1, 3);
-            PhysicalEndurance -= Dice.Roll(1, 3);
+            MaxHealth -= new DieRoll(1, 6).Roll();
+            MaxSDC -= new DieRoll(1, 4).Roll(); ;
+            IntelligenceQuotient -= new DieRoll(1, 3).Roll();
+            MentalEndurance -= new DieRoll(1, 3).Roll();
+            MentalAffinity -= new DieRoll(1, 3).Roll();
+            PhysicalStrength -= new DieRoll(1, 3).Roll();
+            PhysicalProwess -= new DieRoll(1, 3).Roll();
+            PhysicalBeauty -= new DieRoll(1, 3).Roll();
+            PhysicalEndurance -= new DieRoll(1, 3).Roll();
             return bonus;
         }
 
@@ -381,7 +420,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -390,11 +428,9 @@ namespace ZombieApocalypseSimulator.Models.Characters
             throw new NotImplementedException();
         }
 
-
         public int CompareTo(Character other)
         {
             throw new NotImplementedException();
         }
-
     }
 }

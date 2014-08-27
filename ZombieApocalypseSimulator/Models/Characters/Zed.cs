@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 using ZombieApocalypseSimulator.Models.Characters;
 
 
@@ -11,6 +10,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 {
     public abstract class Zed : Character
     {
+        public bool HasAttacked { get; set; }
         public Zed()
         {
             IntelligenceQuotient = 1;
@@ -29,7 +29,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             string s = "";
             s += "";
             s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + sdc + "/" + MaxSDC;
+            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
             s += "\r\nLevel: " + Level;
             s += "\r\nSpeed: " + Speed;
             s += "\r\nIQ: " + IntelligenceQuotient;

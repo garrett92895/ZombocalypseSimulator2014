@@ -120,7 +120,7 @@
     <Content Include="Images\CharacterImages\FastAttack.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Images\CharacterImages\Figther.png">
+    <Content Include="Images\CharacterImages\Fighter.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\CharacterImages\HalfZombie.png">

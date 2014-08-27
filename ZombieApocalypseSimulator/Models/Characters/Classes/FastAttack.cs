@@ -18,7 +18,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             PhysicalEndurance = DieRoll.RollOne(6) + 15;
             Speed = DieRoll.RollOne(7) + 16;
 			MaxSDC = rollsdc();
-			sdc = MaxSDC;
+			SDC = MaxSDC;
 			MaxHealth = rollHP();
 			Health = MaxHealth;
         }

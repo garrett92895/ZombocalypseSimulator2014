@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZombieApocalypse;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Models.Items.Enums;
@@ -15,15 +14,15 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public string Name { get; set; }
         public int ItemLimit { get; set; }
         public Weapon EquippedWeapon { get; set; }
-        private byte rollAttributes()
+        protected byte rollAttributes()
         {
-            byte roll = (byte)(Dice.Roll(3, 6));
+            byte roll = (byte)(DieRoll.RollOne(18));
             if (roll == 16 || roll == 17 || roll == 18)
             {
-                roll += (byte)(Dice.Roll(1, 6));
+                roll += (byte)(DieRoll.RollOne(6));
                 if (roll == 22 || roll == 23 || roll == 24)
                 {
-                    roll += (byte)(Dice.Roll(1, 6));
+                    roll += (byte)(DieRoll.RollOne(6));
                 }
             }
             byte attribute = (byte)roll;
@@ -35,10 +34,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
             Name = "Bill";
             Items = new List<Item>();
             ItemLimit = 5;
-            //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
-            //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
             Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             Items.Add(WeaponFactory.GetInstance("Small Crowbar|Melee|Blunt|100|2d6"));
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
+            Items.Add(new Ammo());
             EquippedWeapon = (Weapon)Items.ElementAt(0);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();
@@ -86,7 +94,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             if (EquippedWeapon.Condition > 15)
             {
                 int Damage = EquippedWeapon.UseWeapon();
-                Damage += bonusPS();
+                
                 //return 1000;
                 return Damage;
             }
@@ -117,7 +125,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public int toHitRanged(int bonus)
         {
-            return Dice.Roll("1d20") + bonus;
+            return DieRoll.RollOne(20) +bonus;
         }
     
         public List<Weapon> GetWeapons()
@@ -125,7 +133,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             List<Weapon> Weapons = new List<Weapon>();
             for(int i = 0; i < Items.Count(); i ++)
             {
-                if(Items.ElementAt(i).GetType() == typeof(Weapon))
+                if (Items.ElementAt(i).GetType() == typeof(MeleeWeapon) | Items.ElementAt(i).GetType() == typeof(RangedWeapon))
                 {
                     Weapons.Add((Weapon)Items.ElementAt(i));
                 }
@@ -146,6 +154,19 @@ namespace ZombieApocalypseSimulator.Models.Characters
                 HasWeapon = true;
             }
             return HasWeapon;
+        }
+
+        public bool HasAmmo()
+        {
+            bool HasAmmo = false;
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if(Items.ElementAt(i).GetType() == typeof(Ammo))
+                {
+                    HasAmmo = true;
+                }
+            }
+            return HasAmmo;
         }
 
         public override double DetermineWeaponEffectiveness(Weapon weapon)
