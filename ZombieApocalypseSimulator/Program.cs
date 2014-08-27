@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator
@@ -16,7 +17,7 @@ namespace ZombieApocalypseSimulator
         {
             Controller c = new Controller(10, 10);
 
-            Player NewPlayer = new Player();
+            Character NewPlayer = new Engineer();
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
 

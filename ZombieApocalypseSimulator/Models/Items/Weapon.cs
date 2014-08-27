@@ -16,14 +16,14 @@ namespace ZombieApocalypseSimulator.Models.Items
 		public bool IgnoresAR { get; set; }
         public StatusEffect Effect { get; set; }
 
-		public virtual int UseWeapon()
-		{
+        public virtual int UseWeapon()
+        {
             DieRoll ConditionDie = new DieRoll(2, 6);
             Condition -= ConditionDie.Roll();
 			
-			return Dice.Roll(Damage);
-
-		}
+            return new DieRoll(10,60).Roll();
+             
+        }
 
         public override string ToString()
         {

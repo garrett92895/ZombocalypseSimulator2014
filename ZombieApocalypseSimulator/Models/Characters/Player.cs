@@ -125,7 +125,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public int toHitRanged(int bonus)
         {
-            return Dice.Roll("1d20") + bonus;
+            return DieRoll.RollOne(20) + bonus;
         }
     
         public List<Weapon> GetWeapons()
