@@ -703,6 +703,10 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Attack is twice as effective!");
                 }
+                else if(Times == 1.5)
+                {
+                    Console.WriteLine("Attack is 1.5 times as effective!");
+                }
                 else if (Times == .5)
                 {
                     Console.WriteLine("Attack is half as effective!");

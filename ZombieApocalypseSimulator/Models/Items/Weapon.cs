@@ -21,7 +21,7 @@ namespace ZombieApocalypseSimulator.Models.Items
             DieRoll ConditionDie = new DieRoll(2, 6);
             Condition -= ConditionDie.Roll();
 			
-			return Dice.Roll(Damage);
+			return DieRoll.RollOne(10);
 
 		}
 

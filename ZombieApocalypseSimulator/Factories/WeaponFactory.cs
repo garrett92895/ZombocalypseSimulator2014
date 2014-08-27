@@ -96,7 +96,7 @@ namespace ZombieApocalypseSimulator.Factories
                 }
                 else
                 {
-                    _weapon.MeleeWeaponType = MeleeWeaponType.Slash;
+                    _weapon.MeleeWeaponType = MeleeWeaponType.Blunt;
                     
                 }
                 _weapon.Condition = Int32.Parse(WeaponParams[3]);
