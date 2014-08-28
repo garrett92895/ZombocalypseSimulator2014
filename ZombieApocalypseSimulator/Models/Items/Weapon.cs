@@ -10,7 +10,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
 	public abstract class Weapon : Item
 	{
-		public string Damage { get; set; }
+		public DieRoll Damage { get; set; }
 		public bool IsEquiped { get; set; }
 		public int Condition { get; set; }
 		public bool IgnoresAR { get; set; }
@@ -20,10 +20,7 @@ namespace ZombieApocalypseSimulator.Models.Items
         {
             DieRoll ConditionDie = new DieRoll(2, 6);
             Condition -= ConditionDie.Roll();
-			
-            //change after demo
-            return new DieRoll(10,60).Roll();
-             
+            return Damage.Roll();
         }
 
         public override string ToString()

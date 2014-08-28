@@ -11,7 +11,6 @@ namespace ZombieApocalypseSimulator.Models.Items
 	public class MeleeWeapon : Weapon
 	{
 		public MeleeWeaponType MeleeWeaponType { get; set; }
-        public StatusEffect Effect { get; set; }
 
 	}
 }

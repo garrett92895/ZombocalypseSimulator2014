@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator
 {
     public class Attack
     {
+        public Weapon AttackerWeapon { get; set; }
         public int Damage { get; set; }
         public bool IsPiercing { get; set; }
 

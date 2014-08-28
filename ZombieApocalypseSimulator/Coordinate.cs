@@ -19,7 +19,7 @@ namespace ZombieApocalypseSimulator
 
         public override string ToString()
         {
-            return "Move to (" + X + ", " + Y + ")";
+            return "(" + X + ", " + Y + ")";
         }
     }
 }

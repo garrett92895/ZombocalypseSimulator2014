@@ -221,6 +221,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         }
 
         public List<Item> Items { get; set; }
+        public int Money { get; set; }
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }
 
@@ -355,10 +356,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public abstract double DetermineWeaponEffectiveness(Weapon weapon);
 
+
         public override string ToString()
         {
             string s = "";
-            s += "Class: NotImplemented";
+            s += "Class: "+this.GetType().Name;
             s += "\r\nHealth: " + Health + "/" + MaxHealth;
             s += "\r\nSDC: " + SDC + "/" + MaxSDC;
             s += "\r\nLevel: " + Level;
@@ -370,6 +372,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             s += "\r\nPP: " + PhysicalProwess;
             s += "\r\nPB: " + PhysicalBeauty;
             s += "\r\nPE: " + PhysicalEndurance;
+            s += "\r\nMoney: " + Money;
 
             return s;
         }

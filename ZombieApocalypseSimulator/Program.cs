@@ -15,15 +15,23 @@ namespace ZombieApocalypseSimulator
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(120, 76);
+            Console.SetWindowSize(120, 50);
             Controller c = new Controller(10, 10);
 
-            Character NewPlayer = new Engineer();
+            Character NewPlayer = new Player();
+            NewPlayer.Money = 100;
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
 
-            Character Zed1 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor1 = new Coordinate(1, 2);
+            Item Money = new Item();
+            Money.Name = "Money";
+            Money.Description = "It's Money";
+            Money.Value = 100;
+            Coordinate ItemCoor = new Coordinate(2,3);
+            c.AddItemToField(Money,ItemCoor);
+
+            Character Zed1 = ZedFactory.GetInstance("Shank");
+            Coordinate ZedCoor1 = new Coordinate(5, 3);
             c.AddCharacterToField(Zed1, ZedCoor1);
 
             //Character Zed2 = ZedFactory.GetInstance("Tank");
@@ -39,6 +47,7 @@ namespace ZombieApocalypseSimulator
             //c.AddCharacterToField(Zed4, ZedCoor4);
 
             //Character Zed5 = ZedFactory.GetInstance("Sloucher");
+
             //Coordinate ZedCoor5 = new Coordinate(2, 7);
             //c.AddCharacterToField(Zed5, ZedCoor5);
 
@@ -54,10 +63,6 @@ namespace ZombieApocalypseSimulator
             //Coordinate ZedCoor8 = new Coordinate(3, 9);
             //c.AddCharacterToField(Zed8, ZedCoor8);
 
-
-            //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
-            //NewPlayer.EquippedWeapon = Gun;
-            //Console.WriteLine(NewPlayer.EquippedWeapon.Damage);
 
             c.Run();
         }
