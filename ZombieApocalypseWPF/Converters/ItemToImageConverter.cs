@@ -21,10 +21,12 @@ namespace ZombieApocalypseWPF.Converters
                 if (((List<Item>)value).Count > 0)
                     uri = new Uri("Images/ItemImages/Items.png", UriKind.Relative);
 
+            if (value is Trap)
+                uri = new Uri("Images/ItemImages/Trap.png", UriKind.Relative);
 
 
             if (uri == null)
-                return Brushes.Firebrick;
+                return Brushes.Transparent;
 
             ImageSource i = new BitmapImage(uri);
             return new ImageBrush(i);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Factories;
+using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Models.Items.Enums;
 

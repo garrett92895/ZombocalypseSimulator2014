@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZombieApocalypseSimulator.Models.Items.Enums
+namespace ZombieApocalypseSimulator.Models.Enums
 {
     public enum StatusEffect
     {

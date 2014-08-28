@@ -35,7 +35,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         private bool turnningCheck(byte roll)
         {
-            byte check = new DieRoll(1, 20).Roll(); ;
+            byte check = (byte)new DieRoll(1, 20).Roll(); ;
             if (roll == 2)
             {
                 if (check <= 2)

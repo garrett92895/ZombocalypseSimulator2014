@@ -21,6 +21,7 @@ using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
+using ZombieApocalypseSimulator.Models.Enums;
 
 namespace ZombieApocalypseWPF
 {
@@ -66,96 +67,42 @@ namespace ZombieApocalypseWPF
             InitializeComponent();
             PlayerControl.Level_Up_Button.Click += Level_Up_Player_Button_Click;
             PlayerControl.Level_Down_Button.Click += Level_Down_Player_Button_Click;
+
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
             ZombieControl.Level_Down_Button.Click += Level_Down_Zombie_Button_Click;
 
+
             c = new Controller();
-            Character NewPlayer = new Bruiser();
+
+            Character NewPlayer = new HalfZombie();
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
-            PlayerControl.c = NewPlayer;
             SelectedPlayer = (Player)NewPlayer;
 
-            Character NewPlayer2 = new Medic();
-            Coordinate Coor2 = new Coordinate(3, 3);
-            c.AddCharacterToField(NewPlayer2, Coor2);
-
-            Character NewPlayer3 = new HalfZombie();
-            Coordinate Coor3 = new Coordinate(4, 2);
-            c.AddCharacterToField(NewPlayer3, Coor3);
-
-
-            Character NewPlayer4 = new Engineer();
-            Coordinate Coor4 = new Coordinate(4, 3);
-            c.AddCharacterToField(NewPlayer4, Coor4);
-
-            Character NewPlayer5 = new Fighter();
-            Coordinate Coor5 = new Coordinate(0, 0);
-            c.AddCharacterToField(NewPlayer5, Coor5);
-
-            Character NewPlayer6 = new Rifleman();
-            Coordinate Coor6 = new Coordinate(5, 2);
-            c.AddCharacterToField(NewPlayer6, Coor6);
-
-            Character Zed1 = ZedFactory.GetInstance("Tank");
-            Coordinate ZedCoor1 = new Coordinate(1, 2);
-            c.AddCharacterToField(Zed1, ZedCoor1);
-            ZombieControl.c = Zed1;
-            SelectedZombie = (Zed)Zed1;
-
-            Character Zed2 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor2 = new Coordinate(8, 9);
-            c.AddCharacterToField(Zed2, ZedCoor2);
-
             Character Zed3 = ZedFactory.GetInstance("Shank");
-            Coordinate ZedCoor3 = new Coordinate(7, 7);
+            Coordinate ZedCoor3 = new Coordinate(5, 5);
             c.AddCharacterToField(Zed3, ZedCoor3);
+            SelectedZombie = (Zed)Zed3;
 
-            Character Zed4 = ZedFactory.GetInstance("FastAttack");
-            Coordinate ZedCoor4 = new Coordinate(7, 8);
-            c.AddCharacterToField(Zed4, ZedCoor4);
+            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(3, 3);
+            c.AddItemToField(Gun, GunCoor);
 
-            Character Zed5 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor5 = new Coordinate(7, 9);
-            c.AddCharacterToField(Zed5, ZedCoor5);
-
-            Character Zed6 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor6 = new Coordinate(5, 5);
-            c.AddCharacterToField(Zed6, ZedCoor6);
+            Trap akbar = new Trap { Damage = "1d2", Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            c.AddTrapToField(akbar, new Coordinate(5, 4));
 
             PlayerControl.CharacterComboBox.ItemsSource = c.Players;
             PlayerControl.CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
+
             ZombieControl.CharacterComboBox.ItemsSource = c.Zeds;
             ZombieControl.CharacterComboBox.SelectionChanged += ZombieComboBox_SelectionChanged;
 
 
-
-            //Trap akbar = new Trap { Damage = "1d6", Description = "The destroyer of feet", Name = "Legos", StatusEffect = StatusEffect.Crippled };
-            //c.Field.GridSquares[1, 1].ActiveTrap = akbar;
-
-
             PlayerControl.CharacterType.Content = "Players";
             ZombieControl.CharacterType.Content = "Zombies";
-
-            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
-            Coordinate GunCoor = new Coordinate(9, 9);
-            c.AddItemToField(Gun, GunCoor);
-
+            
             PopulateBoard();
 
-        }
-
-        private void ZombieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox cb = (ComboBox)sender;
-            this.SelectedZombie = (Zed)cb.SelectedItem;
-            
-        }
-
-        private void PlayerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox cb = (ComboBox)sender;
-            this.SelectedPlayer = (Player)cb.SelectedItem;
         }
 
         private void PopulateBoard()
@@ -169,51 +116,50 @@ namespace ZombieApocalypseWPF
                 for (int j = 0; j < Board.Columns; j++)
                 {
                     Canvas nc = new Canvas();
-                    //nc.Resources.Add("Trap", c.Field.GridSquares[i, j].ActiveTrap);
-                    //nc.Resources.Add("Coordinate", c.Field.GridSquares[i, j].Coordinate);
-                    //nc.Resources.Add("IsOccupiable", c.Field.GridSquares[i, j].IsOccupiable);
-                    //nc.Resources.Add("ItemList", c.Field.GridSquares[i, j].ItemList);
-                    //nc.Resources.Add("Character", c.Field.GridSquares[i, j].OccupyingCharacter);
                     nc.Resources.Add("Square", c.Field.GridSquares[i, j]);
 
-                    Rectangle r = new Rectangle();
-                    Rectangle r2 = new Rectangle();
-                    Rectangle r3 = new Rectangle();
-
-                    Binding b = new Binding("OccupyingCharacter");
-                    b.Source = c.Field.GridSquares[i, j]; 
-                    b.Converter = new CharacterToImageConverter();
-                    
-                    Binding b2 = new Binding("ItemList");
-                    b2.Source = c.Field.GridSquares[i, j];
-                    b2.Converter = new ItemToImageConverter();
-
-                    Binding b3 = new Binding("IsOccupiable");
-                    b3.Source = c.Field.GridSquares[i, j];
-                    b3.Converter = new BoolToImageConverter();
-
-                    Binding b4 = new Binding("ActualHeight");
-                    b4.Source = nc;
 
 
-                    r.SetBinding(Rectangle.FillProperty, b);
-                    r.SetBinding(Rectangle.HeightProperty, b4);
-                    r.SetBinding(Rectangle.WidthProperty, b4);
+                    Binding HeightBind = new Binding("ActualHeight");
+                    HeightBind.Source = nc;
 
-                    r2.SetBinding(Rectangle.FillProperty, b2);
-                    r2.SetBinding(Rectangle.HeightProperty, b4);
-                    r2.SetBinding(Rectangle.WidthProperty, b4);
+                    Rectangle CharRec = new Rectangle();
+                    Binding CharBind = new Binding("OccupyingCharacter");
+                    CharBind.Source = c.Field.GridSquares[i, j];
+                    CharBind.Converter = new CharacterToImageConverter();
+                    CharRec.SetBinding(Rectangle.FillProperty, CharBind);
+                    CharRec.SetBinding(Rectangle.HeightProperty, HeightBind);
+                    CharRec.SetBinding(Rectangle.WidthProperty, HeightBind);
 
-                    r3.SetBinding(Rectangle.FillProperty, b3);
-                    r3.SetBinding(Rectangle.HeightProperty, b4);
-                    r3.SetBinding(Rectangle.WidthProperty, b4);
 
-                    nc.Children.Add(r2);
-                    nc.Children.Add(r);
-                    nc.Children.Add(r3);
+                    Rectangle ItemRec = new Rectangle();
+                    Binding ItemBind = new Binding("ItemList");
+                    ItemBind.Source = c.Field.GridSquares[i, j];
+                    ItemBind.Converter = new ItemToImageConverter();
+                    ItemRec.SetBinding(Rectangle.FillProperty, ItemBind);
+                    ItemRec.SetBinding(Rectangle.HeightProperty, HeightBind);
+                    ItemRec.SetBinding(Rectangle.WidthProperty, HeightBind);
+
+                    Rectangle TrapRec = new Rectangle();
+                    Binding TrapBind = new Binding("ActiveTrap");
+                    TrapBind.Source = c.Field.GridSquares[i, j];
+                    TrapBind.Converter = new ItemToImageConverter();
+                    TrapRec.SetBinding(Rectangle.FillProperty, TrapBind);
+                    TrapRec.SetBinding(Rectangle.HeightProperty, HeightBind);
+                    TrapRec.SetBinding(Rectangle.WidthProperty, HeightBind);
+
+                    nc.Children.Add(TrapRec);
+                    nc.Children.Add(ItemRec);
+                    nc.Children.Add(CharRec);
+
+
+
+                    Binding OccupyBind = new Binding("IsOccupiable");
+                    OccupyBind.Source = c.Field.GridSquares[i, j];
+                    OccupyBind.Converter = new BoolToImageConverter();
 
                     nc.Margin = new Thickness(1);
-                    nc.Background = Brushes.Firebrick;
+                    nc.SetBinding(Canvas.BackgroundProperty, OccupyBind);
 
                     nc.MouseLeftButtonUp += nc_MouseLeftButtonUp;
                     nc.MouseRightButtonUp += nc_MouseRightButtonUp;
@@ -223,6 +169,14 @@ namespace ZombieApocalypseWPF
                 }
 
             }
+        }
+
+
+        private Item AddItemDialog()
+        {
+            Item i = null;
+            ShowDialog();
+            return i;
         }
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
@@ -245,7 +199,20 @@ namespace ZombieApocalypseWPF
             SelectedZombie.LevelDown();
         }
 
-        void nc_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void ZombieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            this.SelectedZombie = (Zed)cb.SelectedItem;
+
+        }
+
+        private void PlayerComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            this.SelectedPlayer = (Player)cb.SelectedItem;
+        }
+
+        private void nc_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
@@ -256,7 +223,6 @@ namespace ZombieApocalypseWPF
                 SelectedPlayer = (Player)tempgq.OccupyingCharacter;
         }
 
-        
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             Canvas tempc = (Canvas)sender;
@@ -267,10 +233,38 @@ namespace ZombieApocalypseWPF
 
             tempgq.IsOccupiable = !tempgq.IsOccupiable;
 
-            if (tempgq.IsOccupiable)
-                tempc.Background = Brushes.Firebrick;
-            else
-                tempc.Background = Brushes.Black;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.W:
+                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X - 1, SelectedPlayer.Location.Y));
+                    break;
+                case Key.A:
+                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y - 1));
+                    break;
+                case Key.S:
+                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X + 1, SelectedPlayer.Location.Y));
+                    break;
+                case Key.D:
+                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
+                    break;
+                case Key.Up:
+                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
+                    break;
+                case Key.Left:
+                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
+                    break;
+                case Key.Down:
+                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
+                    break;
+                case Key.Right:
+                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
+                    break;
+
+            }
         }
 
         /// <summary>
@@ -339,38 +333,6 @@ namespace ZombieApocalypseWPF
             }
         }
 
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.W:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X - 1, SelectedPlayer.Location.Y));
-                    break;
-                case Key.A:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y - 1));
-                    break;
-                case Key.S:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X + 1, SelectedPlayer.Location.Y));
-                    break;
-                case Key.D:
-                   c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
-                    break;
-                case Key.Up:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
-                    break;
-                case Key.Left:
-                     c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
-                    break;
-                case Key.Down:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
-                    break;
-                case Key.Right:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
-                    break;
-
-            }
-        }
         
     }
 }
