@@ -15,7 +15,7 @@ namespace ZombieApocalypseSimulator
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(120, 76);
+            Console.SetWindowSize(120, 50);
             Controller c = new Controller(10, 10);
 
             Character NewPlayer = new Engineer();

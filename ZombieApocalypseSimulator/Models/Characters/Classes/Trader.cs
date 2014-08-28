@@ -86,5 +86,20 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             Items.Add(SellItem);
             return SellValue;
         }
+
+        public override Attack MeleeAttack()
+        {
+            return null;
+        }
+
+        public override bool HasWeapon()
+        {
+            return false;
+        }
+
+        public override double DetermineWeaponEffectiveness(Weapon weapon)
+        {
+            return 1;
+        }
     }
 }

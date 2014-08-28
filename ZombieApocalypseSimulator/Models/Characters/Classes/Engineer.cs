@@ -39,7 +39,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         {
             for (int i = 0; i < Items.Count(); i++)
             {
-                if (Items.ElementAt(i).GetType() == typeof(SparePart))
+                if (Items.ElementAt(i) is SparePart)
                 {
                     if (Part.Count < 11)
                     {
@@ -71,21 +71,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public override string ToString()
         {
-            string s = "";
-            s += "Class: Engineer";
-            s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
-            s += "\r\nLevel: " + Level;
-            s += "\r\nSpeed: " + Speed;
-            s += "\r\nIQ: " + IntelligenceQuotient;
-            s += "\r\nME: " + MentalEndurance;
-            s += "\r\nMA: " + MentalAffinity;
-            s += "\r\nPS: " + PhysicalStrength;
-            s += "\r\nPP: " + PhysicalProwess;
-            s += "\r\nPB: " + PhysicalBeauty;
-            s += "\r\nPE: " + PhysicalEndurance;
-
-            return s;
+            return base.ToString();
         }
     }
 }
