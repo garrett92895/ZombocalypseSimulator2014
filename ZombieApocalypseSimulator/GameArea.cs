@@ -276,7 +276,7 @@ namespace ZombieApocalypseSimulator
         {
             GridSquare Target = GetGridSquareAt(C.Location);
 
-            if (C.GetType() == typeof(Player))
+            if (C is Player)
             {
                 Corpse Body = new Corpse(C);
                 Target.ItemList.Add(Body);
@@ -314,7 +314,7 @@ namespace ZombieApocalypseSimulator
         public List<Coordinate> PossibleMovesForCharacter(Character C, int SquaresLeft, bool DiagonalsCostTwo = false)
         {
             Type OriginalType = null;
-            if (C.GetType() == typeof(Player))
+            if (C is Player)
             {
                 OriginalType = typeof(Player);
             }

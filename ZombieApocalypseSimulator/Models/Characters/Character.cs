@@ -371,6 +371,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             s += "\r\nPP: " + PhysicalProwess;
             s += "\r\nPB: " + PhysicalBeauty;
             s += "\r\nPE: " + PhysicalEndurance;
+            s += "\r\nMoney: " + Money;
 
             return s;
         }

@@ -18,11 +18,18 @@ namespace ZombieApocalypseSimulator
             Console.SetWindowSize(120, 76);
             Controller c = new Controller(10, 10);
 
-            Character NewPlayer = new Engineer();
+            Character NewPlayer = new Player();
+            NewPlayer.Money = 100;
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
 
-            //Test 1
+            Item Money = new Item();
+            Money.Name = "Money";
+            Money.Description = "It's Money";
+            Money.Value = 100;
+            Coordinate ItemCoor = new Coordinate(2,3);
+            c.AddItemToField(Money,ItemCoor);
+
             Character Zed1 = ZedFactory.GetInstance("Shank");
             Coordinate ZedCoor1 = new Coordinate(5, 3);
             c.AddCharacterToField(Zed1, ZedCoor1);
