@@ -306,7 +306,14 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ranged attack");
                     RangedAttack(PlayerAction);
-                    SquaresLeft -= (int)MaxSquares / 2;
+                    if (PlayerAction.Equals(ActionTypes.UnaimedRangedAttack))
+                    {
+                        SquaresLeft -= (int)MaxSquares / 2;
+                    }
+                    else
+                    {
+                        SquaresLeft -= MaxSquares;
+                    }
                     Console.WriteLine(Field.ToString());
                 }
 
