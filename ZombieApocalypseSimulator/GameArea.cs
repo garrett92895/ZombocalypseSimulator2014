@@ -410,23 +410,21 @@ namespace ZombieApocalypseSimulator
             {
                 GridSquare Target = GetGridSquareAt(C);
 
-                //Finds the first Corpse in Target's ItemList
-                int CorpseIndex = 0;
+
+                int CorpseIndex = 0; //Finds the first Corpse in Target's ItemList
+                int CorpseCount = 0; // Keeps track of the number of Corpses in this GridSquare
                 bool Revive = false;
-                while (CorpseIndex < Target.ItemList.Count && !Revive)
+                foreach (Corpse Body in Target.ItemList)
                 {
-                    Item I = Target.ItemList.ElementAt(CorpseIndex);
-                    if (I.GetType() == typeof(Corpse))
+                    if (Body.RollRevive() && !Revive)
                     {
-                        Revive = ((Corpse)I).RollRevive();
-                        break;
+                        Revive = true;
+                        CorpseIndex = Target.ItemList.IndexOf(Body);
                     }
-                    else
-                    {
-                        CorpseIndex++;
-                    }
+                    CorpseCount++;
                 }
 
+                //Adds a Zombie and removes a Corpse from the GridSquare if a Zombie has been revived
                 if (Revive)
                 {
                     if (Target.OccupyingCharacter == null)
@@ -435,25 +433,12 @@ namespace ZombieApocalypseSimulator
                         Target.ItemList.RemoveAt(CorpseIndex);
                         AddCharacterToSquare(Z, Target.Coordinate);
                         NewZombies.Add(Z);
+                        CorpseCount--;
                     }
-                }
-                //Finds if there are other Corpses in Target and makes each Corpse call 
-                //RollRevive()
-                bool OtherCorpse = false;
-                int Index = CorpseIndex + 1;
-                while (Index < Target.ItemList.Count)
-                {
-                    Item I = Target.ItemList.ElementAt(Index);
-                    if (I.GetType() == typeof(Corpse))
-                    {
-                        OtherCorpse = true;
-                        ((Corpse)I).RollRevive();
-                    }
-                    Index++;
                 }
 
                 //Removes Coordinate C from the CorpseLocations if Target has no more Corpses in it
-                if (!OtherCorpse)
+                if (CorpseCount < 1)
                 {
                     CoordinatesToRemove.Add(C);
                 }
@@ -508,16 +493,16 @@ namespace ZombieApocalypseSimulator
                         {
                             if (friend)
                             {
-                                if (C.GetType() == typeof(Player))
+                                if (C is Player)
                                 {
-                                    if (Neighbor.GetType() == typeof(Player))
+                                    if (!(Neighbor is Zed))
                                     {
                                         Adjacents.Add(Neighbor);
                                     }
                                 }
                                 else
                                 {
-                                    if (Neighbor.GetType() == typeof(Zed))
+                                    if (Neighbor is Zed)
                                     {
                                         Adjacents.Add(Neighbor);
                                     }
@@ -525,16 +510,16 @@ namespace ZombieApocalypseSimulator
                             }
                             else
                             {
-                                if (C.GetType() == typeof(Player))
+                                if (C is Player)
                                 {
-                                    if (Neighbor.GetType() != typeof(Player))
+                                    if (!(Neighbor is Zed))
                                     {
                                         Adjacents.Add(Neighbor);
                                     }
                                 }
                                 else
                                 {
-                                    if (Neighbor.GetType() == typeof(Player))
+                                    if (Neighbor is Player)
                                     {
                                         Adjacents.Add(Neighbor);
                                     }

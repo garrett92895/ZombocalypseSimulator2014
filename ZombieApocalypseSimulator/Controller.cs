@@ -200,7 +200,7 @@ namespace ZombieApocalypseSimulator
 
                     //Status Effect Calculation
 
-
+                    //Status Effects should be in their own method
                     if (CurrentPlayer.Equals(StatusEffects.OnFire))
                     {
                         CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
@@ -285,6 +285,10 @@ namespace ZombieApocalypseSimulator
                     RangedAttack(PlayerAction);
                     SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
+                }
+                else if (PlayerAction.Equals(ActionTypes.Trade))
+                {
+                    BeginTrade();
                 }
 
                 KillDeadCharacters();
@@ -382,10 +386,21 @@ namespace ZombieApocalypseSimulator
                 {
                     PossibleActions.Add(ActionTypes.DropItem);
                     //Checks for the ability to give an item to a friendly type
-                    if (SquaresLeft >= 3
-                        && Field.AdjacentCharacters(CurrentPlayer, true).Any())
+                    if (SquaresLeft >= 3)
                     {
-                        PossibleActions.Add(ActionTypes.GiveItem);
+                        List<Character> Neighbors = Field.AdjacentCharacters(CurrentPlayer,true);
+                        if (Neighbors.Any())
+                        {
+                            PossibleActions.Add(ActionTypes.GiveItem);
+                            //Checks for the ability to initate trade with a Trader
+                            foreach (Character C in Neighbors)
+                            {
+                                if (C is Trader)
+                                {
+                                    PossibleActions.Add(ActionTypes.Trade);
+                                }
+                            }
+                        }
                     }
                 }
                 //Checks for the ability to make a ranged attack
@@ -772,6 +787,83 @@ namespace ZombieApocalypseSimulator
             {
                 Current.RangedAttack();
                 Console.WriteLine("Attack ineffective");
+            }
+        }
+
+        /// <summary>
+        /// Begins a Trade between the CurrentPlayer and an adjacent Trader
+        /// </summary>
+        private void BeginTrade()
+        {
+            //Gets the Trader that is next to the CurrentPlayer to begin Trading
+            Trader Trader = null;
+            foreach (Trader T in Field.AdjacentCharacters(CurrentPlayer, true))
+            {
+                Trader = T;
+            }
+
+            //Just in case there is no Trader next to the CurrentPlayer
+            if (Trader != null)
+            {
+                int UserChoice = CIO.PromptForMenuSelection( new List<string>(new string[]{"Buy from the Trader", "Sell to the Trader"}), false);
+                Console.WriteLine("Input was : " + UserChoice);
+                if (UserChoice == 0)
+                {
+                    BuyFromTrader(Trader);
+                }
+                if (UserChoice == 1)
+                {
+                    SellToTrader(Trader);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Allows the CurrentPlayer to buy an Item from the Trader
+        /// </summary>
+        /// <param name="T"></param>
+        private void BuyFromTrader(Trader T)
+        {
+            //Prints out the Items that can be bought from the Trader
+            List<string> ItemsForSale = new List<string>();
+            for(int i = 0; i < T.Items.Count; i++)
+            {
+                Item I = T.Items.ElementAt(i);
+                ItemsForSale.Add(I.Name + " for sale at the price $" + T.PurchasePrice(I));
+            }
+            int UserChoice = CIO.PromptForMenuSelection(ItemsForSale, true);
+            Item ChoosenItem = T.Items.ElementAt(UserChoice);
+            int Price = T.PurchasePrice(ChoosenItem);
+            if (CurrentPlayer.Money >= Price)
+            {
+                CurrentPlayer.Money -= Price;
+                CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
+                Console.WriteLine("You have bought " + ChoosenItem.Name + " for $" + Price);
+            }
+            else
+            {
+                Console.WriteLine("You cannot afford " + ChoosenItem.Name + " for $" + Price);
+            }
+        }
+
+        /// <summary>
+        /// Allows the CurrentPlayer to sell an Item to the Trader
+        /// </summary>
+        /// <param name="T"></param>
+        private void SellToTrader(Trader T)
+        {
+            List<string> ItemsToSell = new List<string>();
+            for (int i = 0; i < CurrentPlayer.Items.Count; i++)
+            {
+                Item I = CurrentPlayer.Items.ElementAt(i);
+                ItemsToSell.Add("You can sell " + I.Name + " for $" + I.Value);
+            }
+            int UserChoice = CIO.PromptForMenuSelection(ItemsToSell, true);
+            Item ChoosenItem = CurrentPlayer.Items.ElementAt(UserChoice);
+            int Price = T.SellPrice(ChoosenItem);
+            if(CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + T.SellPrice(ChoosenItem), "Yes", "No"))
+            {
+
             }
         }
 

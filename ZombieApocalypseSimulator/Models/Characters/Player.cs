@@ -11,6 +11,8 @@ namespace ZombieApocalypseSimulator.Models.Characters
 {
     public class Player : Character
     {
+
+        #region Properties
         public string Name { get; set; }
         public int ItemLimit { get; set; }
         public Weapon EquippedWeapon { get; set; }
@@ -28,6 +30,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             byte attribute = (byte)roll;
             return roll;
         }
+        #endregion
 
         public Player()
         {
@@ -36,17 +39,17 @@ namespace ZombieApocalypseSimulator.Models.Characters
             ItemLimit = 5;
             Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             Items.Add(WeaponFactory.GetInstance("Small Crowbar|Melee|Blunt|100|2d6"));
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
-            Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
+            //Items.Add(new Ammo());
             EquippedWeapon = (Weapon)Items.ElementAt(0);
             IntelligenceQuotient = rollAttributes();
             MentalEndurance = rollAttributes();

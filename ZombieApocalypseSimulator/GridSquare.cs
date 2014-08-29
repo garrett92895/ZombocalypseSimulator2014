@@ -132,17 +132,19 @@ namespace ZombieApocalypseSimulator
             {
                 return "C";
             }
-
+            if (OccupyingCharacter is Trader)
+            {
+                return "t";
+            }
             if (OccupyingCharacter is Player)
             {
                 return "P";
-            }
-
+            }                            
             else if (OccupyingCharacter is Sloucher)
             {
                 return "s";
             }
-            else if(OccupyingCharacter is Tank)
+            else if (OccupyingCharacter is Tank)
             {
                 return "T";
             }
@@ -154,7 +156,6 @@ namespace ZombieApocalypseSimulator
             {
                 return "S";
             }
-
             if (ItemList.Count > 0)
             {
                 return "I";

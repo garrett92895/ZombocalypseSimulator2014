@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
-    public class Trader : Character
+    public class Trader : Player
     {
-
+        /// <summary>
+        /// Determines what percentage that the value of items will be raised by when selling
+        /// </summary>
         public int MarkUp { get; set; }
 
         /// <summary>
@@ -21,7 +24,16 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         {
             Money = AmountOfMoney;
             MarkUp = NewMarkUp;
-
+            Items = new List<Item>();
+            Item LessThan = WeaponFactory.RandomWeapon();
+            LessThan.Value = 50;
+            Item JustRight = WeaponFactory.RandomWeapon();
+            JustRight.Value = 100;
+            Item TooMuch = WeaponFactory.RandomWeapon();
+            TooMuch.Value = 500;
+            Items.Add(LessThan);
+            Items.Add(JustRight);
+            Items.Add(TooMuch);
         }
 
         /// <summary>

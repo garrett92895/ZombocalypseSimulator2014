@@ -29,7 +29,12 @@ namespace ZombieApocalypseSimulator.Models.Items
 
         public override string ToString()
         {
-            return base.ToString() + "\n Rounds in magazine: " + CurrentClip.Amount();
+            string ReturnString = base.ToString() + "\n Rounds in magazine: ";
+            if (CurrentClip != null)
+            {
+                ReturnString += CurrentClip.Amount();
+            }
+            return ReturnString;
         }
 	}
 }

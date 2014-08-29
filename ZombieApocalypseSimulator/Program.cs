@@ -19,20 +19,17 @@ namespace ZombieApocalypseSimulator
             Controller c = new Controller(10, 10);
 
             Character NewPlayer = new Player();
-            NewPlayer.Money = 100;
+            NewPlayer.Money = 110;
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
 
-            Item Money = new Item();
-            Money.Name = "Money";
-            Money.Description = "It's Money";
-            Money.Value = 100;
-            Coordinate ItemCoor = new Coordinate(2,3);
-            c.AddItemToField(Money,ItemCoor);
+            Character Trader = new Trader();
+            Coordinate TraderCoor = new Coordinate(2, 2);
+            c.AddCharacterToField(Trader, TraderCoor);
 
-            Character Zed1 = ZedFactory.GetInstance("Shank");
-            Coordinate ZedCoor1 = new Coordinate(5, 3);
-            c.AddCharacterToField(Zed1, ZedCoor1);
+            //Character Zed1 = ZedFactory.GetInstance("Shank");
+            //Coordinate ZedCoor1 = new Coordinate(5, 3);
+            //c.AddCharacterToField(Zed1, ZedCoor1);
 
             //Character Zed2 = ZedFactory.GetInstance("Tank");
             //Coordinate ZedCoor2 = new Coordinate(2, 2);
