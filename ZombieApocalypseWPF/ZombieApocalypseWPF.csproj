@@ -155,7 +155,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\CharacterImages\Trader.png" />
+    <Content Include="Images\CharacterImages\Trader.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\ItemImages\Items.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

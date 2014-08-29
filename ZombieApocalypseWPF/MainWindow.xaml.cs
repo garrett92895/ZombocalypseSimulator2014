@@ -74,22 +74,28 @@ namespace ZombieApocalypseWPF
 
             c = new Controller();
 
-            Character NewPlayer = new HalfZombie();
-            Coordinate Coor = new Coordinate(2, 3);
-            c.AddCharacterToField(NewPlayer, Coor);
-            SelectedPlayer = (Player)NewPlayer;
+            //Character NewPlayer = new HalfZombie();
+            //Coordinate Coor = new Coordinate(2, 3);
+            //c.AddCharacterToField(NewPlayer, Coor);
+            //SelectedPlayer = (Player)NewPlayer;
 
-            Character Zed3 = ZedFactory.GetInstance("Shank");
-            Coordinate ZedCoor3 = new Coordinate(5, 5);
-            c.AddCharacterToField(Zed3, ZedCoor3);
-            SelectedZombie = (Zed)Zed3;
 
-            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
-            Coordinate GunCoor = new Coordinate(3, 3);
-            c.AddItemToField(Gun, GunCoor);
+            //Character Trader = new Trader();
+            //Coordinate Coor2 = new Coordinate(1, 1);
+            //c.AddCharacterToField(Trader, Coor2);
 
-            Trap akbar = new Trap { Damage = "1d2", Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
-            c.AddTrapToField(akbar, new Coordinate(5, 4));
+
+            //Character Zed3 = ZedFactory.GetInstance("Shank");
+            //Coordinate ZedCoor3 = new Coordinate(5, 5);
+            //c.AddCharacterToField(Zed3, ZedCoor3);
+            //SelectedZombie = (Zed)Zed3;
+
+            //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            //Coordinate GunCoor = new Coordinate(3, 3);
+            //c.AddItemToField(Gun, GunCoor);
+
+            //Trap akbar = new Trap { Damage = "1d2", Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            //c.AddTrapToField(akbar, new Coordinate(5, 4));
 
             PlayerControl.CharacterComboBox.ItemsSource = c.Players;
             PlayerControl.CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;

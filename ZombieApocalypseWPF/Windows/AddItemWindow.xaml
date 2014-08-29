@@ -2,7 +2,19 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="AddItemWindow" Height="300" Width="300">
-    <Grid>
+    <StackPanel>
+
+        <TextBox x:Name="ItemName">
+            Item Name
+        </TextBox>
         
-    </Grid>
+        <TextBox x:Name="ItemDescription">
+            An Item
+        </TextBox>
+
+        <TextBox x:Name="ItemValue">
+            Item Value
+        </TextBox>
+        
+    </StackPanel>
 </Window>

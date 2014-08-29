@@ -21,9 +21,14 @@ namespace ZombieApocalypseWPF.Windows
     public partial class AddItemWindow : Window
     {
         Item I = new Item();
+
         public AddItemWindow()
         {
             InitializeComponent();
+        }
+
+        private void DoneWithItem()
+        {
         }
     }
 }
