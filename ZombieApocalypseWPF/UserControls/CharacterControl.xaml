@@ -4,7 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="300"
+             Background="Black">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextElement.Foreground" Value="Firebrick" />
+            <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+            <Setter Property="TextElement.FontSize" Value="15" />
+        </Style>
+    </UserControl.Resources>
     <StackPanel>
         <Label x:Name="CharacterType" Background="Black" Foreground="Firebrick" FontSize="24" FontWeight="ExtraBold"></Label>
        
@@ -69,19 +77,20 @@
         </UniformGrid>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="Level_Down_Button">-</Button>
+            <Button x:Name="Level_Down_Button" Content=" - "/>
             <Label>Character Level:</Label>
             <Label Content="{Binding Level}" Width="30"/>
-            <Button x:Name="Level_Up_Button">+</Button>
+            <Button x:Name="Level_Up_Button" Content=" + "/>
         </StackPanel>
         
         <DataGrid x:Name="InventoryGrid"
-                  CanUserAddRows="True"
+                  CanUserAddRows="False"
                   CanUserDeleteRows="True"
                   AutoGenerateColumns="True"
                   
                   >
             
         </DataGrid>
+        <Button x:Name="AddItemButton"> Add Item </Button>
     </StackPanel>
 </UserControl>

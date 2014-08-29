@@ -354,10 +354,11 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public abstract double DetermineWeaponEffectiveness(Weapon weapon);
 
+
         public override string ToString()
         {
             string s = "";
-            s += "Class: NotImplemented";
+            s += "Class: "+this.GetType().Name;
             s += "\r\nHealth: " + Health + "/" + MaxHealth;
             s += "\r\nSDC: " + SDC + "/" + MaxSDC;
             s += "\r\nLevel: " + Level;

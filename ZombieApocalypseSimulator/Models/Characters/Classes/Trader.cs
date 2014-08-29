@@ -99,6 +99,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             return SellValue;
         }
 
+
         /// <summary>
         /// The Trader can not attack and will always return 0 an attack with 0 damage as a result
         /// </summary>
@@ -112,10 +113,12 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         /// The Trader can not attack and will always return false as a result
         /// </summary>
         /// <returns></returns>
+
         public override bool HasWeapon()
         {
             return false;
         }
+
 
         /// <summary>
         /// The Trader cannot attack and will always return 0 as a result.

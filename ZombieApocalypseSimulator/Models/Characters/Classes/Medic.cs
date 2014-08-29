@@ -84,21 +84,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public override string ToString()
         {
-            string s = "";
-            s += "Class: Medic";
-            s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
-            s += "\r\nLevel: " + Level;
-            s += "\r\nSpeed: " + Speed;
-            s += "\r\nIQ: " + IntelligenceQuotient;
-            s += "\r\nME: " + MentalEndurance;
-            s += "\r\nMA: " + MentalAffinity;
-            s += "\r\nPS: " + PhysicalStrength;
-            s += "\r\nPP: " + PhysicalProwess;
-            s += "\r\nPB: " + PhysicalBeauty;
-            s += "\r\nPE: " + PhysicalEndurance;
-
-            return s;
+            return base.ToString();
         }
     }
 }

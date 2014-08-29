@@ -36,6 +36,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         private bool turnningCheck(byte roll)
         {
             byte check = (byte) DieRoll.RollOne(20);
+
             if (roll == 2)
             {
                 if (check <= 2)
@@ -72,21 +73,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
 
         public override string ToString()
         {
-            string s = "";
-            s += "Class: Half Zombie";
-            s += "\r\nHealth: " + Health + "/" + MaxHealth;
-            s += "\r\nSDC: " + SDC + "/" + MaxSDC;
-            s += "\r\nLevel: " + Level;
-            s += "\r\nSpeed: " + Speed;
-            s += "\r\nIQ: " + IntelligenceQuotient;
-            s += "\r\nME: " + MentalEndurance;
-            s += "\r\nMA: " + MentalAffinity;
-            s += "\r\nPS: " + PhysicalStrength;
-            s += "\r\nPP: " + PhysicalProwess;
-            s += "\r\nPB: " + PhysicalBeauty;
-            s += "\r\nPE: " + PhysicalEndurance;
-
-            return s;
+            return base.ToString();
         }
     }
 }

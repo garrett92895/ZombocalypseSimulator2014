@@ -10,6 +10,7 @@ using CSC160_ConsoleMenu;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
+using ZombieApocalypseSimulator.Models.Enums;
 
 namespace ZombieApocalypseSimulator
 {
@@ -74,6 +75,12 @@ namespace ZombieApocalypseSimulator
                     PlayNextTurn();
                 }
 
+                if (Zeds.Count == 0)
+                {
+                    Console.WriteLine("Congratulations! The Zambies have been eliminated!\nYou live to fight another day!");
+                    Environment.Exit(0);
+                }
+
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
@@ -129,6 +136,22 @@ namespace ZombieApocalypseSimulator
                 Location = Field.GetViableSquare();
             }
             Field.GetItemsInSquare(Location).Add(I);
+        }
+
+        // <summary>
+        /// Adds the given Trap to the given Coordinate on the GameArea if the given Coordinate is Occupieable and empty.  
+        /// If the given Coordiante is Closed or Occupied then will not add the given Item to the GameArea
+        /// If no Coordiante is given will place the Item onto a random viable GridSquare in the GameArea
+        /// </summary>
+        /// <param name="I"></param>
+        /// <param name="Location"></param>
+        public void AddTrapToField(Trap T, Coordinate Location = null)
+        {
+            if (Location == null)
+            {
+                Location = Field.GetViableSquare();
+            }
+            Field.GridSquares[Location.X, Location.Y].ActiveTrap = T;
         }
 
         #endregion
@@ -201,27 +224,27 @@ namespace ZombieApocalypseSimulator
                     //Status Effect Calculation
 
                     //Status Effects should be in their own method
-                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
+                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
                     {
                         CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
                     }
-                    if (CurrentPlayer.Equals(StatusEffects.Crippled))
+                    if (CurrentPlayer.Equals(StatusEffect.Crippled))
                     {
                         SquaresLeft = MaxSquares / 2;
                     }
-                    if (CurrentPlayer.Equals(StatusEffects.Stunned))
+                    if (CurrentPlayer.Equals(StatusEffect.Stunned))
                     {
                         SquaresLeft = MaxSquares - MaxSquares;
                     }
-                    if (CurrentPlayer.Equals(StatusEffects.OnFire))
+                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
                     {
                         CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
                     }
-                    if (CurrentPlayer.Equals(StatusEffects.Infected))
+                    if (CurrentPlayer.Equals(StatusEffect.Infected))
                     {
 
                     }
-                    if (CurrentPlayer.Equals(StatusEffects.NoSDC))
+                    if (CurrentPlayer.Equals(StatusEffect.ArmourBroken))
                     {
                         CurrentPlayer.SDC = CurrentPlayer.MaxSDC - CurrentPlayer.MaxSDC;
                     }
@@ -283,7 +306,14 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ranged attack");
                     RangedAttack(PlayerAction);
-                    SquaresLeft -= (int)MaxSquares / 2;
+                    if (PlayerAction.Equals(ActionTypes.UnaimedRangedAttack))
+                    {
+                        SquaresLeft -= (int)MaxSquares / 2;
+                    }
+                    else
+                    {
+                        SquaresLeft -= MaxSquares;
+                    }
                     Console.WriteLine(Field.ToString());
                 }
                 else if (PlayerAction.Equals(ActionTypes.Trade))
@@ -494,7 +524,7 @@ namespace ZombieApocalypseSimulator
             }
             for (int i = 0; i < KilledCharacters.Count; i++)
             {
-                Players.RemoveAt(KilledCharacters.ElementAt(i));
+                Zeds.RemoveAt(KilledCharacters.ElementAt(i));
             }
             if(Players.Count() == 0)
             {

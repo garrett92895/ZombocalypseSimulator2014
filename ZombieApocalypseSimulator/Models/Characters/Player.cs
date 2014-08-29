@@ -107,7 +107,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public string EquippedWeaponType()
         {
             string type = null;
-            if(EquippedWeapon.GetType() == typeof(RangedWeapon))
+            if(EquippedWeapon is RangedWeapon)
             {
                 type = "Ranged";
             }
@@ -136,7 +136,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             List<Weapon> Weapons = new List<Weapon>();
             for(int i = 0; i < Items.Count(); i ++)
             {
-                if (Items.ElementAt(i).GetType() == typeof(MeleeWeapon) | Items.ElementAt(i).GetType() == typeof(RangedWeapon))
+                if (Items.ElementAt(i) is MeleeWeapon | Items.ElementAt(i) is RangedWeapon)
                 {
                     Weapons.Add((Weapon)Items.ElementAt(i));
                 }
@@ -164,7 +164,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             bool HasAmmo = false;
             for (int i = 0; i < Items.Count; i++)
             {
-                if(Items.ElementAt(i).GetType() == typeof(Ammo))
+                if(Items.ElementAt(i) is Ammo)
                 {
                     HasAmmo = true;
                 }
