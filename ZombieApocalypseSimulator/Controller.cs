@@ -75,6 +75,12 @@ namespace ZombieApocalypseSimulator
                     PlayNextTurn();
                 }
 
+                if (Zeds.Count == 0)
+                {
+                    Console.WriteLine("Congratulations! The Zambies have been eliminated!\nYou live to fight another day!");
+                    Environment.Exit(0);
+                }
+
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
                     CurrentPlayer = ZedOrder.Pop();
