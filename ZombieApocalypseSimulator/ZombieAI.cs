@@ -44,12 +44,31 @@ namespace ZombieApocalypseSimulator
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Determines the action a zombie will take when Intelligent AI is disabled
+        /// </summary>
+        /// <param name="PossibleActions"></param>
+        /// <param name="CurrentPlayer"></param>
+        /// <param name="MaxMoves"></param>
+        /// <param name="MovesLeft"></param>
+        /// <param name="Area"></param>
+        /// <param name="Players"></param>
+        /// <param name="Zombies"></param>
+        /// <returns></returns>
         private ActionTypes DumbAction(List<ActionTypes> PossibleActions, Zed CurrentPlayer, int MaxMoves, int MovesLeft, GameArea Area, List<Character> Players, List<Character> Zombies)
         {
             ActionTypes action = 0;
 
-            if (CurrentPlayer.GetType() == typeof(Sloucher))
+            if (CurrentPlayer is Sloucher)
             {
+                /*IF
+                 *  -There are nearby players
+                 *  -The zombie hasn't yet attacked
+                 *  -The zombie has not moved more than two spaces
+                 *THEN
+                 *  -The zombie is marked as having now attacked
+                 *  -The method will return an attack as the zombies choice of action
+                 */
                 if (Area.AdjacentCharacters(CurrentPlayer, false).Any()
                     && !CurrentPlayer.HasAttacked
                     && MaxMoves - MovesLeft < 2)
@@ -63,12 +82,30 @@ namespace ZombieApocalypseSimulator
                 }
 
             }
-            else if (CurrentPlayer.GetType() == typeof(Shank)
-                || CurrentPlayer.GetType() == typeof(FastAttack))
+            //Shanks and Fast Attack's have the same set of rules for their AIs
+            else if (CurrentPlayer is Shank
+                || CurrentPlayer is FastAttack)
             {
+                /*IF
+                 *  -There are nearby players
+                 *  -The zombie hasn't yet attacked OR
+                 *      -The zombie has attacked on his first turn without moving any spaces
+                 *THEN
+                 *  -The zombie is marked as having now attacked
+                 *  -The method will return an attack as the zombie's choice of action
+                 */
                 if (Area.AdjacentCharacters(CurrentPlayer, false).Any()
                     && (!CurrentPlayer.HasAttacked || (CurrentPlayer.HasAttacked && MaxMoves == (int)(MovesLeft / 2))))
                 {
+                    /*IF
+                     *  -The zombie has moved and attacked
+                     *THEN
+                     *  -Set the zombie as unable to attack next turn 
+                     */
+                    if(MovesLeft < (int)(MovesLeft / 2))
+                    {
+                        CurrentPlayer.HasAttacked = true;
+                    }
                     action = ActionTypes.MeleeAttack;
                 }
                 else
@@ -78,6 +115,13 @@ namespace ZombieApocalypseSimulator
             }
             else if (CurrentPlayer.GetType() == typeof(Tank))
             {
+                /*IF
+                 *  -The zombie has a player in an adjacent square
+                 *  -The zombie hasn't yet attacked
+                 *THEN
+                 *  -Set the zombie as unable to attack next turn
+                 *  -Return an attack as the zombie's choice of action
+                 */
                 if (Area.AdjacentCharacters(CurrentPlayer, false).Any()
                     && !CurrentPlayer.HasAttacked)
                 {
