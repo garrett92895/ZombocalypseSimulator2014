@@ -148,6 +148,8 @@ namespace ZombieApocalypseWPF
                     TrapRec.SetBinding(Rectangle.HeightProperty, HeightBind);
                     TrapRec.SetBinding(Rectangle.WidthProperty, HeightBind);
 
+
+
                     nc.Children.Add(TrapRec);
                     nc.Children.Add(ItemRec);
                     nc.Children.Add(CharRec);
@@ -171,7 +173,6 @@ namespace ZombieApocalypseWPF
             }
         }
 
-
         private Item AddItemDialog()
         {
             Item i = null;
@@ -183,7 +184,7 @@ namespace ZombieApocalypseWPF
         {
             SelectedPlayer.LevelUp();
         }
-
+       
         private void Level_Down_Player_Button_Click(object sender, RoutedEventArgs e)
         {
             SelectedPlayer.LevelDown();
@@ -251,16 +252,16 @@ namespace ZombieApocalypseWPF
                 case Key.D:
                     c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
                     break;
-                case Key.Up:
+                case Key.I:
                     c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
                     break;
-                case Key.Left:
+                case Key.J:
                     c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
                     break;
-                case Key.Down:
+                case Key.K:
                     c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
                     break;
-                case Key.Right:
+                case Key.L:
                     c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
                     break;
 

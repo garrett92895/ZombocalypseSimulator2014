@@ -2,8 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:ZombieApocalypseWPF.UserControls"
-        Title="MainWindow" Height="1080" Width="1920"
-        KeyDown="Window_KeyDown">
+        Height="1080" Width="1920"
+        KeyDown="Window_KeyDown"
+        Title="Zombie Apocalypse"
+        Icon="Images/CharacterImages/Fighter.png">
 
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="New_Executed"/>

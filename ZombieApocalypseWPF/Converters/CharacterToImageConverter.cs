@@ -20,7 +20,11 @@ namespace ZombieApocalypseWPF.Converters
 
             Uri uri = null;
 
-            if (c is Zed)
+            if (c is Trader)
+            {
+                uri = new Uri("Images/CharacterImages/Trader.png", UriKind.Relative);
+            }
+            else if (c is Zed)
             {
                 if (c is Tank)
                     uri = new Uri("Images/CharacterImages/Tank.png", UriKind.Relative);

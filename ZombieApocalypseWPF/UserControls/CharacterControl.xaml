@@ -84,7 +84,7 @@
         </StackPanel>
         
         <DataGrid x:Name="InventoryGrid"
-                  CanUserAddRows="True"
+                  CanUserAddRows="False"
                   CanUserDeleteRows="True"
                   AutoGenerateColumns="True"
                   
