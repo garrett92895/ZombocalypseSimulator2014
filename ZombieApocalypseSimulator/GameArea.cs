@@ -283,7 +283,10 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
-                Target.ItemList.AddRange(C.Items);
+                if (C.Items != null)
+                {
+                    Target.ItemList.AddRange(C.Items);
+                }
             }
 
             Target.OccupyingCharacter = null;

@@ -496,7 +496,7 @@ namespace ZombieApocalypseSimulator
             }
             for (int i = 0; i < KilledCharacters.Count; i++)
             {
-                Players.RemoveAt(KilledCharacters.ElementAt(i));
+                Zeds.RemoveAt(KilledCharacters.ElementAt(i));
             }
             if(Players.Count() == 0)
             {
