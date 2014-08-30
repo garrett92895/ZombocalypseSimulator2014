@@ -861,10 +861,10 @@ namespace ZombieApocalypseSimulator
                 Item I = T.Items.ElementAt(i);
                 ItemsForSale.Add(I.Name + " for sale at the price $" + T.PurchasePrice(I));
             }
-            int UserChoice = CIO.PromptForMenuSelection(ItemsForSale, true);
+            int UserChoice = CIO.PromptForMenuSelection(ItemsForSale, false);
             Item ChoosenItem = T.Items.ElementAt(UserChoice);
             int Price = T.PurchasePrice(ChoosenItem);
-            if (CurrentPlayer.Money >= Price)
+            if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".","Yes","No"))
             {
                 CurrentPlayer.Money -= Price;
                 CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
@@ -888,12 +888,13 @@ namespace ZombieApocalypseSimulator
                 Item I = CurrentPlayer.Items.ElementAt(i);
                 ItemsToSell.Add("You can sell " + I.Name + " for $" + I.Value);
             }
-            int UserChoice = CIO.PromptForMenuSelection(ItemsToSell, true);
+            int UserChoice = CIO.PromptForMenuSelection(ItemsToSell, false);
             Item ChoosenItem = CurrentPlayer.Items.ElementAt(UserChoice);
             int Price = T.SellPrice(ChoosenItem);
-            if(CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + T.SellPrice(ChoosenItem), "Yes", "No"))
+            if(CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + Price, "Yes", "No"))
             {
-
+                CurrentPlayer.Items.RemoveAt(UserChoice);
+                CurrentPlayer.Money += T.SellItem(ChoosenItem);
             }
         }
 
