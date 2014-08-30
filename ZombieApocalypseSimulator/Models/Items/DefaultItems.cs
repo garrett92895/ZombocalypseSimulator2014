@@ -52,9 +52,9 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		public static List<Health> HealthList = new List<Health>
 		{
-			new Health { AmountHealed = "1d6", Name = "A Small Health-kit"},
-			new Health { AmountHealed = "2d6", Name = "A Medium Health-kit"},
-			new Health { AmountHealed = "3d6", Name = "A Large Health-kit"}
+            //new Health { AmountHealed = "1d6", Name = "A Small Health-kit"},
+            //new Health { AmountHealed = "2d6", Name = "A Medium Health-kit"},
+            //new Health { AmountHealed = "3d6", Name = "A Large Health-kit"}
 
 		};
 

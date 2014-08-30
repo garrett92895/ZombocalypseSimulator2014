@@ -17,6 +17,7 @@ namespace ZombieApocalypseSimulator.Models.Items
         {
             IsUsed = false;
             AmmoType = Enums.AmmoType.Handgun;
+            Value = 1;
             this.Name = Enums.AmmoType.Handgun.GetType().Name + " Ammo";
         }
 
@@ -24,6 +25,14 @@ namespace ZombieApocalypseSimulator.Models.Items
         {
             IsUsed = false;
             this.AmmoType = Type;
+            if (AmmoType == AmmoType.Rifle || AmmoType == AmmoType.Shotgun)
+            {
+                Value = 2;
+            }
+            else
+            {
+                Value = 1;
+            }
             this.Name = Type.GetType().Name + " Ammo";
         }
 

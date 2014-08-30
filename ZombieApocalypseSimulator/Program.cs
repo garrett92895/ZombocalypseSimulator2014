@@ -22,8 +22,12 @@ namespace ZombieApocalypseSimulator
             NewPlayer.Money = 110;
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
+            for (int i = 0; i < 10; i++)
+            {
+                NewPlayer.Items.Add(WeaponFactory.RandomWeapon());
+            }
 
-            Character Trader = new Trader();
+            Character Trader = new Trader(100);
             Coordinate TraderCoor = new Coordinate(2, 2);
             c.AddCharacterToField(Trader, TraderCoor);
 

@@ -75,11 +75,11 @@ namespace ZombieApocalypseSimulator
                     PlayNextTurn();
                 }
 
-                if (Zeds.Count == 0)
-                {
-                    Console.WriteLine("Congratulations! The Zambies have been eliminated!\nYou live to fight another day!");
-                    Environment.Exit(0);
-                }
+                //if (Zeds.Count == 0)
+                //{
+                //    Console.WriteLine("Congratulations! The Zambies have been eliminated!\nYou live to fight another day!");
+                //    Environment.Exit(0);
+                //}
 
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
@@ -886,7 +886,7 @@ namespace ZombieApocalypseSimulator
             for (int i = 0; i < CurrentPlayer.Items.Count; i++)
             {
                 Item I = CurrentPlayer.Items.ElementAt(i);
-                ItemsToSell.Add("You can sell " + I.Name + " for $" + I.Value);
+                ItemsToSell.Add("You can sell " + I.Name + " for $" + T.SellPrice(I));
             }
             int UserChoice = CIO.PromptForMenuSelection(ItemsToSell, false);
             Item ChoosenItem = CurrentPlayer.Items.ElementAt(UserChoice);

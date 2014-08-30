@@ -10,22 +10,20 @@ namespace ZombieApocalypseSimulator.Factories
 {
     public static class WeaponFactory
     {
-        public static Random Rand = new Random();
-
         public static Weapon RandomWeapon()
         {
             //Weapon _weapon;
-            int WeapType = Rand.Next(2);
+            int WeapType = DieRoll.RollOne(2);
             if (WeapType == 0)
             {
                 MeleeWeapon _weapon = new MeleeWeapon();
-                int MeleeType = Rand.Next(3);
-                if (MeleeType == 0)
+                int MeleeType = DieRoll.RollOne(3);
+                if (MeleeType == 1)
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Blunt;
                     _weapon.Name = "Bone-Crusher";
                 }
-                else if (MeleeType == 1)
+                else if (MeleeType == 2)
                 {
                     _weapon.MeleeWeaponType = MeleeWeaponType.Pierce;
                     _weapon.Name = "Pokey-Staby";
@@ -35,21 +33,21 @@ namespace ZombieApocalypseSimulator.Factories
                     _weapon.MeleeWeaponType = MeleeWeaponType.Slash;
                     _weapon.Name = "Swiper";
                 }
-                _weapon.Condition = Rand.Next(90);
-                _weapon.Damage = new DieRoll(Rand.Next(1,5), Rand.Next(1,12));
+                _weapon.Condition = DieRoll.RollOne(100);
+                _weapon.Damage = new DieRoll(DieRoll.RollOne(5), DieRoll.RollOne(12));
 
                 return _weapon;
             }
             else
             {
                 RangedWeapon _weapon = new RangedWeapon();
-                int RangedType = Rand.Next(3);
-                if (RangedType == 0)
+                int RangedType = DieRoll.RollOne(3);
+                if (RangedType == 1)
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Rifle;
                     _weapon.Name = "Hunting Rifle";
                 }
-                else if (RangedType == 1)
+                else if (RangedType == 2)
                 {
                     _weapon.RangedWeaponType = RangedWeaponType.Handgun;
                     _weapon.Name = "Colt M1911";
@@ -59,8 +57,8 @@ namespace ZombieApocalypseSimulator.Factories
                     _weapon.RangedWeaponType = RangedWeaponType.Shotgun;
                     _weapon.Name = "Boomstick";
                 }
-                _weapon.Condition = Rand.Next(60);
-                _weapon.Damage = new DieRoll(Rand.Next(1, 7), Rand.Next(1, 6));
+                _weapon.Condition = DieRoll.RollOne(100);
+                _weapon.Damage = new DieRoll(DieRoll.RollOne(7), DieRoll.RollOne(6));
 
                 return _weapon;
             }
