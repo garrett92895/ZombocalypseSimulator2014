@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
@@ -15,25 +16,23 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         /// </summary>
         public int MarkUp { get; set; }
 
+        public int HandgunAmmo { get; set; }
+        public int RifleAmmo { get; set; }
+        public int ShotgunAmmo { get; set; }
+
         /// <summary>
         /// Creates a Trader with the given amount of money and the given MarkUp when
         /// </summary>
         /// <param name="AmountOfMoney"></param>
         /// <param name="NewMarkUp"></param>
-        public Trader(int AmountOfMoney = int.MaxValue, int NewMarkUp = 10)
+        public Trader(int AmountOfMoney = int.MaxValue, int NewMarkUp = 10, int NewHandgunAmmo = 100, int NewRifleAmmo = 100, int NewShotgunAmmo = 100)
         {
             Money = AmountOfMoney;
             MarkUp = NewMarkUp;
             Items = new List<Item>();
-            Item LessThan = WeaponFactory.RandomWeapon();
-            LessThan.Value = 50;
-            Item JustRight = WeaponFactory.RandomWeapon();
-            JustRight.Value = 100;
-            Item TooMuch = WeaponFactory.RandomWeapon();
-            TooMuch.Value = 500;
-            Items.Add(LessThan);
-            Items.Add(JustRight);
-            Items.Add(TooMuch);
+            HandgunAmmo = NewHandgunAmmo;
+            RifleAmmo = NewRifleAmmo;
+            ShotgunAmmo = NewShotgunAmmo;
         }
 
         /// <summary>
@@ -55,6 +54,58 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             }
             Money -= PurchaseValue;
             return Purchased;
+        }
+
+        /// <summary>
+        /// Method to be used when Ammo is being purchased from the Trader.
+        /// Returns a List of Ammo that contains the Amount specified of the AmmoType specified
+        /// </summary>
+        /// <param name="TypeOfAmmo"></param>
+        /// <param name="Amount"></param>
+        public List<Ammo> BuyAmmo(AmmoType TypeOfAmmo, int Amount)
+        {
+            List<Ammo> Ammos = new List<Ammo>();
+
+            //Makes sure not to give more ammo than the merchant has
+            //int HoldingAmmo = 0;
+            //switch (TypeOfAmmo)
+            //{
+            //    case AmmoType.Handgun: HoldingAmmo = HandgunAmmo; break;
+
+            //    case AmmoType.Rifle: HoldingAmmo = RifleAmmo; break;
+
+            //    case AmmoType.Shotgun: HoldingAmmo = ShotgunAmmo; break;
+            //}
+
+            while (Amount > 0)
+            {
+                Ammo Round = new Ammo(TypeOfAmmo);
+                Money += Round.Value;
+                Ammos.Add(Round);
+                Amount--;
+            }
+
+            //Adjusts the merchants ammo stockpile based on how much was sold
+            //switch (TypeOfAmmo)
+            //{
+            //    case AmmoType.Handgun: HandgunAmmo = HoldingAmmo; break;
+
+            //    case AmmoType.Rifle: RifleAmmo = HoldingAmmo; break;
+
+            //    case AmmoType.Shotgun: ShotgunAmmo = HoldingAmmo; break;
+            //}
+            return Ammos;
+        }
+
+        /// <summary>
+        /// Method to be used when Ammo is being sold to the Trader.
+        /// Takes away the given amount of money used to purchase the Ammo
+        /// </summary>
+        /// <param name="TypeOfAmmo"></param>
+        /// <param name="Amount"></param>
+        public void SellAmmo(AmmoType TypeOfAmmo, int Amount)
+        {
+            Money -= new Ammo(TypeOfAmmo).Value * Amount;
         }
 
         /// <summary>
@@ -83,6 +134,16 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
                 SellValue = Money;
             }
             return SellValue;
+        }
+
+        /// <summary>
+        /// Returns the maximum number of rounds of the given Type that the Trader can buy.
+        /// </summary>
+        /// <param name="TypeOfAmmo"></param>
+        /// <returns></returns>
+        public int SellAmmoLimit(AmmoType TypeOfAmmo)
+        {
+            return Money/(new Ammo(TypeOfAmmo).Value);
         }
 
         /// <summary>

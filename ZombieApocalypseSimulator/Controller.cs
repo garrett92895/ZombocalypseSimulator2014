@@ -11,6 +11,7 @@ using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Enums;
+using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator
 {
@@ -835,7 +836,7 @@ namespace ZombieApocalypseSimulator
             //Just in case there is no Trader next to the CurrentPlayer
             if (Trader != null)
             {
-                int UserChoice = CIO.PromptForMenuSelection( new List<string>(new string[]{"Buy from the Trader", "Sell to the Trader"}), false);
+                int UserChoice = CIO.PromptForMenuSelection( new List<string>(new string[]{"Buy items from the Trader","Buy ammo From the Trader", "Sell items to the Trader", "Sell ammo to the Trader"}), false);
                 Console.WriteLine("Input was : " + UserChoice);
                 if (UserChoice == 0)
                 {
@@ -843,7 +844,15 @@ namespace ZombieApocalypseSimulator
                 }
                 if (UserChoice == 1)
                 {
+                    BuyAmmo(Trader);
+                }
+                if (UserChoice == 2)
+                {
                     SellToTrader(Trader);
+                }
+                if (UserChoice == 3)
+                {
+                    SellAmmo(Trader);
                 }
             }
         }
@@ -896,6 +905,68 @@ namespace ZombieApocalypseSimulator
                 CurrentPlayer.Items.RemoveAt(UserChoice);
                 CurrentPlayer.Money += T.SellItem(ChoosenItem);
             }
+        }
+
+        private void BuyAmmo(Trader T)
+        {
+            int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[]{"Handgun for $1 a round","Rifle for $2 a round","Shotgun for $2 a round"}), false);
+            AmmoType ChosenType = AmmoType.Handgun;
+            switch (UserChoice)
+            {
+                case 0: ChosenType = AmmoType.Handgun; break;
+                case 1: ChosenType = AmmoType.Rifle; break;
+                case 2: ChosenType = AmmoType.Shotgun; break;
+            }
+
+            int Amount = CIO.PromptForInt("How many bullets would you like to purchase",0, 100);
+            int Price = new Ammo(ChosenType).Value * Amount;
+            if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
+            {
+                CurrentPlayer.Money -= Price;
+                CurrentPlayer.Items.AddRange(T.BuyAmmo(ChosenType, Amount));
+            }
+        }
+
+        private void SellAmmo(Trader T)
+        {
+            List<Ammo> HandgunAmmo = new List<Ammo>();
+            List<Ammo> RifleAmmo = new List<Ammo>();
+            List<Ammo> ShotgunAmmo = new List<Ammo>();
+            foreach (Item I in CurrentPlayer.Items)
+            {
+                if (I is Ammo)
+                {
+                    Ammo A = (Ammo)I;
+                    switch (A.AmmoType)
+                    {
+                        case AmmoType.Handgun: HandgunAmmo.Add(A); break;
+                        case AmmoType.Rifle: RifleAmmo.Add(A); break;
+                        case AmmoType.Shotgun: ShotgunAmmo.Add(A); break;
+                    }
+                }
+            }
+            List<string> Choice = new List<string>(new string[] { "You can sell " + HandgunAmmo.Count + " rounds of handgun ammo for $1 each",
+                "You can sell " + RifleAmmo.Count + " rounds of handgun ammo for $2 each", "You can sell " + ShotgunAmmo.Count + " rounds of handgun ammo for $2 each"});
+            int UserChoice = CIO.PromptForMenuSelection(Choice, false);
+            List<Ammo> ChoosenAmmo = null;
+            switch (UserChoice)
+            {
+                case 0: ChoosenAmmo = HandgunAmmo; break;
+                case 1: ChoosenAmmo = RifleAmmo; break;
+                case 2: ChoosenAmmo = ShotgunAmmo; break;
+            }
+            if (ChoosenAmmo.Count > 0)
+            {
+                AmmoType ChoosenType = ChoosenAmmo.ElementAt(0).AmmoType;
+                int Amount = CIO.PromptForInt("How many rounds would you like to sell?", 0, T.SellAmmoLimit(ChoosenType));
+                T.SellAmmo(ChoosenType, Amount);
+                CurrentPlayer.Money += new Ammo(ChoosenType).Value * Amount;
+                for (int i = 0; i < Amount; i++)
+                {
+                    CurrentPlayer.Items.Remove(ChoosenAmmo.ElementAt(i));
+                }
+            }
+
         }
 
         /// <summary>
