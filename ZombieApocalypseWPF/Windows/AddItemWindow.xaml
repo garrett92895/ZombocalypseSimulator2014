@@ -3,18 +3,44 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="AddItemWindow" Height="300" Width="300">
     <StackPanel>
-
-        <TextBox x:Name="ItemName">
-            Item Name
-        </TextBox>
         
-        <TextBox x:Name="ItemDescription">
-            An Item
-        </TextBox>
+        <ComboBox x:Name="ItemType" SelectionChanged="ItemType_SelectionChanged">
+            
 
-        <TextBox x:Name="ItemValue">
-            Item Value
-        </TextBox>
+        </ComboBox>
+
+        <UniformGrid Columns="2">
+            <Label Content="Name: " HorizontalAlignment="Right" />
+            <TextBox x:Name="ItemName">
+                Item Name
+            </TextBox>
+
+            <Label Content="Description: " HorizontalAlignment="Right" />
+            <TextBox x:Name="ItemDescription">
+                An Item
+            </TextBox>
+
+            <Label Content="Value: " HorizontalAlignment="Right"/>
+            <TextBox x:Name="ItemValue">
+                Item Value
+            </TextBox>
+
+        </UniformGrid>
+        
+        <UniformGrid x:Name="ExtraFields" Columns="2">
+            
+        </UniformGrid>
+        
+        <UniformGrid Rows="1">
+
+            <Button Click="Done_Click">
+                Done
+            </Button>
+
+            <Button Click="Cancel_Click">
+                Cancel
+            </Button>
+        </UniformGrid>
         
     </StackPanel>
 </Window>

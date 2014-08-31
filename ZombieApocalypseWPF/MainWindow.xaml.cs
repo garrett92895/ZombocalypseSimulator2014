@@ -22,6 +22,7 @@ using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseSimulator.Models.Enums;
+using ZombieApocalypseWPF.Windows;
 
 namespace ZombieApocalypseWPF
 {
@@ -32,6 +33,7 @@ namespace ZombieApocalypseWPF
     {
 
         Controller c;
+
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -71,13 +73,14 @@ namespace ZombieApocalypseWPF
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
             ZombieControl.Level_Down_Button.Click += Level_Down_Zombie_Button_Click;
 
+            PlayerControl.AddItemButton.Click += AddItemButton_Click;
 
             c = new Controller();
 
-            //Character NewPlayer = new HalfZombie();
-            //Coordinate Coor = new Coordinate(2, 3);
-            //c.AddCharacterToField(NewPlayer, Coor);
-            //SelectedPlayer = (Player)NewPlayer;
+            Character NewPlayer = new HalfZombie();
+            Coordinate Coor = new Coordinate(2, 3);
+            c.AddCharacterToField(NewPlayer, Coor);
+            SelectedPlayer = (Player)NewPlayer;
 
 
             //Character Trader = new Trader();
@@ -97,18 +100,28 @@ namespace ZombieApocalypseWPF
             //Trap akbar = new Trap { Damage = "1d2", Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
             //c.AddTrapToField(akbar, new Coordinate(5, 4));
 
-            PlayerControl.CharacterComboBox.ItemsSource = c.Players;
-            PlayerControl.CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
+            CharacterComboBox.ItemsSource = c.Players;
+            CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
 
-            ZombieControl.CharacterComboBox.ItemsSource = c.Zeds;
-            ZombieControl.CharacterComboBox.SelectionChanged += ZombieComboBox_SelectionChanged;
+            ZCharacterComboBox.ItemsSource = c.Zeds;
+            ZCharacterComboBox.SelectionChanged += ZombieComboBox_SelectionChanged;
 
-
-            PlayerControl.CharacterType.Content = "Players";
-            ZombieControl.CharacterType.Content = "Zombies";
             
             PopulateBoard();
 
+        }
+
+        void AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            Item i = null;
+            Window aiw = new AddItemWindow(SelectedPlayer);
+            aiw.ShowDialog();
+
+            if (i != null && SelectedPlayer != null)
+                SelectedPlayer.Items.Add(i);
+
+
+                
         }
 
         private void PopulateBoard()
@@ -129,13 +142,16 @@ namespace ZombieApocalypseWPF
                     Binding HeightBind = new Binding("ActualHeight");
                     HeightBind.Source = nc;
 
+                    Binding WidthBind = new Binding("ActualWidth");
+                    WidthBind.Source = nc;
+
                     Rectangle CharRec = new Rectangle();
                     Binding CharBind = new Binding("OccupyingCharacter");
                     CharBind.Source = c.Field.GridSquares[i, j];
                     CharBind.Converter = new CharacterToImageConverter();
                     CharRec.SetBinding(Rectangle.FillProperty, CharBind);
                     CharRec.SetBinding(Rectangle.HeightProperty, HeightBind);
-                    CharRec.SetBinding(Rectangle.WidthProperty, HeightBind);
+                    CharRec.SetBinding(Rectangle.WidthProperty, WidthBind);
 
 
                     Rectangle ItemRec = new Rectangle();
@@ -144,7 +160,7 @@ namespace ZombieApocalypseWPF
                     ItemBind.Converter = new ItemToImageConverter();
                     ItemRec.SetBinding(Rectangle.FillProperty, ItemBind);
                     ItemRec.SetBinding(Rectangle.HeightProperty, HeightBind);
-                    ItemRec.SetBinding(Rectangle.WidthProperty, HeightBind);
+                    ItemRec.SetBinding(Rectangle.WidthProperty, WidthBind);
 
                     Rectangle TrapRec = new Rectangle();
                     Binding TrapBind = new Binding("ActiveTrap");
@@ -152,7 +168,7 @@ namespace ZombieApocalypseWPF
                     TrapBind.Converter = new ItemToImageConverter();
                     TrapRec.SetBinding(Rectangle.FillProperty, TrapBind);
                     TrapRec.SetBinding(Rectangle.HeightProperty, HeightBind);
-                    TrapRec.SetBinding(Rectangle.WidthProperty, HeightBind);
+                    TrapRec.SetBinding(Rectangle.WidthProperty, WidthBind);
 
 
 
@@ -179,12 +195,7 @@ namespace ZombieApocalypseWPF
             }
         }
 
-        private Item AddItemDialog()
-        {
-            Item i = null;
-            ShowDialog();
-            return i;
-        }
+
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
         {
