@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Items;
 
 
 namespace ZombieApocalypseSimulator.Models.Characters
@@ -17,6 +18,10 @@ namespace ZombieApocalypseSimulator.Models.Characters
             MentalAffinity = 1;
             MentalEndurance = 1;
             ArmorRating = 14;
+            Items = new List<Item>();
+            Item RandMoney = new Item();
+            RandMoney.Value = DieRoll.RollOne(20);
+            Items.Add(RandMoney);
         }
 
         public override bool HasWeapon()

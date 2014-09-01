@@ -22,22 +22,22 @@ namespace ZombieApocalypseSimulator
             NewPlayer.Money = 110;
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
-            for (int i = 0; i < 10; i++)
-            {
-                NewPlayer.Items.Add(WeaponFactory.RandomWeapon());
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    NewPlayer.Items.Add(WeaponFactory.RandomWeapon());
+            //}
 
-            Character Trader = new Trader(100);
-            Coordinate TraderCoor = new Coordinate(2, 2);
-            c.AddCharacterToField(Trader, TraderCoor);
+            //Character Trader = new Trader(100);
+            //Coordinate TraderCoor = new Coordinate(2, 2);
+            //c.AddCharacterToField(Trader, TraderCoor);
 
             //Character Zed1 = ZedFactory.GetInstance("Shank");
             //Coordinate ZedCoor1 = new Coordinate(5, 3);
             //c.AddCharacterToField(Zed1, ZedCoor1);
 
-            //Character Zed2 = ZedFactory.GetInstance("Tank");
-            //Coordinate ZedCoor2 = new Coordinate(2, 2);
-            //c.AddCharacterToField(Zed2, ZedCoor2);
+            Character Zed2 = ZedFactory.GetInstance("Tank");
+            Coordinate ZedCoor2 = new Coordinate(2, 2);
+            c.AddCharacterToField(Zed2, ZedCoor2);
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
             //Coordinate ZedCoor3 = new Coordinate(1, 9);
