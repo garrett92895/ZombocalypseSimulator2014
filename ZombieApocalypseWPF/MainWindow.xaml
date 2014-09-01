@@ -28,7 +28,9 @@
                 <MenuItem Header="Close" Command="Close"/>
             </MenuItem>
             <MenuItem Header="Add">
-                
+                <MenuItem Header="Player" Click="Player_Add"/>
+                <MenuItem Header="Zombie" Click="Zombie_Add"/>
+                <MenuItem Header="Item" Click="Item_Add"/>
             </MenuItem>
         </Menu>
 

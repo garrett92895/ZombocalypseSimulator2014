@@ -923,7 +923,10 @@ namespace ZombieApocalypseSimulator
             if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
             {
                 CurrentPlayer.Money -= Price;
+
                 CurrentPlayer.Items.AddRange(T.BuyAmmo(ChosenType, Amount));
+
+
             }
         }
 

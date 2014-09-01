@@ -22,7 +22,6 @@
 
             <Label Content="Value: " HorizontalAlignment="Right"/>
             <TextBox x:Name="ItemValue">
-                Item Value
             </TextBox>
 
         </UniformGrid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -218,7 +219,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
-        public List<Item> Items { get; set; }
+        public ObservableCollection<Item> Items { get; set; }
         public int Money { get; set; }
         public Coordinate Location { get; set; }
         public bool isAlive { get; set; }

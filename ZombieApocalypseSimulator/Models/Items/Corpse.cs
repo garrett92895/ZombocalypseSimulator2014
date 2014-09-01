@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace ZombieApocalypseSimulator.Models.Items
         public Coordinate Location { get; set; }
         public int MaxSDC { get; set; }
         public int MaxHealth { get; set; }
-        public List<Item> Items { get; set; }
+        public ObservableCollection<Item> Items { get; set; }
         private int TurnCounter;
         private DieRoll ReviveRoll;
 
@@ -47,7 +48,7 @@ namespace ZombieApocalypseSimulator.Models.Items
             }
             else
             {
-                Items = new List<Item>();
+                Items = new ObservableCollection<Item>();
             }
             TurnCounter = 0;
             ReviveRoll = new DieRoll(1, 100);

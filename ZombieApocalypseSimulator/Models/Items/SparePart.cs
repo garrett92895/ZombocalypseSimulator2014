@@ -8,6 +8,6 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
 	public class SparePart : Item
 	{
-		public string AmountHealed { get; set; }
+		public DieRoll AmountHealed { get; set; }
 	}
 }

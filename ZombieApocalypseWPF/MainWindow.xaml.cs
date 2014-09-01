@@ -73,7 +73,8 @@ namespace ZombieApocalypseWPF
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
             ZombieControl.Level_Down_Button.Click += Level_Down_Zombie_Button_Click;
 
-            PlayerControl.AddItemButton.Click += AddItemButton_Click;
+            PlayerControl.AddItemButton.Click += Player_AddItemButton_Click;
+            ZombieControl.AddItemButton.Click += Zombie_AddItemButton_Click;
 
             c = new Controller();
 
@@ -109,19 +110,6 @@ namespace ZombieApocalypseWPF
             
             PopulateBoard();
 
-        }
-
-        void AddItemButton_Click(object sender, RoutedEventArgs e)
-        {
-            Item i = null;
-            Window aiw = new AddItemWindow(SelectedPlayer);
-            aiw.ShowDialog();
-
-            if (i != null && SelectedPlayer != null)
-                SelectedPlayer.Items.Add(i);
-
-
-                
         }
 
         private void PopulateBoard()
@@ -176,7 +164,7 @@ namespace ZombieApocalypseWPF
                     nc.Children.Add(ItemRec);
                     nc.Children.Add(CharRec);
 
-
+                    ContextMenu cm = new ContextMenu();
 
                     Binding OccupyBind = new Binding("IsOccupiable");
                     OccupyBind.Source = c.Field.GridSquares[i, j];
@@ -195,7 +183,31 @@ namespace ZombieApocalypseWPF
             }
         }
 
+        private Item AddItem()
+        {
+            Item i = null;
+            Window aiw = new AddItemWindow(ref i);
+            aiw.ShowDialog();
+            return i;
+        }
 
+        private void Player_AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            Item i = AddItem();
+
+            if (i != null && SelectedPlayer != null)
+                SelectedPlayer.Items.Add(i);
+
+        }
+
+        private void Zombie_AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            Item i = AddItem();
+
+            if (i != null && SelectedPlayer != null)
+                SelectedZombie.Items.Add(i);
+
+        }
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -349,6 +361,21 @@ namespace ZombieApocalypseWPF
                     throw new NotImplementedException();
                 }
             }
+        }
+
+        private void Player_Add(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Zombie_Add(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Item_Add(object sender, RoutedEventArgs e)
+        {
+
         }
 
         

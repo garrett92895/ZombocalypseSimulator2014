@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         public Bruiser()
         {
             Name = "Phill";
-            Items = new List<Item>();
+            Items = new ObservableCollection<Item>();
             ItemLimit = 5;
             //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
             //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });

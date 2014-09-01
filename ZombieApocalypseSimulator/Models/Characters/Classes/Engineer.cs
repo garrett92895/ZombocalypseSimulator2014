@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         public Engineer()
         {
             Name = "Jane";
-            Items = new List<Item>();
+            Items = new ObservableCollection<Item>();
             ItemLimit = 5;
             //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
             //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
@@ -56,7 +57,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             {
                 if (Items.Count() < ItemLimit)
                 {
-                    Items.Add(new Trap { Damage = "2d4", StatusEffect = StatusEffect.Crippled, Name = "Engineer Trap" });
+                    Items.Add(new Trap { Damage = new DieRoll(2,4), StatusEffect = StatusEffect.Crippled, Name = "Engineer Trap" });
                 }
             }
         }

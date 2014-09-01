@@ -60,18 +60,18 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		public static List<SparePart> SparePartList = new List<SparePart>
 		{
-			new SparePart { AmountHealed = "1d6", Name = "A Wrench"},
-			new SparePart { AmountHealed = "2d6", Name = "Some Spare Metal"},
-			new SparePart { AmountHealed = "3d6", Name = "A Broken Weapon"},
-			new SparePart { AmountHealed = "1d1", Name = "A Paperclip"}
+            //new SparePart { AmountHealed = "1d6", Name = "A Wrench"},
+            //new SparePart { AmountHealed = "2d6", Name = "Some Spare Metal"},
+            //new SparePart { AmountHealed = "3d6", Name = "A Broken Weapon"},
+            //new SparePart { AmountHealed = "1d1", Name = "A Paperclip"}
 
 		};
 
 		public static List<Trap> TrapList = new List<Trap>
 		{
-			new Trap { Damage = "3d6", StatusEffect = StatusEffect.Stunned, Name = "Broken Glass"},
-			new Trap { Damage = "1d2", StatusEffect = StatusEffect.Stunned, Name = "Legos"},
-			new Trap { Damage = "2d6", StatusEffect = StatusEffect.Stunned, Name = "Asdf"},
+            //new Trap { Damage = "3d6", StatusEffect = StatusEffect.Stunned, Name = "Broken Glass"},
+            //new Trap { Damage = "1d2", StatusEffect = StatusEffect.Stunned, Name = "Legos"},
+            //new Trap { Damage = "2d6", StatusEffect = StatusEffect.Stunned, Name = "Asdf"},
 
 		};
 
