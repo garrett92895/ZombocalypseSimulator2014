@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         public Medic()
         {
             Name = "Phill";
-            Items = new List<Item>();
+            Items = new ObservableCollection<Item>();
             ItemLimit = 5;
             //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 
             //    MeleeWeaponType = MeleeWeaponType.Blunt, Name = "Small Crowbar", IgnoresAR = false });
@@ -32,7 +33,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             base.SetLife();
         }
 
-        public static List<Health> DocsHealthPacks = new List<Health>
+        public static ObservableCollection<Health> DocsHealthPacks = new ObservableCollection<Health>
         {
             new Health { AmountHealed = new DieRoll(1,10), Name = "A Small Health-kit"},
             new Health { AmountHealed = new DieRoll(2,10), Name = "A Medium Health-kit"},

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ZombieApocalypseSimulator;
 using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseSimulator.Models.Items.Enums;
 
@@ -24,7 +25,6 @@ namespace ZombieApocalypseWPF.Windows
     public partial class AddItemWindow : Window
     {
         Item I;
-        Player P;
         List<string> ItemTypes = new List<string>
         {
             
@@ -32,13 +32,14 @@ namespace ZombieApocalypseWPF.Windows
             
         };
 
-        public AddItemWindow(Player p)
+        public AddItemWindow(ref Item i)
         {
             InitializeComponent();
             ItemType.ItemsSource = ItemTypes;
-            this.P = p;
+
         }
 
+        
 
         private void ItemType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -74,13 +75,92 @@ namespace ZombieApocalypseWPF.Windows
 
                     break;
                 case "Melee Weapon" :
+                    
+                    ExtraFields.Children.Add(new Label { Content = "Condition: ", HorizontalAlignment = HorizontalAlignment.Right});
+                    ExtraFields.Children.Add(new TextBox {  });
+
+                    ExtraFields.Children.Add(new Label { Content = "Damage: ", HorizontalAlignment = HorizontalAlignment.Right});
+                    ExtraFields.Children.Add(new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal
+                    });
+
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new Label { Content = "d" });
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new Label { Content = "x" });
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new Label { Content = "+" });
+                    ((StackPanel)ExtraFields.Children[3]).Children.Add(new TextBox { });
+
+                    ExtraFields.Children.Add(new Label { Content = "Ignores Armour: ", HorizontalAlignment = HorizontalAlignment.Right });
+                    ExtraFields.Children.Add(new CheckBox { VerticalAlignment = VerticalAlignment.Center });
+
+                    ExtraFields.Children.Add(new Label { Content = "Melee Weapon Type: ", HorizontalAlignment = HorizontalAlignment.Right });
+                    List<MeleeWeaponType> mwts = new List<MeleeWeaponType> { MeleeWeaponType.Blunt, MeleeWeaponType.Pierce, MeleeWeaponType.Slash  };
+                    ExtraFields.Children.Add(new ComboBox { ItemsSource = mwts});
                     break;
+
                 case "Health" :
+                    
+                    ExtraFields.Children.Add(new Label { Content = "HP healed: ", HorizontalAlignment = HorizontalAlignment.Right});
+                    ExtraFields.Children.Add(new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal
+                    });
+
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "d" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "x" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "+" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+
                     break;
+
                 case "SparePart" :
+                    
+                    ExtraFields.Children.Add(new Label { Content = "Condition healed: ", HorizontalAlignment = HorizontalAlignment.Right});
+                    ExtraFields.Children.Add(new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal
+                    });
+
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "d" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "x" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "+" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+
                     break;
                 case "Trap" :
+                    
+                    ExtraFields.Children.Add(new Label { Content = "Damage: ", HorizontalAlignment = HorizontalAlignment.Right});
+                    ExtraFields.Children.Add(new StackPanel
+                    {
+                        Orientation = Orientation.Horizontal
+                    });
+
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "d" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "x" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new Label { Content = "+" });
+                    ((StackPanel)ExtraFields.Children[1]).Children.Add(new TextBox { });
+
+                    ComboBox cb = new ComboBox();
+                    cb.ItemsSource = new List<StatusEffect> { StatusEffect.ArmourBroken, StatusEffect.Bleed, StatusEffect.Crippled, StatusEffect.Infected, StatusEffect.OnFire,
+                        StatusEffect.Poison, StatusEffect.PTZD, StatusEffect.Stunned,};
+
+                    ExtraFields.Children.Add(new Label { Content = "Trap Effect: ", HorizontalAlignment = HorizontalAlignment.Right });
+                    ExtraFields.Children.Add(cb);
+
                     break;
+
                 default :
                     break;
             }
@@ -88,9 +168,10 @@ namespace ZombieApocalypseWPF.Windows
 
         private void Done_Click(object sender, RoutedEventArgs e)
         {
+
+            Item newI = null;
             try
             {
-                Item newI= new Item();
                 switch ((string)ItemType.SelectedValue)
                 {
                     case "Ranged Weapon":
@@ -112,18 +193,81 @@ namespace ZombieApocalypseWPF.Windows
                         };
                         break;
                     case "Melee Weapon":
+                        newI = new MeleeWeapon
+                        {
+                            Condition = int.Parse(((TextBox)ExtraFields.Children[1]).Text),
+                            Damage = new DieRoll(
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[3]).Children[0])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[3]).Children[2])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[3]).Children[4])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[3]).Children[6])).Text)
+                                ),
+                            Description = ItemDescription.Text,
+                            IgnoresAR = (bool)((CheckBox)ExtraFields.Children[5]).IsChecked,
+                            Name = ItemName.Text,
+                            MeleeWeaponType = (MeleeWeaponType)((ComboBox)ExtraFields.Children[7]).SelectedValue,
+                            Value = int.Parse(ItemValue.Text)
+                        };
                         break;
+
                     case "Health":
+                        newI = new Health
+                        {
+
+                            Name = ItemName.Text,
+                            Description = ItemDescription.Text,
+                            Value = int.Parse(ItemValue.Text),
+                            AmountHealed = new DieRoll(
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[0])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[2])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[4])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[6])).Text)
+                                )
+
+                        };
+
                         break;
                     case "SparePart":
+                        newI = new SparePart
+                        {
+
+                            Name = ItemName.Text,
+                            Description = ItemDescription.Text,
+                            Value = int.Parse(ItemValue.Text),
+
+                            AmountHealed = new DieRoll(
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[0])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[2])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[4])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[6])).Text)
+                                )
+
+                        };
                         break;
+
                     case "Trap":
+                        newI = new Trap
+                        {
+
+                            Name = ItemName.Text,
+                            Description = ItemDescription.Text,
+                            Value = int.Parse(ItemValue.Text),
+
+                            Damage = new DieRoll(
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[0])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[2])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[4])).Text),
+                                int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[6])).Text)
+                                ),
+
+                            StatusEffect = (StatusEffect)((ComboBox)ExtraFields.Children[3]).SelectedValue
+                        };
                         break;
+
                     default:
                         break;
                 }
 
-                I = newI;
             }
             catch (Exception ex)
             {
@@ -131,7 +275,7 @@ namespace ZombieApocalypseWPF.Windows
                 return;
             }
 
-            P.AddItem(I);
+            I = newI;
 
             this.Close();
         }

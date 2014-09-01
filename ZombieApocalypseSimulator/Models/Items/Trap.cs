@@ -9,7 +9,7 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
 	public class Trap : Item
 	{
-		public string Damage { get; set; }
+		public DieRoll Damage { get; set; }
 		public StatusEffect StatusEffect { get; set; }
 	}
 }

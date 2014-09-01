@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public Player()
         {
             Name = "Bill";
-            Items = new List<Item>();
+            Items = new ObservableCollection<Item>();
             ItemLimit = 5;
             Items.Add(WeaponFactory.GetInstance("Deagle|Ranged|Handgun|100|10d60|12"));
             Items.Add(WeaponFactory.GetInstance("Small Crowbar|Melee|Blunt|100|2d6"));

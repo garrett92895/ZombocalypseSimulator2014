@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         {
             Money = AmountOfMoney;
             MarkUp = NewMarkUp;
-            Items = new List<Item>();
+            Items = new ObservableCollection<Item>();
             HandgunAmmo = NewHandgunAmmo;
             RifleAmmo = NewRifleAmmo;
             ShotgunAmmo = NewShotgunAmmo;
