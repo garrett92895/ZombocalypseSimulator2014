@@ -836,23 +836,38 @@ namespace ZombieApocalypseSimulator
             //Just in case there is no Trader next to the CurrentPlayer
             if (Trader != null)
             {
-                int UserChoice = CIO.PromptForMenuSelection( new List<string>(new string[]{"Buy items from the Trader","Buy ammo From the Trader", "Sell items to the Trader", "Sell ammo to the Trader"}), false);
-                Console.WriteLine("Input was : " + UserChoice);
-                if (UserChoice == 0)
+                Transaction Exchange = new Transaction(CurrentPlayer, Trader);
+                Console.WriteLine("Transaction Started");
+                while (!Exchange.Done)
                 {
-                    BuyFromTrader(Trader);
-                }
-                if (UserChoice == 1)
-                {
-                    BuyAmmo(Trader);
-                }
-                if (UserChoice == 2)
-                {
-                    SellToTrader(Trader);
-                }
-                if (UserChoice == 3)
-                {
-                    SellAmmo(Trader);
+                    Console.WriteLine("You have $" + (CurrentPlayer.Money + Exchange.BuyerMoneyChange));
+                    int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[] { "Buy an item from the Trader", "Buy ammo From the Trader", 
+                        "Sell an item to the Trader", "Sell ammo to the Trader", "End Transaction", "Cancel Transaction" }), false);
+                    //Console.WriteLine("Input was : " + UserChoice);
+                    if (UserChoice == 0)
+                    {
+                        BuyFromTrader(Exchange);
+                    }
+                    if (UserChoice == 1)
+                    {
+                        BuyAmmo(Exchange);
+                    }
+                    if (UserChoice == 2)
+                    {
+                        SellToTrader(Exchange);
+                    }
+                    if (UserChoice == 3)
+                    {
+                        SellAmmo(Exchange);
+                    }
+                    if (UserChoice == 4)
+                    {
+                        Exchange.FinishTransaction();
+                    }
+                    if (UserChoice == 5)
+                    {
+                        Exchange.CancelTransaction();
+                    }
                 }
             }
         }
@@ -861,8 +876,9 @@ namespace ZombieApocalypseSimulator
         /// Allows the CurrentPlayer to buy an Item from the Trader
         /// </summary>
         /// <param name="T"></param>
-        private void BuyFromTrader(Trader T)
+        private void BuyFromTrader(Transaction Exchange)
         {
+            Trader T = (Trader) Exchange.Seller;
             //Prints out the Items that can be bought from the Trader
             List<string> ItemsForSale = new List<string>();
             for(int i = 0; i < T.Items.Count; i++)
@@ -873,11 +889,10 @@ namespace ZombieApocalypseSimulator
             int UserChoice = CIO.PromptForMenuSelection(ItemsForSale, false);
             Item ChoosenItem = T.Items.ElementAt(UserChoice);
             int Price = T.PurchasePrice(ChoosenItem);
-            if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".","Yes","No"))
+            if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".","Yes","No"))
             {
-                CurrentPlayer.Money -= Price;
-                CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
-                Console.WriteLine("You have bought " + ChoosenItem.Name + " for $" + Price);
+                Exchange.PurchaseItem(ChoosenItem, Price);
+                //CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
             }
             else
             {
@@ -889,8 +904,9 @@ namespace ZombieApocalypseSimulator
         /// Allows the CurrentPlayer to sell an Item to the Trader
         /// </summary>
         /// <param name="T"></param>
-        private void SellToTrader(Trader T)
+        private void SellToTrader(Transaction Exchange)
         {
+            Trader T = (Trader)Exchange.Seller;
             List<string> ItemsToSell = new List<string>();
             for (int i = 0; i < CurrentPlayer.Items.Count; i++)
             {
@@ -902,13 +918,20 @@ namespace ZombieApocalypseSimulator
             int Price = T.SellPrice(ChoosenItem);
             if(CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + Price, "Yes", "No"))
             {
-                CurrentPlayer.Items.RemoveAt(UserChoice);
-                CurrentPlayer.Money += T.SellItem(ChoosenItem);
+                Exchange.SellItem(ChoosenItem, Price);
+                //CurrentPlayer.Items.RemoveAt(UserChoice);
+                //CurrentPlayer.Money += T.SellItem(ChoosenItem);
             }
         }
 
-        private void BuyAmmo(Trader T)
+        /// <summary>
+        /// Helper method to allow the CurrentPlayer to purchase ammo from a Trader
+        /// </summary>
+        /// <param name="Exchange"></param>
+        private void BuyAmmo(Transaction Exchange)
         {
+            Trader T = (Trader)Exchange.Seller;
+
             int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[]{"Handgun for $1 a round","Rifle for $2 a round","Shotgun for $2 a round"}), false);
             AmmoType ChosenType = AmmoType.Handgun;
             switch (UserChoice)
@@ -919,19 +942,18 @@ namespace ZombieApocalypseSimulator
             }
 
             int Amount = CIO.PromptForInt("How many bullets would you like to purchase",0, 100);
-            int Price = new Ammo(ChosenType).Value * Amount;
-            if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
+            int Price = T.PurchaseAmmoCost(ChosenType, Amount);
+            if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
             {
-                CurrentPlayer.Money -= Price;
-
-                CurrentPlayer.Items.AddRange(T.BuyAmmo(ChosenType, Amount));
-
-
+                Exchange.BuyerMoneyChange -= Price;
+                Exchange.SellerMoneyChange += Price;
+                Exchange.SellingItems.AddRange(T.BuyAmmo(ChosenType,Amount));
             }
         }
 
-        private void SellAmmo(Trader T)
+        private void SellAmmo(Transaction Exchange)
         {
+            Trader T = (Trader)Exchange.Seller;
             List<Ammo> HandgunAmmo = new List<Ammo>();
             List<Ammo> RifleAmmo = new List<Ammo>();
             List<Ammo> ShotgunAmmo = new List<Ammo>();
@@ -961,12 +983,23 @@ namespace ZombieApocalypseSimulator
             if (ChoosenAmmo.Count > 0)
             {
                 AmmoType ChoosenType = ChoosenAmmo.ElementAt(0).AmmoType;
-                int Amount = CIO.PromptForInt("How many rounds would you like to sell?", 0, T.SellAmmoLimit(ChoosenType));
-                T.SellAmmo(ChoosenType, Amount);
-                CurrentPlayer.Money += new Ammo(ChoosenType).Value * Amount;
+                int Amount = 0;
+                bool IllegalAmount = true;
+                while (IllegalAmount)
+                {
+                    Amount = CIO.PromptForInt("How many rounds would you like to sell?", 0, T.SellAmmoLimit(ChoosenType));
+                    IllegalAmount = Amount >= ChoosenAmmo.Count;
+                    if (IllegalAmount)
+                    {
+                        Console.WriteLine("You don't have that many bullets");
+                    }
+                }
+                Item AmmoValue = new Item();
+                AmmoValue.Value = (new Ammo(ChoosenType)).Value * Amount;
+                int Price = T.SellPrice(AmmoValue);
                 for (int i = 0; i < Amount; i++)
                 {
-                    CurrentPlayer.Items.Remove(ChoosenAmmo.ElementAt(i));
+                    Exchange.SellItem(ChoosenAmmo.ElementAt(i), Price);
                 }
             }
 

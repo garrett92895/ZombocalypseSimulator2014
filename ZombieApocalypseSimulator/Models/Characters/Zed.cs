@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +18,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             MentalAffinity = 1;
             MentalEndurance = 1;
             ArmorRating = 14;
-            Items = new List<Item>();
+            Items = new ObservableCollection<Item>();
             Item RandMoney = new Item();
             RandMoney.Value = DieRoll.RollOne(20);
             Items.Add(RandMoney);

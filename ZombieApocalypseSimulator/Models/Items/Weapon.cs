@@ -83,9 +83,8 @@ namespace ZombieApocalypseSimulator.Models.Items
                 Value += ((IgnoresAR) ? Value / 2 : 0) + ((Effect < 0) ? 0 : Value / 2);
 
                 //The weapon's value is a percentage of its normal value based on its Condition
-                Value = (int) (Value * (Condition / 100.0));
+                Value = (int)(Value * (Condition / 100.0));
             }
-
         }
 
 	}
