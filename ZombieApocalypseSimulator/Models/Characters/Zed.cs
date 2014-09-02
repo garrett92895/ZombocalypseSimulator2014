@@ -21,6 +21,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             Items = new ObservableCollection<Item>();
             Item RandMoney = new Item();
             RandMoney.Value = DieRoll.RollOne(20);
+            RandMoney.Name = "$" + RandMoney.Value;
             Items.Add(RandMoney);
         }
 

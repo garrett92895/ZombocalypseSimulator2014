@@ -629,12 +629,22 @@ namespace ZombieApocalypseSimulator
             {
                 ItemsToDrop.Add(Current.Items.ElementAt(i).ToString());
             }
+            ItemsToDrop.Add("Money");
 
             PlayerChoice = CIO.PromptForMenuSelection(ItemsToDrop, false);
-            Item GiveItem = Current.Items.ElementAt(PlayerChoice);
+            if (PlayerChoice == ItemsToDrop.Count - 1)
+            {
+                int Amount = CIO.PromptForInt("You have $" + CurrentPlayer.Money + ", how much would you like to give?", 0, CurrentPlayer.Money);
+                CurrentPlayer.Money -= Amount;
+                Friendly.Money += Amount;
+            }
+            else
+            {
+                Item GiveItem = Current.Items.ElementAt(PlayerChoice);
 
-            Current.Items.Remove(GiveItem);
-            Friendly.AddItem(GiveItem);
+                Current.Items.Remove(GiveItem);
+                Friendly.AddItem(GiveItem);
+            }
         }
 
         /// <summary>
