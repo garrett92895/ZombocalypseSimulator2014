@@ -28,7 +28,15 @@ namespace ZombieApocalypseSimulator
         DropItem,
         GiveItem,
         Trade,
-        Reload
+        Reload,
+        LevelUp,
+        LevelDown,
+        Heal,
+        Revive,
+        Shout,
+        MakeTrap,
+        FixWeapon,
+        SetTrap
     }
 
     public class Controller
@@ -44,6 +52,7 @@ namespace ZombieApocalypseSimulator
         public List<Coordinate> CorpseSquares;
         public CharacterStack PlayerOrder;
         public CharacterStack ZedOrder;
+        public Coordinate TrapLocation;
         #endregion
 
         #region Ctor and Run
@@ -216,15 +225,22 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Move");
                     SquaresLeft = SquaresLeft - Move();
                     Console.WriteLine(Field.ToString());
+                    if(CurrentPlayer.Location == TrapLocation)
+                    {
+                        int roll = new DieRoll(1, 6).Roll();
+                        CurrentPlayer.Equals(StatusEffect.Stunned);
+                        CurrentPlayer.Health -= roll;
+                        Console.WriteLine("You steped on a trap you now are Stunned and you took " + roll + " of damage");
+                    }
                 }
-                else if (PlayerAction.Equals(ActionTypes.EndTurn))
+                 else if (PlayerAction.Equals(ActionTypes.EndTurn))
                 {
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
 
                     //Status Effect Calculation
 
-                    //Status Effects should be in their own method
+
                     if (CurrentPlayer.Equals(StatusEffect.OnFire))
                     {
                         CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
@@ -237,13 +253,15 @@ namespace ZombieApocalypseSimulator
                     {
                         SquaresLeft = MaxSquares - MaxSquares;
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
-                    {
-                        CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
-                    }
                     if (CurrentPlayer.Equals(StatusEffect.Infected))
                     {
-
+                        int check = new DieRoll(1, 20).Roll();
+                        if (check <= 5)
+                        {
+                            Field.KillCharacter(CurrentPlayer);
+                            PlayerOrder.RemoveCharacter(CurrentPlayer);
+                            Field.AddCharacterToSquare(ZedFactory.RandomSpecial(), CurrentPlayer.Location);
+                        }
                     }
                     if (CurrentPlayer.Equals(StatusEffect.ArmourBroken))
                     {
@@ -254,6 +272,14 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Equip");
                     Equip();
+                }
+                else if (PlayerAction.Equals(ActionTypes.SetTrap))
+                {
+                    Console.WriteLine("Place a trap");
+                    TrapLocation = CurrentPlayer.Location;
+
+                    //AddTrapToField(CurrentPlayer.Items.Equals(Trap), TrapLocation);
+                    
                 }
                 else if (PlayerAction.Equals(ActionTypes.Reload))
                 {
@@ -272,11 +298,52 @@ namespace ZombieApocalypseSimulator
                     GiveItem();
                     SquaresLeft -= 3;
                 }
+
+                else if (PlayerAction.Equals(ActionTypes.Heal))
+                {
+                    Console.WriteLine("Heal");
+
+                    SquaresLeft -= 3;
+                }
+                else if (PlayerAction.Equals(ActionTypes.Revive))
+                {
+                    Console.WriteLine("Revive");
+                    Revive();
+                    SquaresLeft -= MaxSquares / 2;
+                }
+                else if (PlayerAction.Equals(ActionTypes.Shout))
+                {
+                    Console.WriteLine("Shout");
+
+                    SquaresLeft -= 1;
+                }
+                else if (PlayerAction.Equals(ActionTypes.MakeTrap))
+                {
+                    Console.WriteLine("Make Trap");
+                    //CurrentPlayer.addTrap();
+                    SquaresLeft -= 3;
+                }
+                else if (PlayerAction.Equals(ActionTypes.FixWeapon))
+                {
+                    Console.WriteLine("Fix Your Equiped Weapon");
+
+                    SquaresLeft -= 4;
+                }
                 else if (PlayerAction.Equals(ActionTypes.PickUpItem))
                 {
                     Console.WriteLine("Pick up item");
                     PickUpItem();
                     SquaresLeft -= 2;
+                }
+                else if (PlayerAction.Equals(ActionTypes.LevelUp))
+                {
+                    Console.WriteLine("Level Up");
+                    CurrentPlayer.LevelUp();
+                }
+                else if (PlayerAction.Equals(ActionTypes.LevelDown))
+                {
+                    Console.WriteLine("Level Down");
+                    CurrentPlayer.LevelDown();
                 }
                 else if (PlayerAction.Equals(ActionTypes.CharacterScreen))
                 {
@@ -307,19 +374,8 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ranged attack");
                     RangedAttack(PlayerAction);
-                    if (PlayerAction.Equals(ActionTypes.UnaimedRangedAttack))
-                    {
-                        SquaresLeft -= (int)MaxSquares / 2;
-                    }
-                    else
-                    {
-                        SquaresLeft -= MaxSquares;
-                    }
+                    SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
-                }
-                else if (PlayerAction.Equals(ActionTypes.Trade))
-                {
-                    BeginTrade();
                 }
 
                 KillDeadCharacters();
@@ -365,6 +421,8 @@ namespace ZombieApocalypseSimulator
             List<ActionTypes> PossibleActions = new List<ActionTypes>();
             PossibleActions.Add(ActionTypes.CharacterScreen);
             PossibleActions.Add(ActionTypes.EndTurn);
+            PossibleActions.Add(ActionTypes.LevelUp);
+            PossibleActions.Add(ActionTypes.LevelDown);
 
             //Checks for possible moves
             if (Field.PossibleMovesForCharacter(CurrentPlayer, SquaresLeft).Any())
@@ -405,6 +463,21 @@ namespace ZombieApocalypseSimulator
                     {
                         PossibleActions.Add(ActionTypes.Reload);
                     }                    
+                }
+                PossibleActions.Add(ActionTypes.SetTrap);
+                if (Current.GetType() == typeof(Medic))
+                {
+                    PossibleActions.Add(ActionTypes.Heal);
+                    PossibleActions.Add(ActionTypes.Revive);
+                }
+                if (Current.GetType() == typeof(Engineer))
+                {
+                    PossibleActions.Add(ActionTypes.FixWeapon);
+                    PossibleActions.Add(ActionTypes.MakeTrap);
+                }
+                if (Current.GetType() == typeof(Bruiser))
+                {
+                    PossibleActions.Add(ActionTypes.Shout);
                 }
                 //Checks for the ability to pick up an item
                 if (SquaresLeft >= 2
@@ -570,7 +643,15 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void CharacterScreen()
         {
-            Console.WriteLine(CurrentPlayer.ToString());
+            if (CurrentPlayer is Player)
+            {
+                Console.WriteLine(CurrentPlayer.ToString());
+            }
+            else
+            {
+                Console.WriteLine(ZedNames() + "\r\n" + CurrentPlayer.ToString());
+            }
+
         }
 
         private void Equip()
@@ -629,12 +710,22 @@ namespace ZombieApocalypseSimulator
             {
                 ItemsToDrop.Add(Current.Items.ElementAt(i).ToString());
             }
+	    ItemsToDrop.Add("Money");
+
 
             PlayerChoice = CIO.PromptForMenuSelection(ItemsToDrop, false);
-            Item GiveItem = Current.Items.ElementAt(PlayerChoice);
-
-            Current.Items.Remove(GiveItem);
-            Friendly.AddItem(GiveItem);
+            if (PlayerChoice == ItemsToDrop.Count - 1)
+            {
+                int Amount = CIO.PromptForInt("You have $" + CurrentPlayer.Money + ", how much would you like to give?", 0, CurrentPlayer.Money);
+                CurrentPlayer.Money -= Amount;
+                Friendly.Money += Amount;
+            }
+            else
+            {
+                Item GiveItem = Current.Items.ElementAt(PlayerChoice);
+	        Current.Items.Remove(GiveItem);
+                Friendly.AddItem(GiveItem);
+            }
         }
 
         /// <summary>
@@ -836,23 +927,38 @@ namespace ZombieApocalypseSimulator
             //Just in case there is no Trader next to the CurrentPlayer
             if (Trader != null)
             {
-                int UserChoice = CIO.PromptForMenuSelection( new List<string>(new string[]{"Buy items from the Trader","Buy ammo From the Trader", "Sell items to the Trader", "Sell ammo to the Trader"}), false);
-                Console.WriteLine("Input was : " + UserChoice);
-                if (UserChoice == 0)
+                Transaction Exchange = new Transaction(CurrentPlayer, Trader);
+                Console.WriteLine("Transaction Started");
+                while (!Exchange.Done)
                 {
-                    BuyFromTrader(Trader);
-                }
-                if (UserChoice == 1)
-                {
-                    BuyAmmo(Trader);
-                }
-                if (UserChoice == 2)
-                {
-                    SellToTrader(Trader);
-                }
-                if (UserChoice == 3)
-                {
-                    SellAmmo(Trader);
+                    Console.WriteLine("You have $" + (CurrentPlayer.Money + Exchange.BuyerMoneyChange));
+                    int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[] { "Buy an item from the Trader", "Buy ammo From the Trader", 
+                        "Sell an item to the Trader", "Sell ammo to the Trader", "End Transaction", "Cancel Transaction" }), false);
+                    //Console.WriteLine("Input was : " + UserChoice);
+                    if (UserChoice == 0)
+                    {
+                        BuyFromTrader(Exchange);
+                    }
+                    if (UserChoice == 1)
+                    {
+                        BuyAmmo(Exchange);
+                    }
+                    if (UserChoice == 2)
+                    {
+                        SellToTrader(Exchange);
+                    }
+                    if (UserChoice == 3)
+                    {
+                        SellAmmo(Exchange);
+                    }
+                    if (UserChoice == 4)
+                    {
+                        Exchange.FinishTransaction();
+                    }
+                    if (UserChoice == 5)
+                    {
+                        Exchange.CancelTransaction();
+                    }
                 }
             }
         }
@@ -861,8 +967,9 @@ namespace ZombieApocalypseSimulator
         /// Allows the CurrentPlayer to buy an Item from the Trader
         /// </summary>
         /// <param name="T"></param>
-        private void BuyFromTrader(Trader T)
+        private void BuyFromTrader(Transaction Exchange)
         {
+            Trader T = (Trader) Exchange.Seller;
             //Prints out the Items that can be bought from the Trader
             List<string> ItemsForSale = new List<string>();
             for(int i = 0; i < T.Items.Count; i++)
@@ -873,11 +980,10 @@ namespace ZombieApocalypseSimulator
             int UserChoice = CIO.PromptForMenuSelection(ItemsForSale, false);
             Item ChoosenItem = T.Items.ElementAt(UserChoice);
             int Price = T.PurchasePrice(ChoosenItem);
-            if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".","Yes","No"))
+            if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".","Yes","No"))
             {
-                CurrentPlayer.Money -= Price;
-                CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
-                Console.WriteLine("You have bought " + ChoosenItem.Name + " for $" + Price);
+                Exchange.PurchaseItem(ChoosenItem, Price);
+                //CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
             }
             else
             {
@@ -889,8 +995,9 @@ namespace ZombieApocalypseSimulator
         /// Allows the CurrentPlayer to sell an Item to the Trader
         /// </summary>
         /// <param name="T"></param>
-        private void SellToTrader(Trader T)
+        private void SellToTrader(Transaction Exchange)
         {
+            Trader T = (Trader)Exchange.Seller;
             List<string> ItemsToSell = new List<string>();
             for (int i = 0; i < CurrentPlayer.Items.Count; i++)
             {
@@ -902,13 +1009,20 @@ namespace ZombieApocalypseSimulator
             int Price = T.SellPrice(ChoosenItem);
             if(CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + Price, "Yes", "No"))
             {
-                CurrentPlayer.Items.RemoveAt(UserChoice);
-                CurrentPlayer.Money += T.SellItem(ChoosenItem);
+                Exchange.SellItem(ChoosenItem, Price);
+                //CurrentPlayer.Items.RemoveAt(UserChoice);
+                //CurrentPlayer.Money += T.SellItem(ChoosenItem);
             }
         }
 
-        private void BuyAmmo(Trader T)
+        /// <summary>
+        /// Helper method to allow the CurrentPlayer to purchase ammo from a Trader
+        /// </summary>
+        /// <param name="Exchange"></param>
+        private void BuyAmmo(Transaction Exchange)
         {
+            Trader T = (Trader)Exchange.Seller;
+
             int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[]{"Handgun for $1 a round","Rifle for $2 a round","Shotgun for $2 a round"}), false);
             AmmoType ChosenType = AmmoType.Handgun;
             switch (UserChoice)
@@ -919,19 +1033,65 @@ namespace ZombieApocalypseSimulator
             }
 
             int Amount = CIO.PromptForInt("How many bullets would you like to purchase",0, 100);
-            int Price = new Ammo(ChosenType).Value * Amount;
-            if (CurrentPlayer.Money >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
+            int Price = T.PurchaseAmmoCost(ChosenType, Amount);
+            if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
             {
-                CurrentPlayer.Money -= Price;
-
-                //CurrentPlayer.Items.AddRange(T.BuyAmmo(ChosenType, Amount));
-
-
+                Exchange.BuyerMoneyChange -= Price;
+                Exchange.SellerMoneyChange += Price;
+                Exchange.SellingItems.AddRange(T.BuyAmmo(ChosenType,Amount));
             }
         }
 
-        private void SellAmmo(Trader T)
+        private string ZedNames()
         {
+            int nameNumber = 0;
+            for (int i = 0; i > Zeds.Count(); i++)
+            {
+                nameNumber = i;
+            }
+            string s = "Name : Zombie" + (nameNumber + 1);
+            return s;
+        }
+
+        private void Revive()
+        {
+            List<Character> FriendliesCorpses = Field.AdjacentCharacters(CurrentPlayer, true);
+            List<string> Choices = new List<string>();
+            for (int i = 0; i < FriendliesCorpses.Count(); i++)
+            {
+                Player c = (Player)FriendliesCorpses.ElementAt(i);
+                Choices.Add("Level " + c.Level + " at " + c.Location.ToString());
+            }
+
+            int PlayerChoice = CIO.PromptForMenuSelection(Choices, false);
+            Player Friendly = (Player)FriendliesCorpses.ElementAt(PlayerChoice);
+            Player Current = (Player)CurrentPlayer;
+
+            List<string> ItemsToDrop = new List<string>();
+            for (int i = 0; i < Current.Items.Count(); i++)
+            {
+                ItemsToDrop.Add(Current.Items.ElementAt(i).ToString());
+            }
+
+            PlayerChoice = CIO.PromptForMenuSelection(ItemsToDrop, false);
+            Item GiveItem = Current.Items.ElementAt(PlayerChoice);
+
+            Current.Items.Remove(GiveItem);
+            int rev = new DieRoll(1, 20).Roll(); ;
+            if (rev >= 14)
+            {
+                Friendly.isAlive = true;
+                Console.WriteLine("You Succesfully Revived Your Ally!");
+            }
+            else
+            {
+                Console.WriteLine("Sorry the procedure failed.");
+            }
+        }
+
+        private void SellAmmo(Transaction Exchange)
+        {
+            Trader T = (Trader)Exchange.Seller;
             List<Ammo> HandgunAmmo = new List<Ammo>();
             List<Ammo> RifleAmmo = new List<Ammo>();
             List<Ammo> ShotgunAmmo = new List<Ammo>();
@@ -961,12 +1121,23 @@ namespace ZombieApocalypseSimulator
             if (ChoosenAmmo.Count > 0)
             {
                 AmmoType ChoosenType = ChoosenAmmo.ElementAt(0).AmmoType;
-                int Amount = CIO.PromptForInt("How many rounds would you like to sell?", 0, T.SellAmmoLimit(ChoosenType));
-                T.SellAmmo(ChoosenType, Amount);
-                CurrentPlayer.Money += new Ammo(ChoosenType).Value * Amount;
+                int Amount = 0;
+                bool IllegalAmount = true;
+                while (IllegalAmount)
+                {
+                    Amount = CIO.PromptForInt("How many rounds would you like to sell?", 0, T.SellAmmoLimit(ChoosenType));
+                    IllegalAmount = Amount >= ChoosenAmmo.Count;
+                    if (IllegalAmount)
+                    {
+                        Console.WriteLine("You don't have that many bullets");
+                    }
+                }
+                Item AmmoValue = new Item();
+                AmmoValue.Value = (new Ammo(ChoosenType)).Value * Amount;
+                int Price = T.SellPrice(AmmoValue);
                 for (int i = 0; i < Amount; i++)
                 {
-                    CurrentPlayer.Items.Remove(ChoosenAmmo.ElementAt(i));
+                    Exchange.SellItem(ChoosenAmmo.ElementAt(i), Price);
                 }
             }
 

@@ -76,7 +76,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 			Speed = SP;
 		}
 
-        private readonly byte maxAmmo = 100;
+        //private readonly byte maxAmmo = 100;
 
         public override Attack MeleeAttack()
         {

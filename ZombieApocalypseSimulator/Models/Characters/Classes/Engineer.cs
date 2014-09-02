@@ -57,7 +57,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             {
                 if (Items.Count() < ItemLimit)
                 {
-                    Items.Add(new Trap { Damage = new DieRoll(2,4), StatusEffect = StatusEffect.Crippled, Name = "Engineer Trap" });
+                    //Items.Add(new Trap { Damage = (new DieRoll(2,4).Roll()), StatusEffect = StatusEffect.Crippled, Name = "Engineer Trap" });
                 }
             }
         }

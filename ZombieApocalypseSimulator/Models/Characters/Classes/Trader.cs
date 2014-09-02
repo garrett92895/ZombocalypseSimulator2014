@@ -42,20 +42,20 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         /// </summary>
         /// <param name="Index"></param>
         /// <returns></returns>
-        public Item PurchaseItem(int Index)
-        {
-            Item Purchased = Items.ElementAt(Index);
-            Items.RemoveAt(Index);
-            int PurchaseValue = PurchasePrice(Purchased);
+        //public Item PurchaseItem(int Index)
+        //{
+        //    Item Purchased = Items.ElementAt(Index);
+        //    Items.RemoveAt(Index);
+        //    int PurchaseValue = PurchasePrice(Purchased);
 
-            //Prevents overflow error when adding money
-            if(PurchaseValue + Money < 0)
-            {
-                PurchaseValue = int.MaxValue-PurchaseValue;
-            }
-            Money -= PurchaseValue;
-            return Purchased;
-        }
+        //    //Prevents overflow error when adding money
+        //    if(PurchaseValue + Money < 0)
+        //    {
+        //        PurchaseValue = int.MaxValue-PurchaseValue;
+        //    }
+        //    Money -= PurchaseValue;
+        //    return Purchased;
+        //}
 
         /// <summary>
         /// Method to be used when Ammo is being purchased from the Trader.
@@ -104,9 +104,10 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         /// </summary>
         /// <param name="TypeOfAmmo"></param>
         /// <param name="Amount"></param>
-        public void SellAmmo(AmmoType TypeOfAmmo, int Amount)
+        public int PurchaseAmmoCost(AmmoType TypeOfAmmo, int Amount)
         {
-            Money -= new Ammo(TypeOfAmmo).Value * Amount;
+            int Total = new Ammo(TypeOfAmmo).Value * Amount;
+            return Total + (Total/MarkUp);
         }
 
         /// <summary>
@@ -153,13 +154,13 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
         /// </summary>
         /// <param name="SellItem"></param>
         /// <returns></returns>
-        public int SellItem(Item SellItem)
-        {
-            int SellValue = SellPrice(SellItem);
-            Money -= SellValue;
-            Items.Add(SellItem);
-            return SellValue;
-        }
+        //public int SellItem(Item SellItem)
+        //{
+        //    int SellValue = SellPrice(SellItem);
+        //    Money -= SellValue;
+        //    Items.Add(SellItem);
+        //    return SellValue;
+        //}
 
 
         /// <summary>
