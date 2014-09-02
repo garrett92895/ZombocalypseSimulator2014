@@ -183,9 +183,7 @@ namespace ZombieApocalypseWPF
                     nc.MouseRightButtonUp += nc_MouseRightButtonUp;
 
                     Board.Children.Add(nc);
-
                 }
-
             }
         }
 

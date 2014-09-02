@@ -107,7 +107,10 @@ namespace ZombieApocalypseSimulator
             //Adds the Items that were going to be bought from the Seller back to the Seller's Inventory
             foreach (Item I in SellingItems)
             {
-                Seller.Items.Add(I);
+                if (!(I is Ammo))
+                {
+                    Seller.Items.Add(I);
+                }
             }
             
             //Adds the Items that were going to be sold to the Seller back to the Buyer's Inventory

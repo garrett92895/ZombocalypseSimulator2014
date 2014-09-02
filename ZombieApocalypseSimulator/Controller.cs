@@ -747,6 +747,18 @@ namespace ZombieApocalypseSimulator
             {
                 ((Player)CurrentPlayer).Money += PlayerChoiceItem.Value;
             }
+            else if (PlayerChoiceItem is Health)
+            {
+                Health HealthPack = (Health) PlayerChoiceItem;
+                if (CurrentPlayer is Medic)
+                {
+                    ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
+                }
+                else
+                {
+                    CurrentPlayer.Health += HealthPack.AmountHealed.Roll();
+                }
+            }
             else
             {
                 ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
@@ -880,6 +892,7 @@ namespace ZombieApocalypseSimulator
             }
 
             int Strike = Current.toHitRanged(Bonus);
+            Console.WriteLine("Rolled " + Strike);
             if (Strike > 4 && Strike > Victim.ArmorRating)
             {
                 int Damage = Current.RangedAttack();
