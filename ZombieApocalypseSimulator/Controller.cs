@@ -53,7 +53,7 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
-            AI = new ZombieAI();
+            AI = new ZombieAI(true);
         }
 
         public void Run()
@@ -84,8 +84,9 @@ namespace ZombieApocalypseSimulator
 
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
-                    CurrentPlayer = ZedOrder.Pop();
-
+                    Zed CurrentZombie = (Zed) ZedOrder.Pop();
+                    CurrentZombie.HasAttacked = false;
+                    CurrentPlayer = CurrentZombie;
                     PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));

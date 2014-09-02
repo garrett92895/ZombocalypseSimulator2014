@@ -110,6 +110,16 @@ namespace ZombieApocalypseWPF
             
             PopulateBoard();
 
+            MessageBoxResult dr = MessageBox.Show("Would you like to enable intelligent zombies?",
+                      "Zombie Mode", MessageBoxButton.YesNo);
+            if(dr.Equals(MessageBoxResult.Yes))
+            {
+                c.AI.IntelligentAI = true;
+            }
+            else
+            {
+                c.AI.IntelligentAI = false;
+            }
         }
 
         private void PopulateBoard()
