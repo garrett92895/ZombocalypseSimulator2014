@@ -35,6 +35,7 @@ namespace ZombieApocalypseSimulator
             //    Trader.Items.Add(WeaponFactory.RandomWeapon());
             //}
 
+<<<<<<< HEAD
             /*
              * Run Away Test
              */
@@ -48,6 +49,14 @@ namespace ZombieApocalypseSimulator
              */
             Character Zed2 = ZedFactory.GetInstance("Tank");
             Coordinate ZedCoor2 = new Coordinate(12, 2);
+=======
+            Character Zed1 = ZedFactory.GetInstance("Shank");
+            Coordinate ZedCoor1 = new Coordinate(5, 3);
+            c.AddCharacterToField(Zed1, ZedCoor1);
+
+            Character Zed2 = ZedFactory.GetInstance("Tank");
+            Coordinate ZedCoor2 = new Coordinate(2, 2);
+>>>>>>> origin/master
             c.AddCharacterToField(Zed2, ZedCoor2);
 
             Character Zed4 = ZedFactory.GetInstance("Sloucher");

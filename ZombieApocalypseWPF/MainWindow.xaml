@@ -11,7 +11,6 @@
         <CommandBinding Command="New" Executed="New_Executed"/>
         <CommandBinding Command="Open" Executed="Open_Executed"/>
         <CommandBinding Command="Close" Executed="Close_Executed"/>
-     
     </Window.CommandBindings>
     
     <Grid>
@@ -26,6 +25,7 @@
                 <MenuItem Header="New" Command="New"/>
                 <MenuItem Header="Open" Command="Open"/>
                 <MenuItem Header="Close" Command="Close"/>
+                <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click"/>
             </MenuItem>
             <MenuItem Header="Add">
                 <MenuItem Header="Player" Click="Player_Add"/>

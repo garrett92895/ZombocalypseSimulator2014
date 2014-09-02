@@ -1,0 +1,23 @@
+﻿<Window x:Class="ZombieApocalypseWPF.Windows.AddPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:uc="clr-namespace:ZombieApocalypseWPF.UserControls"
+        Title="AddPlayerWindow" Height="900" Width="300"
+        Background="Black">
+    <StackPanel>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label>Class: </Label>
+            <ComboBox x:Name="PlayerClass" Grid.Column="1"
+                      SelectionChanged="PlayerClass_SelectionChanged_1"/>
+        </Grid>
+        <uc:CharacterControl x:Name="NewPlayerControl">
+            
+        </uc:CharacterControl>
+        <Button Click="Button_Click_1">Done</Button>
+        <Button Click="Button_Click_2">Cancel</Button>
+    </StackPanel>
+</Window>

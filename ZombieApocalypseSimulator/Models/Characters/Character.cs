@@ -11,6 +11,9 @@ namespace ZombieApocalypseSimulator.Models.Characters
 {
     public abstract class Character : INotifyPropertyChanged, IComparable, IComparable<Character>
     {
+
+        public string Name { get; set; }
+
         private int _MaxHealth;
         public int MaxHealth 
         {

@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <StackPanel>
         
-        <Label x:Name="CharacterName" Content="{Binding Name}" HorizontalAlignment="Center"/>
+        <TextBox x:Name="CharacterName" Text="{Binding Name}" HorizontalAlignment="Center"/>
         <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="250" Width="250"/>
         <UniformGrid x:Name="AttributeGrid" Columns="4" >
 
@@ -58,6 +58,10 @@
             <Label Content="Speed: " HorizontalContentAlignment="Right" />
             <TextBox Text="{Binding Speed}" HorizontalContentAlignment="Left" />
 
+
+            <Label Content="Money: " HorizontalContentAlignment="Right" />
+            <TextBox Text="{Binding Money}" HorizontalContentAlignment="Left" />
+            
         </UniformGrid>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

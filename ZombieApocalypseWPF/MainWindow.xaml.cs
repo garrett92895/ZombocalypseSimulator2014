@@ -33,7 +33,7 @@ namespace ZombieApocalypseWPF
     {
 
         Controller c;
-
+        public bool canEdit;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -45,6 +45,7 @@ namespace ZombieApocalypseWPF
             {
                 _selectedPlayer = value;
                 this.PlayerControl.c = _selectedPlayer;
+                this.CharacterComboBox.SelectedValue = _selectedPlayer;
             }
         } 
         
@@ -59,6 +60,7 @@ namespace ZombieApocalypseWPF
             {
                 _selectedZombie = value;
                 this.ZombieControl.c = _selectedZombie;
+                this.ZCharacterComboBox.SelectedValue = _selectedZombie;
             }
         }
 
@@ -67,8 +69,10 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
+            canEdit = true;
             PlayerControl.Level_Up_Button.Click += Level_Up_Player_Button_Click;
             PlayerControl.Level_Down_Button.Click += Level_Down_Player_Button_Click;
+            
 
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
             ZombieControl.Level_Down_Button.Click += Level_Down_Zombie_Button_Click;
@@ -78,15 +82,19 @@ namespace ZombieApocalypseWPF
 
             c = new Controller();
 
-            Character NewPlayer = new HalfZombie();
+            Character NewPlayer = new Fighter();
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
             SelectedPlayer = (Player)NewPlayer;
 
+            Character NewPlayer1 = new Engineer();
+            Coordinate Coor1 = new Coordinate(3, 3);
+            c.AddCharacterToField(NewPlayer1, Coor1);
 
-            //Character Trader = new Trader();
-            //Coordinate Coor2 = new Coordinate(1, 1);
-            //c.AddCharacterToField(Trader, Coor2);
+
+            Character Trader = new Trader();
+            Coordinate Coor2 = new Coordinate(1, 1);
+            c.AddCharacterToField(Trader, Coor2);
 
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
@@ -187,36 +195,44 @@ namespace ZombieApocalypseWPF
                     nc.MouseRightButtonUp += nc_MouseRightButtonUp;
 
                     Board.Children.Add(nc);
-
                 }
-
             }
         }
 
+        public static Item newItem = null;
+        public static int xCoor;
+        public static int yCoor;
+        public static Character NewCharacter;
+
         private Item AddItem()
         {
-            Item i = null;
-            Window aiw = new AddItemWindow(ref i);
+            Window aiw = new AddItemWindow();
             aiw.ShowDialog();
+            Item i = newItem;
+            newItem = null;
             return i;
         }
 
         private void Player_AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            Item i = AddItem();
+            if (canEdit)
+            {
+                Item i = AddItem();
 
-            if (i != null && SelectedPlayer != null)
-                SelectedPlayer.Items.Add(i);
-
+                if (i != null && SelectedPlayer != null)
+                    SelectedPlayer.Items.Add(i);
+            }
         }
 
         private void Zombie_AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            Item i = AddItem();
+            if (canEdit)
+            {
+                Item i = AddItem();
 
-            if (i != null && SelectedPlayer != null)
-                SelectedZombie.Items.Add(i);
-
+                if (i != null && SelectedZombie != null)
+                    SelectedZombie.Items.Add(i);
+            }
         }
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
@@ -259,20 +275,23 @@ namespace ZombieApocalypseWPF
 
             if (tempgq.OccupyingCharacter is Zed)
                 SelectedZombie = (Zed)tempgq.OccupyingCharacter;
+
             else if (tempgq.OccupyingCharacter is Player)
                 SelectedPlayer = (Player)tempgq.OccupyingCharacter;
         }
 
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas tempc = (Canvas)sender;
-            GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
+            if (canEdit)
+            {
+                Canvas tempc = (Canvas)sender;
+                GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
 
-            if (tempgq.OccupyingCharacter != null)
-                return;
+                if (tempgq.OccupyingCharacter != null)
+                    return;
 
-            tempgq.IsOccupiable = !tempgq.IsOccupiable;
-
+                tempgq.IsOccupiable = !tempgq.IsOccupiable;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -375,18 +394,85 @@ namespace ZombieApocalypseWPF
 
         private void Player_Add(object sender, RoutedEventArgs e)
         {
+            if (canEdit)
+            {
+                xCoor = -9;
+                yCoor = -9;
+                NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+                ncw.ShowDialog();
 
+                if (xCoor == -9 || yCoor == -9)
+                    return;
+
+                AddPlayerWindow apw = new AddPlayerWindow();
+                apw.ShowDialog();
+
+                if (NewCharacter == null)
+                    return;
+
+                c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+
+                NewCharacter = null;
+
+                xCoor = -9;
+                yCoor = -9;
+            }
         }
 
         private void Zombie_Add(object sender, RoutedEventArgs e)
         {
+            if (canEdit)
+            {
+                xCoor = -9;
+                yCoor = -9;
+                NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+                ncw.ShowDialog();
 
+                if (xCoor == -9 || yCoor == -9)
+                    return;
+
+                AddZombieWindow apw = new AddZombieWindow();
+                apw.ShowDialog();
+
+                if (NewCharacter == null)
+                    return;
+
+                c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+
+                NewCharacter = null;
+
+                xCoor = -9;
+                yCoor = -9;
+            }
         }
 
         private void Item_Add(object sender, RoutedEventArgs e)
         {
+            if (canEdit)
+            {
+                xCoor = -9;
+                yCoor = -9;
+                NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+                ncw.ShowDialog();
 
+                if (xCoor == -9 || yCoor == -9)
+                    return;
+
+                Item i = AddItem();
+
+
+                c.AddItemToField(i, new Coordinate(xCoor, yCoor));
+
+                xCoor = -9;
+                yCoor = -9;
+            }
         }
+
+        private void EditMode_Click(object sender, RoutedEventArgs e)
+        {
+            this.canEdit = !this.canEdit;
+        }
+
 
         
     }

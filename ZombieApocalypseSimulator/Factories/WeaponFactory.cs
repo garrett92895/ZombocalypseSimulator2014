@@ -58,7 +58,7 @@ namespace ZombieApocalypseSimulator.Factories
                     _weapon.Name = "Boomstick";
                 }
                 _weapon.Condition = DieRoll.RollOne(100);
-                _weapon.Damage = new DieRoll(DieRoll.RollOne(7), DieRoll.RollOne(6));
+                _weapon.Damage = new DieRoll(DieRoll.RollOne(5), DieRoll.RollOne(12));
 
                 return _weapon;
             }

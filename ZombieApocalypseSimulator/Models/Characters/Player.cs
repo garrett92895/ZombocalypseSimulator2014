@@ -76,7 +76,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 			Speed = SP;
 		}
 
-        private readonly byte maxAmmo = 100;
+        //private readonly byte maxAmmo = 100;
 
         public override Attack MeleeAttack()
         {
@@ -129,7 +129,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public int toHitRanged(int bonus)
         {
-            return DieRoll.RollOne(20) + bonus;
+            return DieRoll.RollOne(20) + bonus + bonusPP();
         }
     
         public List<Weapon> GetWeapons()
