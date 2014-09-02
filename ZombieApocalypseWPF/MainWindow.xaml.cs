@@ -92,9 +92,9 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(NewPlayer1, Coor1);
 
 
-            //Character Trader = new Trader();
-            //Coordinate Coor2 = new Coordinate(1, 1);
-            //c.AddCharacterToField(Trader, Coor2);
+            Character Trader = new Trader();
+            Coordinate Coor2 = new Coordinate(1, 1);
+            c.AddCharacterToField(Trader, Coor2);
 
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");

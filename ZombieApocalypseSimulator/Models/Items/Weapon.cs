@@ -77,7 +77,7 @@ namespace ZombieApocalypseSimulator.Models.Items
             if (Damage != null)
             {
                 //Sets the base value to be based on the weapons damage
-                Value = Damage.NumberOfDice * ((Damage.SidesPerDie / 2)) + 1;
+                Value = Damage.NumberOfDice * ((Damage.SidesPerDie)) + 1;
 
                 //Adds price based on any multipliers or modifyers in the Damage Dice
                 Value = (Value * Damage.Multiplier) + (Damage.Modifyer * 5);
@@ -85,7 +85,6 @@ namespace ZombieApocalypseSimulator.Models.Items
                 //Adds half the base value if the weapon IgnoresAr or has a Status Effect, if both will double the base value
                 Value += ((IgnoresAR) ? Value / 2 : 0) + ((Effect < 0) ? 0 : Value / 2);
 
-                Console.WriteLine("Value is : " + Value);
                 //The weapon's value is a percentage of its normal value based on its Condition
                 Value = (int)(Value * (Condition / 100.0));
             }

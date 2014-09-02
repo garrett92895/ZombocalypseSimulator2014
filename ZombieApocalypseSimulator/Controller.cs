@@ -377,6 +377,11 @@ namespace ZombieApocalypseSimulator
                     SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
                 }
+                else if (PlayerAction.Equals(ActionTypes.Trade))
+                {
+                    Console.WriteLine("Begin Trade");
+                    BeginTrade();
+                }
 
                 KillDeadCharacters();
             }
