@@ -33,7 +33,7 @@ namespace ZombieApocalypseWPF
     {
 
         Controller c;
-
+        public bool canEdit;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -69,8 +69,10 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
+            canEdit = true;
             PlayerControl.Level_Up_Button.Click += Level_Up_Player_Button_Click;
             PlayerControl.Level_Down_Button.Click += Level_Down_Player_Button_Click;
+            
 
             ZombieControl.Level_Up_Button.Click += Level_Up_Zombie_Button_Click;
             ZombieControl.Level_Down_Button.Click += Level_Down_Zombie_Button_Click;
@@ -203,20 +205,24 @@ namespace ZombieApocalypseWPF
 
         private void Player_AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            Item i = AddItem();
+            if (canEdit)
+            {
+                Item i = AddItem();
 
-            if (i != null && SelectedPlayer != null)
-                SelectedPlayer.Items.Add(i);
-
+                if (i != null && SelectedPlayer != null)
+                    SelectedPlayer.Items.Add(i);
+            }
         }
 
         private void Zombie_AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            Item i = AddItem();
+            if (canEdit)
+            {
+                Item i = AddItem();
 
-            if (i != null && SelectedZombie != null)
-                SelectedZombie.Items.Add(i);
-
+                if (i != null && SelectedZombie != null)
+                    SelectedZombie.Items.Add(i);
+            }
         }
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
@@ -266,14 +272,16 @@ namespace ZombieApocalypseWPF
 
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas tempc = (Canvas)sender;
-            GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
+            if (canEdit)
+            {
+                Canvas tempc = (Canvas)sender;
+                GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
 
-            if (tempgq.OccupyingCharacter != null)
-                return;
+                if (tempgq.OccupyingCharacter != null)
+                    return;
 
-            tempgq.IsOccupiable = !tempgq.IsOccupiable;
-
+                tempgq.IsOccupiable = !tempgq.IsOccupiable;
+            }
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -376,71 +384,85 @@ namespace ZombieApocalypseWPF
 
         private void Player_Add(object sender, RoutedEventArgs e)
         {
-            xCoor = -9;
-            yCoor = -9;
-            NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
-            ncw.ShowDialog();
+            if (canEdit)
+            {
+                xCoor = -9;
+                yCoor = -9;
+                NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+                ncw.ShowDialog();
 
-            if (xCoor == -9 || yCoor == -9)
-                return;
+                if (xCoor == -9 || yCoor == -9)
+                    return;
 
-            AddPlayerWindow apw = new AddPlayerWindow();
-            apw.ShowDialog();
+                AddPlayerWindow apw = new AddPlayerWindow();
+                apw.ShowDialog();
 
-            if (NewCharacter == null)
-                return;
+                if (NewCharacter == null)
+                    return;
 
-            c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+                c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
 
-            NewCharacter = null;
+                NewCharacter = null;
 
-            xCoor = -9;
-            yCoor = -9;
+                xCoor = -9;
+                yCoor = -9;
+            }
         }
 
         private void Zombie_Add(object sender, RoutedEventArgs e)
         {
-            xCoor = -9;
-            yCoor = -9;
-            NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
-            ncw.ShowDialog();
+            if (canEdit)
+            {
+                xCoor = -9;
+                yCoor = -9;
+                NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+                ncw.ShowDialog();
 
-            if (xCoor == -9 || yCoor == -9)
-                return;
+                if (xCoor == -9 || yCoor == -9)
+                    return;
 
-            AddZombieWindow apw = new AddZombieWindow();
-            apw.ShowDialog();
+                AddZombieWindow apw = new AddZombieWindow();
+                apw.ShowDialog();
 
-            if (NewCharacter == null)
-                return;
+                if (NewCharacter == null)
+                    return;
 
-            c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+                c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
 
-            NewCharacter = null;
+                NewCharacter = null;
 
-            xCoor = -9;
-            yCoor = -9;
+                xCoor = -9;
+                yCoor = -9;
+            }
         }
 
         private void Item_Add(object sender, RoutedEventArgs e)
         {
-            xCoor = -9;
-            yCoor = -9;
-            NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
-            ncw.ShowDialog();
+            if (canEdit)
+            {
+                xCoor = -9;
+                yCoor = -9;
+                NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+                ncw.ShowDialog();
 
-            if (xCoor == -9 || yCoor == -9)
-                return;
+                if (xCoor == -9 || yCoor == -9)
+                    return;
 
-            Item i = AddItem();
+                Item i = AddItem();
 
 
-            c.AddItemToField(i, new Coordinate(xCoor, yCoor));
+                c.AddItemToField(i, new Coordinate(xCoor, yCoor));
 
-            xCoor = -9;
-            yCoor = -9;
-
+                xCoor = -9;
+                yCoor = -9;
+            }
         }
+
+        private void EditMode_Click(object sender, RoutedEventArgs e)
+        {
+            this.canEdit = !this.canEdit;
+        }
+
 
         
     }
