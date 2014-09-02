@@ -32,11 +32,10 @@ namespace ZombieApocalypseWPF.Windows
             
         };
 
-        public AddItemWindow(ref Item i)
+        public AddItemWindow()
         {
             InitializeComponent();
             ItemType.ItemsSource = ItemTypes;
-
         }
 
         
@@ -275,7 +274,7 @@ namespace ZombieApocalypseWPF.Windows
                 return;
             }
 
-            I = newI;
+            MainWindow.newItem = newI;
 
             this.Close();
         }

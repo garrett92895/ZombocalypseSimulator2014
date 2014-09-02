@@ -924,7 +924,7 @@ namespace ZombieApocalypseSimulator
             {
                 CurrentPlayer.Money -= Price;
 
-                CurrentPlayer.Items.AddRange(T.BuyAmmo(ChosenType, Amount));
+                //CurrentPlayer.Items.AddRange(T.BuyAmmo(ChosenType, Amount));
 
 
             }

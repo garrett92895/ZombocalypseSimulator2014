@@ -45,6 +45,7 @@ namespace ZombieApocalypseWPF
             {
                 _selectedPlayer = value;
                 this.PlayerControl.c = _selectedPlayer;
+                this.CharacterComboBox.SelectedValue = _selectedPlayer;
             }
         } 
         
@@ -59,6 +60,7 @@ namespace ZombieApocalypseWPF
             {
                 _selectedZombie = value;
                 this.ZombieControl.c = _selectedZombie;
+                this.ZCharacterComboBox.SelectedValue = _selectedZombie;
             }
         }
 
@@ -78,10 +80,14 @@ namespace ZombieApocalypseWPF
 
             c = new Controller();
 
-            Character NewPlayer = new HalfZombie();
+            Character NewPlayer = new Fighter();
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
             SelectedPlayer = (Player)NewPlayer;
+
+            Character NewPlayer1 = new Engineer();
+            Coordinate Coor1 = new Coordinate(3, 3);
+            c.AddCharacterToField(NewPlayer1, Coor1);
 
 
             //Character Trader = new Trader();
@@ -183,11 +189,17 @@ namespace ZombieApocalypseWPF
             }
         }
 
+        public static Item newItem = null;
+        public static int xCoor;
+        public static int yCoor;
+        public static Character NewCharacter;
+
         private Item AddItem()
         {
-            Item i = null;
-            Window aiw = new AddItemWindow(ref i);
+            Window aiw = new AddItemWindow();
             aiw.ShowDialog();
+            Item i = newItem;
+            newItem = null;
             return i;
         }
 
@@ -204,7 +216,7 @@ namespace ZombieApocalypseWPF
         {
             Item i = AddItem();
 
-            if (i != null && SelectedPlayer != null)
+            if (i != null && SelectedZombie != null)
                 SelectedZombie.Items.Add(i);
 
         }
@@ -249,6 +261,7 @@ namespace ZombieApocalypseWPF
 
             if (tempgq.OccupyingCharacter is Zed)
                 SelectedZombie = (Zed)tempgq.OccupyingCharacter;
+
             else if (tempgq.OccupyingCharacter is Player)
                 SelectedPlayer = (Player)tempgq.OccupyingCharacter;
         }
@@ -365,16 +378,69 @@ namespace ZombieApocalypseWPF
 
         private void Player_Add(object sender, RoutedEventArgs e)
         {
+            xCoor = -9;
+            yCoor = -9;
+            NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+            ncw.ShowDialog();
 
+            if (xCoor == -9 || yCoor == -9)
+                return;
+
+            AddPlayerWindow apw = new AddPlayerWindow();
+            apw.ShowDialog();
+
+            if (NewCharacter == null)
+                return;
+
+            c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+
+            NewCharacter = null;
+
+            xCoor = -9;
+            yCoor = -9;
         }
 
         private void Zombie_Add(object sender, RoutedEventArgs e)
         {
+            xCoor = -9;
+            yCoor = -9;
+            NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+            ncw.ShowDialog();
 
+            if (xCoor == -9 || yCoor == -9)
+                return;
+
+            AddZombieWindow apw = new AddZombieWindow();
+            apw.ShowDialog();
+
+            if (NewCharacter == null)
+                return;
+
+            c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+
+            NewCharacter = null;
+
+            xCoor = -9;
+            yCoor = -9;
         }
 
         private void Item_Add(object sender, RoutedEventArgs e)
         {
+            xCoor = -9;
+            yCoor = -9;
+            NewCoorWindow ncw = new NewCoorWindow(c.Field.Width, c.Field.Height);
+            ncw.ShowDialog();
+
+            if (xCoor == -9 || yCoor == -9)
+                return;
+
+            Item i = AddItem();
+
+
+            c.AddItemToField(i, new Coordinate(xCoor, yCoor));
+
+            xCoor = -9;
+            yCoor = -9;
 
         }
 
