@@ -69,9 +69,9 @@ namespace ZombieApocalypseSimulator.Models.Items
 
 		public static List<Trap> TrapList = new List<Trap>
 		{
-            //new Trap { Damage = "3d6", StatusEffect = StatusEffect.Stunned, Name = "Broken Glass"},
-            //new Trap { Damage = "1d2", StatusEffect = StatusEffect.Stunned, Name = "Legos"},
-            //new Trap { Damage = "2d6", StatusEffect = StatusEffect.Stunned, Name = "Asdf"},
+            new Trap { Damage = "3d6", StatusEffect = StatusEffect.Stunned, Name = "Broken Glass"},
+            new Trap { Damage = "1d2", StatusEffect = StatusEffect.Stunned, Name = "Legos"},
+            new Trap { Damage = "2d6", StatusEffect = StatusEffect.Stunned, Name = "Asdf"},
 
 		};
 

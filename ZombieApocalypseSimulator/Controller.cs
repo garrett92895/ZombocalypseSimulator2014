@@ -28,7 +28,15 @@ namespace ZombieApocalypseSimulator
         DropItem,
         GiveItem,
         Trade,
-        Reload
+        Reload,
+        LevelUp,
+        LevelDown,
+        Heal,
+        Revive,
+        Shout,
+        MakeTrap,
+        FixWeapon,
+        SetTrap
     }
 
     public class Controller
@@ -44,6 +52,7 @@ namespace ZombieApocalypseSimulator
         public List<Coordinate> CorpseSquares;
         public CharacterStack PlayerOrder;
         public CharacterStack ZedOrder;
+        public Coordinate TrapLocation;
         #endregion
 
         #region Ctor and Run
@@ -216,15 +225,22 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Move");
                     SquaresLeft = SquaresLeft - Move();
                     Console.WriteLine(Field.ToString());
+                    if(CurrentPlayer.Location == TrapLocation)
+                    {
+                        int roll = new DieRoll(1, 6).Roll();
+                        CurrentPlayer.Equals(StatusEffect.Stunned);
+                        CurrentPlayer.Health -= roll;
+                        Console.WriteLine("You steped on a trap you now are Stunned and you took " + roll + " of damage");
+                    }
                 }
-                else if (PlayerAction.Equals(ActionTypes.EndTurn))
+                 else if (PlayerAction.Equals(ActionTypes.EndTurn))
                 {
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
 
                     //Status Effect Calculation
 
-                    //Status Effects should be in their own method
+
                     if (CurrentPlayer.Equals(StatusEffect.OnFire))
                     {
                         CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
@@ -237,13 +253,15 @@ namespace ZombieApocalypseSimulator
                     {
                         SquaresLeft = MaxSquares - MaxSquares;
                     }
-                    if (CurrentPlayer.Equals(StatusEffect.OnFire))
-                    {
-                        CurrentPlayer.Health -= new DieRoll(1, 4).Roll();
-                    }
                     if (CurrentPlayer.Equals(StatusEffect.Infected))
                     {
-
+                        int check = new DieRoll(1, 20).Roll();
+                        if (check <= 5)
+                        {
+                            Field.KillCharacter(CurrentPlayer);
+                            PlayerOrder.RemoveCharacter(CurrentPlayer);
+                            Field.AddCharacterToSquare(ZedFactory.RandomSpecial(), CurrentPlayer.Location);
+                        }
                     }
                     if (CurrentPlayer.Equals(StatusEffect.ArmourBroken))
                     {
@@ -254,6 +272,13 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Equip");
                     Equip();
+                }
+                else if (PlayerAction.Equals(ActionTypes.SetTrap))
+                {
+                    Console.WriteLine("Place a trap");
+                    TrapLocation = CurrentPlayer.Location;
+                    AddTrapToField(CurrentPlayer.Items.Equals(Trap), TrapLocation);
+                    
                 }
                 else if (PlayerAction.Equals(ActionTypes.Reload))
                 {
@@ -272,11 +297,52 @@ namespace ZombieApocalypseSimulator
                     GiveItem();
                     SquaresLeft -= 3;
                 }
+
+                else if (PlayerAction.Equals(ActionTypes.Heal))
+                {
+                    Console.WriteLine("Heal");
+
+                    SquaresLeft -= 3;
+                }
+                else if (PlayerAction.Equals(ActionTypes.Revive))
+                {
+                    Console.WriteLine("Revive");
+                    Revive();
+                    SquaresLeft -= MaxSquares / 2;
+                }
+                else if (PlayerAction.Equals(ActionTypes.Shout))
+                {
+                    Console.WriteLine("Shout");
+
+                    SquaresLeft -= 1;
+                }
+                else if (PlayerAction.Equals(ActionTypes.MakeTrap))
+                {
+                    Console.WriteLine("Make Trap");
+                    //CurrentPlayer.addTrap();
+                    SquaresLeft -= 3;
+                }
+                else if (PlayerAction.Equals(ActionTypes.FixWeapon))
+                {
+                    Console.WriteLine("Fix Your Equiped Weapon");
+
+                    SquaresLeft -= 4;
+                }
                 else if (PlayerAction.Equals(ActionTypes.PickUpItem))
                 {
                     Console.WriteLine("Pick up item");
                     PickUpItem();
                     SquaresLeft -= 2;
+                }
+                else if (PlayerAction.Equals(ActionTypes.LevelUp))
+                {
+                    Console.WriteLine("Level Up");
+                    CurrentPlayer.LevelUp();
+                }
+                else if (PlayerAction.Equals(ActionTypes.LevelDown))
+                {
+                    Console.WriteLine("Level Down");
+                    CurrentPlayer.LevelDown();
                 }
                 else if (PlayerAction.Equals(ActionTypes.CharacterScreen))
                 {
@@ -307,19 +373,8 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Ranged attack");
                     RangedAttack(PlayerAction);
-                    if (PlayerAction.Equals(ActionTypes.UnaimedRangedAttack))
-                    {
-                        SquaresLeft -= (int)MaxSquares / 2;
-                    }
-                    else
-                    {
-                        SquaresLeft -= MaxSquares;
-                    }
+                    SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
-                }
-                else if (PlayerAction.Equals(ActionTypes.Trade))
-                {
-                    BeginTrade();
                 }
 
                 KillDeadCharacters();
@@ -365,6 +420,8 @@ namespace ZombieApocalypseSimulator
             List<ActionTypes> PossibleActions = new List<ActionTypes>();
             PossibleActions.Add(ActionTypes.CharacterScreen);
             PossibleActions.Add(ActionTypes.EndTurn);
+            PossibleActions.Add(ActionTypes.LevelUp);
+            PossibleActions.Add(ActionTypes.LevelDown);
 
             //Checks for possible moves
             if (Field.PossibleMovesForCharacter(CurrentPlayer, SquaresLeft).Any())
@@ -405,6 +462,21 @@ namespace ZombieApocalypseSimulator
                     {
                         PossibleActions.Add(ActionTypes.Reload);
                     }                    
+                }
+                PossibleActions.Add(ActionTypes.SetTrap);
+                if (Current.GetType() == typeof(Medic))
+                {
+                    PossibleActions.Add(ActionTypes.Heal);
+                    PossibleActions.Add(ActionTypes.Revive);
+                }
+                if (Current.GetType() == typeof(Engineer))
+                {
+                    PossibleActions.Add(ActionTypes.FixWeapon);
+                    PossibleActions.Add(ActionTypes.MakeTrap);
+                }
+                if (Current.GetType() == typeof(Bruiser))
+                {
+                    PossibleActions.Add(ActionTypes.Shout);
                 }
                 //Checks for the ability to pick up an item
                 if (SquaresLeft >= 2
@@ -570,7 +642,15 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void CharacterScreen()
         {
-            Console.WriteLine(CurrentPlayer.ToString());
+            if (CurrentPlayer is Player)
+            {
+                Console.WriteLine(CurrentPlayer.ToString());
+            }
+            else
+            {
+                Console.WriteLine(ZedNames() + "\r\n" + CurrentPlayer.ToString());
+            }
+
         }
 
         private void Equip()
@@ -629,7 +709,8 @@ namespace ZombieApocalypseSimulator
             {
                 ItemsToDrop.Add(Current.Items.ElementAt(i).ToString());
             }
-            ItemsToDrop.Add("Money");
+	    ItemsToDrop.Add("Money");
+
 
             PlayerChoice = CIO.PromptForMenuSelection(ItemsToDrop, false);
             if (PlayerChoice == ItemsToDrop.Count - 1)
@@ -641,8 +722,7 @@ namespace ZombieApocalypseSimulator
             else
             {
                 Item GiveItem = Current.Items.ElementAt(PlayerChoice);
-
-                Current.Items.Remove(GiveItem);
+	        Current.Items.Remove(GiveItem);
                 Friendly.AddItem(GiveItem);
             }
         }
@@ -958,6 +1038,53 @@ namespace ZombieApocalypseSimulator
                 Exchange.BuyerMoneyChange -= Price;
                 Exchange.SellerMoneyChange += Price;
                 Exchange.SellingItems.AddRange(T.BuyAmmo(ChosenType,Amount));
+            }
+        }
+
+        private string ZedNames()
+        {
+            int nameNumber = 0;
+            for (int i = 0; i > Zeds.Count(); i++)
+            {
+                nameNumber = i;
+            }
+            string s = "Name : Zombie" + (nameNumber + 1);
+            return s;
+        }
+
+        private void Revive()
+        {
+            List<Character> FriendliesCorpses = Field.AdjacentCharacters(CurrentPlayer, true);
+            List<string> Choices = new List<string>();
+            for (int i = 0; i < FriendliesCorpses.Count(); i++)
+            {
+                Player c = (Player)FriendliesCorpses.ElementAt(i);
+                Choices.Add("Level " + c.Level + " at " + c.Location.ToString());
+            }
+
+            int PlayerChoice = CIO.PromptForMenuSelection(Choices, false);
+            Player Friendly = (Player)FriendliesCorpses.ElementAt(PlayerChoice);
+            Player Current = (Player)CurrentPlayer;
+
+            List<string> ItemsToDrop = new List<string>();
+            for (int i = 0; i < Current.Items.Count(); i++)
+            {
+                ItemsToDrop.Add(Current.Items.ElementAt(i).ToString());
+            }
+
+            PlayerChoice = CIO.PromptForMenuSelection(ItemsToDrop, false);
+            Item GiveItem = Current.Items.ElementAt(PlayerChoice);
+
+            Current.Items.Remove(GiveItem);
+            int rev = new DieRoll(1, 20).Roll(); ;
+            if (rev >= 14)
+            {
+                Friendly.isAlive = true;
+                Console.WriteLine("You Succesfully Revived Your Ally!");
+            }
+            else
+            {
+                Console.WriteLine("Sorry the procedure failed.");
             }
         }
 
