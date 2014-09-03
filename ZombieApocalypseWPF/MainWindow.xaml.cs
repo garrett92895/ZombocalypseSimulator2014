@@ -23,6 +23,7 @@ using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseWPF.Windows;
+using ZombieApocalypseSimulator.Modes.HordeMode;
 
 namespace ZombieApocalypseWPF
 {
@@ -94,7 +95,10 @@ namespace ZombieApocalypseWPF
             Character Trader = new Trader();
             Coordinate Coor2 = new Coordinate(1, 1);
             c.AddCharacterToField(Trader, Coor2);
-
+            for (int i = 0; i < 10; i++)
+            {
+                Trader.Items.Add(WeaponFactory.RandomWeapon());
+            }
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
             //Coordinate ZedCoor3 = new Coordinate(5, 5);

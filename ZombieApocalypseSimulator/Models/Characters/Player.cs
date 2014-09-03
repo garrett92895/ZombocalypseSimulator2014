@@ -14,7 +14,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
     {
 
         #region Properties
-        public string Name { get; set; }
+        //public string Name { get; set; }
         public int ItemLimit { get; set; }
         public Weapon EquippedWeapon { get; set; }
         protected byte rollAttributes()

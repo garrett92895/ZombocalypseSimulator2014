@@ -1057,7 +1057,10 @@ namespace ZombieApocalypseSimulator
             {
                 Exchange.BuyerMoneyChange -= Price;
                 Exchange.SellerMoneyChange += Price;
-                Exchange.SellingItems.AddRange(T.BuyAmmo(ChosenType,Amount));
+                foreach (Ammo A in T.BuyAmmo(ChosenType, Amount))
+                {
+                    Exchange.SellingItems.Add(A);
+                }
             }
         }
 

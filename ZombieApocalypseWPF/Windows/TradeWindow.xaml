@@ -1,0 +1,115 @@
+﻿<Window x:Class="ZombieApocalypseWPF.Windows.TradeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TradeWindow" Height="700" Width="600">
+    <Window.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="60*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <UniformGrid Grid.Row="0" Grid.Column="0"
+            Rows="1" Columns="2" x:Name="Pictures">
+
+        </UniformGrid>
+
+        <Grid Grid.Row="0" Grid.Column="0" x:Name="Money">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0">Your Money</Label>
+            <Label x:Name="BuyerMoney" Grid.Row="1" Grid.Column="0"/>
+
+            <Label Grid.Row="0" Grid.Column="1">Cost/Sale</Label>
+            <Label x:Name="BuyerMoneyChange" Grid.Row="1" Grid.Column="1"/>
+
+            <Label Grid.Row="0" Grid.Column="2">Trader's Money</Label>
+            <Label x:Name="SellerMoney" Grid.Row="1" Grid.Column="2"/>
+        </Grid>
+
+        <UniformGrid Rows="6" Columns="3" Grid.Row="1" Grid.Column="0" 
+                     x:Name="Ammo">
+            <Label>Your Handgun Ammo</Label>
+            <Label>Handgun Ammo Selling</Label>
+            <Label>Handgun Ammo Buying</Label>
+
+            <Label Content="{Binding Path=BuyerHandgunAmmo}"/>
+            <TextBox x:Name="SellingHandgunAmmo" TextChanged="SellingHandgunAmmo_TextChanged"/>
+            <TextBox x:Name="BuyingHandgunAmmo" TextChanged="BuyingHandgunAmmo_TextChanged"/>
+
+            <Label>Your Rifle Ammo</Label>
+            <Label>Rifle Ammo Selling</Label>
+            <Label>Rifle Ammo Buying</Label>
+
+            <Label Content="{Binding Path=BuyerRifleAmmo}"/>
+            <TextBox x:Name="SellingRifleAmmo" TextChanged="SellingRifleAmmo_TextChanged"/>
+            <TextBox x:Name="BuyingRifleAmmo" TextChanged="BuyingRifleAmmo_TextChanged"/>
+
+            <Label>Your Shotgun Ammo</Label>
+            <Label>Shotgun Ammo Selling</Label>
+            <Label>Shotgun Ammo Buying</Label>
+
+            <Label Content="{Binding Path=BuyerShotgunAmmo}"/>
+            <TextBox x:Name="SellingShotgunAmmo" TextChanged="SellingShotgunAmmo_TextChanged"/>
+            <TextBox x:Name="BuyingShotgunAmmo" TextChanged="BuyingShotgunAmmo_TextChanged"/>
+
+        </UniformGrid>
+
+        <Grid Grid.Row="2" Grid.Column="0" x:Name="Lists">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30*"/>
+                <RowDefinition Height="70*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0">Your Items</Label>
+            <ListBox SelectionChanged="BuyerItems_Selected" 
+                     Grid.Row="1" Grid.Column="0"
+                     x:Name="BuyerItems" 
+                     ItemsSource="{Binding Path=Exchange.Buyer.Items}"></ListBox>
+
+            <Label Grid.Row="0" Grid.Column="1" >Items you are selling</Label>
+            <ListBox SelectionChanged="ItemsToBeSold_Selected" 
+                     Grid.Row="1" Grid.Column="1"
+                     x:Name="ItemsToBeSold" 
+                     ItemsSource="{Binding Path=Exchange.BuyingItems}"></ListBox>
+
+            <Label Grid.Row="0" Grid.Column="2">Items you are purchasing</Label>
+            <ListBox SelectionChanged="ItemsToBeBought_Selected" 
+                     Grid.Row="1" Grid.Column="2"
+                     x:Name="ItemsToBeBought" 
+                     ItemsSource="{Binding Path=Exchange.SellingItems}"></ListBox>
+
+            <Label Grid.Row="0" Grid.Column="3">Trader's Items</Label>
+            <ListBox SelectionChanged="SellerItems_Selected" 
+                     Grid.Row="1" Grid.Column="3"
+                     x:Name="SellerItems" 
+                     ItemsSource="{Binding Path=Exchange.Seller.Items}"></ListBox>
+
+            <Button x:Name="ResetTrade" Grid.Row="0" Grid.Column="4"
+                    Click="ResetTrade_Click">Reset Trade</Button>
+            <Button x:Name="FinishTrade" Grid.Row="1" Grid.Column="4"
+                    IsDefault="True">Finish Trade</Button>
+        </Grid>
+    </Grid>
+</Window>
