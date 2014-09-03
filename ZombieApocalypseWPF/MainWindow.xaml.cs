@@ -36,6 +36,7 @@ namespace ZombieApocalypseWPF
         Controller c;
         public bool canEdit;
         public Horde hordeMode;
+        private Character LastCharacterSelected;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -48,6 +49,7 @@ namespace ZombieApocalypseWPF
                 _selectedPlayer = value;
                 this.PlayerControl.c = _selectedPlayer;
                 this.CharacterComboBox.SelectedValue = _selectedPlayer;
+                this.LastCharacterSelected = SelectedPlayer;
             }
         } 
         
@@ -63,6 +65,8 @@ namespace ZombieApocalypseWPF
                 _selectedZombie = value;
                 this.ZombieControl.c = _selectedZombie;
                 this.ZCharacterComboBox.SelectedValue = _selectedZombie;
+                this.LastCharacterSelected = SelectedZombie;
+
             }
         }
 
@@ -306,6 +310,11 @@ namespace ZombieApocalypseWPF
 
             else if (tempgq.OccupyingCharacter is Player)
                 SelectedPlayer = (Player)tempgq.OccupyingCharacter;
+
+            else if (tempgq.OccupyingCharacter == null)
+                if (LastCharacterSelected != null)
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+
         }
 
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
