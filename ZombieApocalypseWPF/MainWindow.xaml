@@ -54,7 +54,6 @@
                                 <Label Content="{Binding Name}" />
                                 <Label Content="Level: " />
                                 <Label Content="{Binding Level}" />
-
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>

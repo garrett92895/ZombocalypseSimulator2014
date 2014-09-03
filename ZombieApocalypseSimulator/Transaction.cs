@@ -65,17 +65,17 @@ namespace ZombieApocalypseSimulator
         /// <summary>
         /// Character that initiated the Transaction
         /// </summary>
-        public Character Buyer { get; set; }
+        public Player Buyer { get; set; }
 
         /// <summary>
         /// Character that is selling to the Buyer
         /// </summary>
-        public Character Seller { get; set; }
+        public Player Seller { get; set; }
 
         //Flag which states when this Transaction is done
         public bool Done { get; set; }
 
-        public Transaction(Character NewBuyer, Character NewSeller)
+        public Transaction(Player NewBuyer, Player NewSeller)
         {
             Buyer = NewBuyer;
             Seller = NewSeller;
@@ -273,25 +273,28 @@ namespace ZombieApocalypseSimulator
             }
 
             //Removes the Ammo sold from the Buyer's Inventory
-            ObservableCollection<Ammo> RemovedAmmo = new ObservableCollection<Ammo>();
-            foreach (Ammo A in Buyer.Items)
+            if (BuyingHandgunAmmo > 0 || BuyingRifleAmmo > 0 || BuyingShotgunAmmo > 0)
             {
-                if (A.AmmoType == AmmoType.Handgun && BuyingHandgunAmmo > 0)
+                ObservableCollection<Ammo> RemovedAmmo = new ObservableCollection<Ammo>();
+                foreach (Ammo A in Buyer.Items)
                 {
-                    RemovedAmmo.Add(A);
+                    if (A.AmmoType == AmmoType.Handgun && BuyingHandgunAmmo > 0)
+                    {
+                        RemovedAmmo.Add(A);
+                    }
+                    if (A.AmmoType == AmmoType.Rifle && BuyingRifleAmmo > 0)
+                    {
+                        RemovedAmmo.Add(A);
+                    }
+                    if (A.AmmoType == AmmoType.Shotgun && BuyingShotgunAmmo > 0)
+                    {
+                        RemovedAmmo.Add(A);
+                    }
                 }
-                if (A.AmmoType == AmmoType.Rifle && BuyingRifleAmmo > 0)
+                foreach (Ammo A in RemovedAmmo)
                 {
-                    RemovedAmmo.Add(A);
+                    Buyer.Items.Remove(A);
                 }
-                if (A.AmmoType == AmmoType.Shotgun && BuyingShotgunAmmo > 0)
-                {
-                    RemovedAmmo.Add(A);
-                }
-            }
-            foreach (Ammo A in RemovedAmmo)
-            {
-                Buyer.Items.Remove(A);
             }
             
             //Money changes hands

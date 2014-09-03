@@ -946,7 +946,7 @@ namespace ZombieApocalypseSimulator
             //Just in case there is no Trader next to the CurrentPlayer
             if (Trader != null)
             {
-                Transaction Exchange = new Transaction(CurrentPlayer, Trader);
+                Transaction Exchange = new Transaction((Player) CurrentPlayer, Trader);
                 Console.WriteLine("Transaction Started");
                 while (!Exchange.Done)
                 {
