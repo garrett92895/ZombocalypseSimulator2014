@@ -34,6 +34,7 @@ namespace ZombieApocalypseWPF
 
         Controller c;
         public bool canEdit;
+        public Horde hordeMode;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -63,8 +64,6 @@ namespace ZombieApocalypseWPF
                 this.ZCharacterComboBox.SelectedValue = _selectedZombie;
             }
         }
-
-
 
         public MainWindow()
         {
