@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <StackPanel>
         
-        <TextBox x:Name="CharacterName" Text="{Binding Name}" HorizontalAlignment="Center"/>
+        <TextBox x:Name="CharacterName" Text="{Binding Name}" HorizontalAlignment="Center" MinWidth="200"/>
         <Rectangle Fill="{Binding Converter={StaticResource ResourceKey=CtIC}}" Height="250" Width="250"/>
         <UniformGrid x:Name="AttributeGrid" Columns="4" >
 

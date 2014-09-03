@@ -134,7 +134,9 @@ namespace ZombieApocalypseWPF
             {
                 c.AI.IntelligentAI = false;
             }
+
         }
+
 
         private void PopulateBoard()
         {
@@ -188,7 +190,11 @@ namespace ZombieApocalypseWPF
                     nc.Children.Add(ItemRec);
                     nc.Children.Add(CharRec);
 
-                    ContextMenu cm = new ContextMenu();
+                    //ContextMenu cm = new ContextMenu();
+                    //cm.ItemsSource = new List<Button>
+                    //{
+                    //    new Button { Content = "Trade", Click += ShowTradeMenu  }
+                    //};
 
                     Binding OccupyBind = new Binding("IsOccupiable");
                     OccupyBind.Source = c.Field.GridSquares[i, j];
@@ -204,6 +210,11 @@ namespace ZombieApocalypseWPF
                 }
             }
         }
+
+        //private void ShowTradeMenu(object sender, RoutedEventArgs e)
+        //{
+
+        //}
 
         public static Item newItem = null;
         public static int xCoor;

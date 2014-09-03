@@ -279,7 +279,7 @@ namespace ZombieApocalypseWPF.Windows
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }
