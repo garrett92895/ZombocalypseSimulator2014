@@ -62,7 +62,7 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
-            AI = new ZombieAI();
+            AI = new ZombieAI(true);
         }
 
         public void Run()
@@ -93,8 +93,9 @@ namespace ZombieApocalypseSimulator
 
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
-                    CurrentPlayer = ZedOrder.Pop();
-
+                    Zed CurrentZombie = (Zed) ZedOrder.Pop();
+                    CurrentZombie.HasAttacked = false;
+                    CurrentPlayer = CurrentZombie;
                     PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
@@ -376,6 +377,11 @@ namespace ZombieApocalypseSimulator
                     RangedAttack(PlayerAction);
                     SquaresLeft -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
+                }
+                else if (PlayerAction.Equals(ActionTypes.Trade))
+                {
+                    Console.WriteLine("Begin Trade");
+                    BeginTrade();
                 }
 
                 KillDeadCharacters();
@@ -747,6 +753,18 @@ namespace ZombieApocalypseSimulator
             {
                 ((Player)CurrentPlayer).Money += PlayerChoiceItem.Value;
             }
+            else if (PlayerChoiceItem is Health)
+            {
+                Health HealthPack = (Health) PlayerChoiceItem;
+                if (CurrentPlayer is Medic)
+                {
+                    ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
+                }
+                else
+                {
+                    CurrentPlayer.Health += HealthPack.AmountHealed.Roll();
+                }
+            }
             else
             {
                 ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
@@ -880,6 +898,7 @@ namespace ZombieApocalypseSimulator
             }
 
             int Strike = Current.toHitRanged(Bonus);
+            Console.WriteLine("Rolled " + Strike);
             if (Strike > 4 && Strike > Victim.ArmorRating)
             {
                 int Damage = Current.RangedAttack();
@@ -1038,7 +1057,10 @@ namespace ZombieApocalypseSimulator
             {
                 Exchange.BuyerMoneyChange -= Price;
                 Exchange.SellerMoneyChange += Price;
-                Exchange.SellingItems.AddRange(T.BuyAmmo(ChosenType,Amount));
+                foreach (Ammo A in T.BuyAmmo(ChosenType, Amount))
+                {
+                    Exchange.SellingItems.Add(A);
+                }
             }
         }
 

@@ -11,19 +11,31 @@
         <CommandBinding Command="New" Executed="New_Executed"/>
         <CommandBinding Command="Open" Executed="Open_Executed"/>
         <CommandBinding Command="Close" Executed="Close_Executed"/>
-     
     </Window.CommandBindings>
     
     <Grid>
+        <Menu Background="Black"
+              Foreground="Firebrick">
+            <MenuItem Header="File">
+                <MenuItem Header="New" Command="New"/>
+                <MenuItem Header="Open" Command="Open"/>
+                <MenuItem Header="Close" Command="Close"/>
+                <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click"/>
+            </MenuItem>
+            <MenuItem Header="Add">
+                <MenuItem Header="Player" Click="Player_Add"/>
+                <MenuItem Header="Zombie" Click="Zombie_Add"/>
+                <MenuItem Header="Item" Click="Item_Add"/>
+            </MenuItem>
+        </Menu>
 
-
-        <Grid>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
-            
+
             <StackPanel Background="Black">
 
                 <Label Content="PLAYERS" Background="Black" Foreground="Firebrick" FontSize="24" FontWeight="ExtraBold" HorizontalContentAlignment="Center"></Label>
@@ -42,7 +54,7 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                
+
                 <uc:CharacterControl x:Name="PlayerControl" MaxWidth="300" />
 
             </StackPanel>
@@ -51,7 +63,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
                     <RowDefinition Height="1*" />
-                                   
+
                 </Grid.RowDefinitions>
                 <Menu Background="Black"
               Foreground="Firebrick">

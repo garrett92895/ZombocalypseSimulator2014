@@ -9,7 +9,41 @@ namespace ZombieApocalypseSimulator.Models.Items
 {
 	public class Trap : Item
 	{
-		public DieRoll Damage { get; set; }
-		public StatusEffect StatusEffect { get; set; }
+        private DieRoll _Damage;
+		public DieRoll Damage 
+        {
+            get { return _Damage; }
+            set
+            {
+                _Damage = value;
+                DetermineValue();
+            }
+        }
+
+        private StatusEffect _StatusEffect;
+		public StatusEffect StatusEffect 
+        {
+            get { return _StatusEffect; }
+            set
+            {
+                _StatusEffect = value;
+                DetermineValue();
+            }
+        }
+
+        private void DetermineValue()
+        {
+            if (Damage != null)
+            {
+                //Sets the base value to be based on the traps damage
+                Value = Damage.NumberOfDice * ((Damage.SidesPerDie / 2)) + 1;
+
+                //Adds price based on any multipliers or modifyers in the Damage Dice
+                Value = (Value * Damage.Multiplier) + (Damage.Modifyer * 5);
+
+                //Adds half the base value if the trap inflicts a Status Effect
+                Value += ((StatusEffect < 0) ? 0 : Value / 2);
+            }
+        }
 	}
 }

@@ -14,7 +14,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
     {
 
         #region Properties
-        public string Name { get; set; }
+        //public string Name { get; set; }
         public int ItemLimit { get; set; }
         public Weapon EquippedWeapon { get; set; }
         protected byte rollAttributes()
@@ -129,7 +129,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
 
         public int toHitRanged(int bonus)
         {
-            return DieRoll.RollOne(20) + bonus;
+            return DieRoll.RollOne(20) + bonus + bonusPP();
         }
     
         public List<Weapon> GetWeapons()

@@ -107,7 +107,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-        private GridSquare GetGridSquareAt(Coordinate Location)
+        public GridSquare GetGridSquareAt(Coordinate Location)
         {
             if (Location.X >= 0 && Location.X < Width && Location.Y >= 0 && Location.Y < Height)
             {
@@ -666,6 +666,11 @@ namespace ZombieApocalypseSimulator
         public int ShortestPathCost(Character CurrentPlayer, Coordinate Destination)
         {
             Coordinate Location = CurrentPlayer.Location;
+            return PathCost(Location, Destination);            
+        }
+
+        public int PathCost(Coordinate Location, Coordinate Destination)
+        {
             return (int)(Math.Pow(Location.X - Destination.X, 2) + Math.Pow(Location.Y - Destination.Y, 2));
         }
         #endregion
@@ -698,7 +703,14 @@ namespace ZombieApocalypseSimulator
 
             for (int i = 0; i < Height; i++)
             {
-                ReturnValue += i + "|";
+                if(i < 10)
+                {
+                    ReturnValue += i + " |";                   
+                }
+                else
+                {
+                    ReturnValue += i + "|";
+                }
                 for (int j = 0; j < Width; j++)
                 {
                     ReturnValue += GridSquares[j, i].ToString() + "|";
