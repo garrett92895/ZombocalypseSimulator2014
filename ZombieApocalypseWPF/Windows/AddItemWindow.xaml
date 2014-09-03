@@ -20,9 +20,6 @@
                 An Item
             </TextBox>
 
-            <Label Content="Value: " HorizontalAlignment="Right"/>
-            <TextBox x:Name="ItemValue">
-            </TextBox>
 
         </UniformGrid>
         

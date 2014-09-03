@@ -187,7 +187,7 @@ namespace ZombieApocalypseWPF.Windows
                             IgnoresAR = (bool)((CheckBox)ExtraFields.Children[5]).IsChecked,
                             Name = ItemName.Text,
                             RangedWeaponType = (RangedWeaponType)((ComboBox)ExtraFields.Children[7]).SelectedValue,
-                            Value = int.Parse(ItemValue.Text)
+                            
 
                         };
                         break;
@@ -205,7 +205,7 @@ namespace ZombieApocalypseWPF.Windows
                             IgnoresAR = (bool)((CheckBox)ExtraFields.Children[5]).IsChecked,
                             Name = ItemName.Text,
                             MeleeWeaponType = (MeleeWeaponType)((ComboBox)ExtraFields.Children[7]).SelectedValue,
-                            Value = int.Parse(ItemValue.Text)
+                            
                         };
                         break;
 
@@ -215,7 +215,7 @@ namespace ZombieApocalypseWPF.Windows
 
                             Name = ItemName.Text,
                             Description = ItemDescription.Text,
-                            Value = int.Parse(ItemValue.Text),
+                            
                             AmountHealed = new DieRoll(
                                 int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[0])).Text),
                                 int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[2])).Text),
@@ -232,7 +232,6 @@ namespace ZombieApocalypseWPF.Windows
 
                             Name = ItemName.Text,
                             Description = ItemDescription.Text,
-                            Value = int.Parse(ItemValue.Text),
 
                             AmountHealed = new DieRoll(
                                 int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[0])).Text),
@@ -250,7 +249,6 @@ namespace ZombieApocalypseWPF.Windows
 
                             Name = ItemName.Text,
                             Description = ItemDescription.Text,
-                            Value = int.Parse(ItemValue.Text),
 
                             Damage = new DieRoll(
                                 int.Parse(((TextBox)(((StackPanel)ExtraFields.Children[1]).Children[0])).Text),

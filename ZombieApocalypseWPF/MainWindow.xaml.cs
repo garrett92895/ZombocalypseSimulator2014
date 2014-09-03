@@ -89,11 +89,12 @@ namespace ZombieApocalypseWPF
             Coordinate Coor1 = new Coordinate(3, 3);
             c.AddCharacterToField(NewPlayer1, Coor1);
 
+            Character Trader = new Trader();
+            Coordinate Coor2 = new Coordinate(1, 1);
+            c.AddCharacterToField(Trader, Coor2);
 
-            //Character Trader = new Trader();
-            //Coordinate Coor2 = new Coordinate(1, 1);
-            //c.AddCharacterToField(Trader, Coor2);
-
+            //c.Field.Height = 30;
+            //c.Field.Width = 30;
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
             //Coordinate ZedCoor3 = new Coordinate(5, 5);
@@ -185,7 +186,6 @@ namespace ZombieApocalypseWPF
                     Board.Children.Add(nc);
 
                 }
-
             }
         }
 
@@ -205,6 +205,9 @@ namespace ZombieApocalypseWPF
 
         private void Player_AddItemButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectedPlayer == null)
+                return;
+
             Item i = AddItem();
 
             if (i != null && SelectedPlayer != null)
@@ -214,6 +217,9 @@ namespace ZombieApocalypseWPF
 
         private void Zombie_AddItemButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SelectedZombie == null)
+                return;
+
             Item i = AddItem();
 
             if (i != null && SelectedZombie != null)
@@ -223,22 +229,26 @@ namespace ZombieApocalypseWPF
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedPlayer.LevelUp();
+            if (SelectedPlayer != null)
+                SelectedPlayer.LevelUp();
         }
        
         private void Level_Down_Player_Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedPlayer.LevelDown();
+            if (SelectedPlayer != null)
+                SelectedPlayer.LevelDown();
         }
 
         private void Level_Up_Zombie_Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedZombie.LevelUp();
+            if (SelectedZombie != null)
+                SelectedZombie.LevelUp();
         }
 
         private void Level_Down_Zombie_Button_Click(object sender, RoutedEventArgs e)
         {
-            SelectedZombie.LevelDown();
+            if (SelectedZombie != null)
+                SelectedZombie.LevelDown();
         }
 
         private void ZombieComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -280,6 +290,7 @@ namespace ZombieApocalypseWPF
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            
             switch (e.Key)
             {
                 case Key.W:
@@ -318,6 +329,7 @@ namespace ZombieApocalypseWPF
         /// <param name="e"></param>
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+            MessageBox.Show("Would you like to save the current game?");
             SavePrompt();
             c = new Controller();
         }

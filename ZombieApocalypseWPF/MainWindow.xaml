@@ -15,26 +15,9 @@
     </Window.CommandBindings>
     
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
 
-        <Menu Background="Black"
-              Foreground="Firebrick">
-            <MenuItem Header="File">
-                <MenuItem Header="New" Command="New"/>
-                <MenuItem Header="Open" Command="Open"/>
-                <MenuItem Header="Close" Command="Close"/>
-            </MenuItem>
-            <MenuItem Header="Add">
-                <MenuItem Header="Player" Click="Player_Add"/>
-                <MenuItem Header="Zombie" Click="Zombie_Add"/>
-                <MenuItem Header="Item" Click="Item_Add"/>
-            </MenuItem>
-        </Menu>
 
-        <Grid Grid.Row="1">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="300" />
                 <ColumnDefinition Width="1*" />
@@ -63,14 +46,38 @@
                 <uc:CharacterControl x:Name="PlayerControl" MaxWidth="300" />
 
             </StackPanel>
-            
-            <UniformGrid x:Name="Board"
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="1*" />
+                                   
+                </Grid.RowDefinitions>
+                <Menu Background="Black"
+              Foreground="Firebrick">
+                    <MenuItem Header="File">
+                        <MenuItem Header="New" Command="New"/>
+                        <MenuItem Header="Open" Command="Open"/>
+                        <MenuItem Header="Close" Command="Close"/>
+                    </MenuItem>
+                    <MenuItem Header="Add">
+                        <MenuItem Header="Player" Click="Player_Add"/>
+                        <MenuItem Header="Zombie" Click="Zombie_Add"/>
+                        <MenuItem Header="Item" Click="Item_Add"/>
+                    </MenuItem>
+                </Menu>
+
+                <UniformGrid x:Name="Board"
                          Rows="15"
                          Columns="15"
-                         Grid.Column="1"
-                         Background="Black">
+                         Grid.Row="1"
+                         >
+                    <UniformGrid.Background>
+                        <ImageBrush ImageSource="/Images/TestBackGround.jpg" />
+                    </UniformGrid.Background>
 
-            </UniformGrid>
+                </UniformGrid>
+            </Grid>
 
             <StackPanel Grid.Column="2" Background="Black">
 
