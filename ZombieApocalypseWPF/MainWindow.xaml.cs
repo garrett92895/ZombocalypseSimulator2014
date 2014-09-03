@@ -87,11 +87,12 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(NewPlayer, Coor);
             SelectedPlayer = (Player)NewPlayer;
 
-            Character NewPlayer1 = new Engineer();
+            Player NewPlayer1 = new Engineer();
             Coordinate Coor1 = new Coordinate(3, 3);
             c.AddCharacterToField(NewPlayer1, Coor1);
 
-            Character Trader = new Trader();
+
+            Player Trader = new Trader();
             Coordinate Coor2 = new Coordinate(1, 1);
             c.AddCharacterToField(Trader, Coor2);
 
@@ -501,8 +502,5 @@ namespace ZombieApocalypseWPF
         {
             this.canEdit = !this.canEdit;
         }
-
-
-        
     }
 }

@@ -162,6 +162,7 @@ namespace ZombieApocalypseWPF.Windows
         private void FinishTrade_Click(object sender, RoutedEventArgs e)
         {
             Exchange.FinishTransaction();
+            Console.WriteLine(Exchange.Buyer);
             this.Close();
         }
 

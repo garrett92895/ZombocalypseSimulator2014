@@ -90,7 +90,9 @@
             <ListBox SelectionChanged="BuyerItems_Selected" 
                      Grid.Row="1" Grid.Column="0"
                      x:Name="BuyerItems" 
-                     ItemsSource="{Binding Path=Exchange.Buyer.Items}"></ListBox>
+                     ItemsSource="{Binding Path=Exchange.Buyer.Items}">
+                
+            </ListBox>
 
             <Label Grid.Row="0" Grid.Column="1" >Items you are selling</Label>
             <ListBox SelectionChanged="ItemsToBeSold_Selected" 
@@ -113,7 +115,7 @@
             <Button x:Name="ResetTrade" Grid.Row="0" Grid.Column="4"
                     Click="ResetTrade_Click">Reset Trade</Button>
             <Button x:Name="FinishTrade" Grid.Row="1" Grid.Column="4"
-                    IsDefault="True">Finish Trade</Button>
+                    IsDefault="True" Click="FinishTrade_Click">Finish Trade</Button>
         </Grid>
     </Grid>
 </Window>
