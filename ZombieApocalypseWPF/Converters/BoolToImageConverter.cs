@@ -17,7 +17,7 @@ namespace ZombieApocalypseWPF.Converters
             if (!b)
                 return Brushes.Black;
             else
-                return Brushes.Firebrick;
+                return Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
