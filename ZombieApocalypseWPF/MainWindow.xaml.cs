@@ -23,7 +23,6 @@ using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseWPF.Windows;
-using ZombieApocalypseSimulator.Modes.HordeMode;
 
 namespace ZombieApocalypseWPF
 {
@@ -34,7 +33,7 @@ namespace ZombieApocalypseWPF
     {
         Controller c;
         public bool canEdit;
-        public Horde hordeMode;
+        private Character LastCharacterSelected;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -47,6 +46,7 @@ namespace ZombieApocalypseWPF
                 _selectedPlayer = value;
                 this.PlayerControl.c = _selectedPlayer;
                 this.CharacterComboBox.SelectedValue = _selectedPlayer;
+                this.LastCharacterSelected = SelectedPlayer;
             }
         } 
         
@@ -62,6 +62,8 @@ namespace ZombieApocalypseWPF
                 _selectedZombie = value;
                 this.ZombieControl.c = _selectedZombie;
                 this.ZCharacterComboBox.SelectedValue = _selectedZombie;
+                this.LastCharacterSelected = SelectedZombie;
+
             }
         }
 
@@ -86,13 +88,21 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(NewPlayer, Coor);
             SelectedPlayer = (Player)NewPlayer;
 
-            Character NewPlayer1 = new Engineer();
+            Player NewPlayer1 = new Engineer();
             Coordinate Coor1 = new Coordinate(3, 3);
             c.AddCharacterToField(NewPlayer1, Coor1);
 
-            Character Trader = new Trader();
+
+            Player Trader = new Trader();
             Coordinate Coor2 = new Coordinate(1, 1);
             c.AddCharacterToField(Trader, Coor2);
+            for (int i = 0; i < 10; i++)
+            {
+                Trader.AddItem(WeaponFactory.RandomWeapon());
+            }
+
+            TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
+            NewTrade.ShowDialog();
 
             //c.Field.Height = 30;
             //c.Field.Width = 30;
@@ -101,6 +111,10 @@ namespace ZombieApocalypseWPF
             {
                 Trader.Items.Add(WeaponFactory.RandomWeapon());
             }
+
+            //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
+            //NewTrade.ShowDialog();
+            //Console.WriteLine("Main Window : " + NewPlayer1);
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
             //Coordinate ZedCoor3 = new Coordinate(5, 5);
@@ -133,7 +147,9 @@ namespace ZombieApocalypseWPF
             {
                 c.AI.IntelligentAI = false;
             }
+
         }
+
 
         private void PopulateBoard()
         {
@@ -187,7 +203,11 @@ namespace ZombieApocalypseWPF
                     nc.Children.Add(ItemRec);
                     nc.Children.Add(CharRec);
 
-                    ContextMenu cm = new ContextMenu();
+                    //ContextMenu cm = new ContextMenu();
+                    //cm.ItemsSource = new List<Button>
+                    //{
+                    //    new Button { Content = "Trade", Click += ShowTradeMenu  }
+                    //};
 
                     Binding OccupyBind = new Binding("IsOccupiable");
                     OccupyBind.Source = c.Field.GridSquares[i, j];
@@ -203,6 +223,11 @@ namespace ZombieApocalypseWPF
                 }
             }
         }
+
+        //private void ShowTradeMenu(object sender, RoutedEventArgs e)
+        //{
+
+        //}
 
         public static Item newItem = null;
         public static int xCoor;
@@ -293,6 +318,11 @@ namespace ZombieApocalypseWPF
 
             else if (tempgq.OccupyingCharacter is Player)
                 SelectedPlayer = (Player)tempgq.OccupyingCharacter;
+
+            else if (tempgq.OccupyingCharacter == null)
+                if (LastCharacterSelected != null)
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+
         }
 
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -311,34 +341,35 @@ namespace ZombieApocalypseWPF
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            
-            switch (e.Key)
+            if (SelectedPlayer == c.CurrentPlayer)
             {
-                case Key.W:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X - 1, SelectedPlayer.Location.Y));
-                    break;
-                case Key.A:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y - 1));
-                    break;
-                case Key.S:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X + 1, SelectedPlayer.Location.Y));
-                    break;
-                case Key.D:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
-                    break;
-                case Key.I:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
-                    break;
-                case Key.J:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
-                    break;
-                case Key.K:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
-                    break;
-                case Key.L:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
-                    break;
-
+                switch (e.Key)
+                {
+                    case Key.W:
+                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X - 1, SelectedPlayer.Location.Y));
+                        break;
+                    case Key.A:
+                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y - 1));
+                        break;
+                    case Key.S:
+                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X + 1, SelectedPlayer.Location.Y));
+                        break;
+                    case Key.D:
+                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
+                        break;
+                    case Key.I:
+                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
+                        break;
+                    case Key.J:
+                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
+                        break;
+                    case Key.K:
+                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
+                        break;
+                    case Key.L:
+                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
+                        break;
+                }
             }
         }
 
@@ -489,8 +520,5 @@ namespace ZombieApocalypseWPF
         {
             this.canEdit = !this.canEdit;
         }
-
-
-        
     }
 }

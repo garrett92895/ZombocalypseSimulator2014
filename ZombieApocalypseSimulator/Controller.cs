@@ -12,12 +12,13 @@ using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseSimulator.Models.Items.Enums;
-
+using ZombieApocalypseSimulator.Modes.HordeMode;
 namespace ZombieApocalypseSimulator
 {
     public enum ActionTypes
     {
         CharacterScreen,
+        ZedScreen,
         EndTurn,
         Move,
         Equip,
@@ -38,21 +39,22 @@ namespace ZombieApocalypseSimulator
         FixWeapon,
         SetTrap
     }
-
     public class Controller
     {
+
         #region Props and Backing Fields
         public GameArea Field { get; set; }
-        private Character CurrentPlayer;
+        public Character CurrentPlayer;
         private int MaxSquares;
-        private int SquaresLeft;
+        public int SquaresLeft { get; set; }
         public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
         public List<Coordinate> CorpseSquares;
-        public CharacterStack PlayerOrder;
-        public CharacterStack ZedOrder;
-        public Coordinate TrapLocation;
+        public Horde HordeMode { get; set; }
+        public CharacterStack PlayerOrder { get; set; }
+        public CharacterStack ZedOrder { get; set; }
+        public List<Coordinate> TrapLocations; 
         #endregion
 
         #region Ctor and Run
@@ -62,7 +64,9 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
+            TrapLocations = new List<Coordinate>();
             AI = new ZombieAI(true);
+            HordeMode = new Horde(Width, Height);
         }
 
         public void Run()
@@ -72,16 +76,15 @@ namespace ZombieApocalypseSimulator
                 Console.WriteLine("Start of Turn Order");
                 PlayerOrder = DetermineTurnOrder(Players);
                 ZedOrder = DetermineTurnOrder(Zeds);
-                if(Players.Count() == 0)
-                {
-                    Console.WriteLine("Game over, zombies have taken over the world.");
-                    Environment.Exit(0);
-                }
-
+                //if (Players.Count() == 0)
+                //{
+                //    Console.WriteLine("Game over, zombies have taken over the world.");
+                //    Environment.Exit(0);
+                //}
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
-                    
+
                     PlayNextTurn();
                 }
 
@@ -93,12 +96,24 @@ namespace ZombieApocalypseSimulator
 
                 for (int i = 0; i < Zeds.Count(); i++)
                 {
-                    Zed CurrentZombie = (Zed) ZedOrder.Pop();
+                    Zed CurrentZombie = (Zed)ZedOrder.Pop();
                     CurrentZombie.HasAttacked = false;
                     CurrentPlayer = CurrentZombie;
                     PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
+                if (HordeMode.IsActive)
+                {
+                    foreach (Character C in HordeMode.NextSpawns())
+                    {
+                        List<Coordinate> ViableSquares = new List<Coordinate>();
+                        foreach(SpawnZoneMarker SZM in HordeMode.SpawnMarkers)
+                        {
+                            ViableSquares.Add(Field.GetViableSquare(SZM.TopLeft, SZM.BottomRight));
+                        }
+                        AddCharacterToField(C, ViableSquares.ElementAt(DieRoll.RollOne(ViableSquares.Count)-1));
+                    }
+                }
             }
         }
         #endregion
@@ -160,7 +175,8 @@ namespace ZombieApocalypseSimulator
         {
             if (Location == null)
             {
-                Location = Field.GetViableSquare();
+                Location = Field.
+                    GetViableSquare();
             }
             Field.GridSquares[Location.X, Location.Y].ActiveTrap = T;
         }
@@ -168,6 +184,20 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Turn Sorting
+
+        /// <summary>
+        /// Sets the PlayerOrders and ZedOrders to be new CharacterStacks for a new turn
+        /// </summary>
+        public void DetermineTurnOrder()
+        {
+            PlayerOrder = DetermineTurnOrder(Players);
+            ZedOrder = DetermineTurnOrder(Zeds);
+        }
+        /// <summary>
+        /// Returns a CharacterStack with all of the Character's in the given list ordered according to initiative rolls
+        /// </summary>
+        /// <param name="_characters"></param>
+        /// <returns></returns>
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
@@ -226,15 +256,17 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Move");
                     SquaresLeft = SquaresLeft - Move();
                     Console.WriteLine(Field.ToString());
-                    if(CurrentPlayer.Location == TrapLocation)
-                    {
-                        int roll = new DieRoll(1, 6).Roll();
-                        CurrentPlayer.Equals(StatusEffect.Stunned);
-                        CurrentPlayer.Health -= roll;
-                        Console.WriteLine("You steped on a trap you now are Stunned and you took " + roll + " of damage");
-                    }
+                    Console.WriteLine();
+                    for (int setOffTrap = 0; setOffTrap < TrapLocations.Count; setOffTrap++ )
+                        if (CurrentPlayer.Location == TrapLocations[setOffTrap])
+                        {
+                            //int roll = new DieRoll(1, 6).Roll();
+                            //CurrentPlayer.Equals(StatusEffect.Stunned);
+                            //CurrentPlayer.Health -= roll;
+                            //Console.WriteLine("You steped on a trap you now are Stunned and you took " + roll + " of damage");
+                        }
                 }
-                 else if (PlayerAction.Equals(ActionTypes.EndTurn))
+                else if (PlayerAction.Equals(ActionTypes.EndTurn))
                 {
                     Console.WriteLine("Ended turn");
                     SquaresLeft -= MaxSquares;
@@ -252,7 +284,7 @@ namespace ZombieApocalypseSimulator
                     }
                     if (CurrentPlayer.Equals(StatusEffect.Stunned))
                     {
-                        SquaresLeft = MaxSquares - MaxSquares;
+                        SquaresLeft = 0;
                     }
                     if (CurrentPlayer.Equals(StatusEffect.Infected))
                     {
@@ -277,10 +309,9 @@ namespace ZombieApocalypseSimulator
                 else if (PlayerAction.Equals(ActionTypes.SetTrap))
                 {
                     Console.WriteLine("Place a trap");
-                    TrapLocation = CurrentPlayer.Location;
+                    TrapLocations.Add(CurrentPlayer.Location);
 
                     //AddTrapToField(CurrentPlayer.Items.Equals(Trap), TrapLocation);
-                    
                 }
                 else if (PlayerAction.Equals(ActionTypes.Reload))
                 {
@@ -350,6 +381,10 @@ namespace ZombieApocalypseSimulator
                 {
                     CharacterScreen();
                 }
+                else if (PlayerAction.Equals(ActionTypes.ZedScreen))
+                {
+                    Console.WriteLine(ZedNames());
+                }
                 else if (PlayerAction.Equals(ActionTypes.MeleeAttack))
                 {
                     Console.WriteLine("Melee attack");
@@ -390,14 +425,14 @@ namespace ZombieApocalypseSimulator
 
         private void PlayNextTurnAI()
         {
-                        SquaresLeft = CurrentPlayer.squares();
+            SquaresLeft = CurrentPlayer.squares();
             MaxSquares = SquaresLeft;
             Console.WriteLine(Field.ToString());
 
             List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
             ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
 
-            if(BestAction.Equals(ActionTypes.Move))
+            if (BestAction.Equals(ActionTypes.Move))
             {
                 Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
                 Field.MoveCharacterToSquare(CurrentPlayer, BestMove);
@@ -429,7 +464,7 @@ namespace ZombieApocalypseSimulator
             PossibleActions.Add(ActionTypes.EndTurn);
             PossibleActions.Add(ActionTypes.LevelUp);
             PossibleActions.Add(ActionTypes.LevelDown);
-
+            PossibleActions.Add(ActionTypes.ZedScreen);
             //Checks for possible moves
             if (Field.PossibleMovesForCharacter(CurrentPlayer, SquaresLeft).Any())
             {
@@ -468,7 +503,7 @@ namespace ZombieApocalypseSimulator
                     if (_weapon.CurrentClip.Amount() < _weapon.CurrentClip.ClipSize && Current.HasAmmo())
                     {
                         PossibleActions.Add(ActionTypes.Reload);
-                    }                    
+                    }
                 }
                 PossibleActions.Add(ActionTypes.SetTrap);
                 if (Current.GetType() == typeof(Medic))
@@ -498,7 +533,7 @@ namespace ZombieApocalypseSimulator
                     //Checks for the ability to give an item to a friendly type
                     if (SquaresLeft >= 3)
                     {
-                        List<Character> Neighbors = Field.AdjacentCharacters(CurrentPlayer,true);
+                        List<Character> Neighbors = Field.AdjacentCharacters(CurrentPlayer, true);
                         if (Neighbors.Any())
                         {
                             PossibleActions.Add(ActionTypes.GiveItem);
@@ -606,11 +641,11 @@ namespace ZombieApocalypseSimulator
             {
                 Zeds.RemoveAt(KilledCharacters.ElementAt(i));
             }
-            if(Players.Count() == 0)
-            {
-                Console.WriteLine("Game Over.");
-                Environment.Exit(0);
-            }
+            //if (Players.Count() == 0)
+            //{
+            //    Console.WriteLine("Game Over.");
+            //    Environment.Exit(0);
+            //}
         }
 
         //Returns the next turn's character and removes it from the stack
@@ -655,7 +690,7 @@ namespace ZombieApocalypseSimulator
             }
             else
             {
-                Console.WriteLine(ZedNames() + "\r\n" + CurrentPlayer.ToString());
+                Console.WriteLine(ZedNames());
             }
 
         }
@@ -716,7 +751,7 @@ namespace ZombieApocalypseSimulator
             {
                 ItemsToDrop.Add(Current.Items.ElementAt(i).ToString());
             }
-	    ItemsToDrop.Add("Money");
+            ItemsToDrop.Add("Money");
 
 
             PlayerChoice = CIO.PromptForMenuSelection(ItemsToDrop, false);
@@ -729,7 +764,7 @@ namespace ZombieApocalypseSimulator
             else
             {
                 Item GiveItem = Current.Items.ElementAt(PlayerChoice);
-	        Current.Items.Remove(GiveItem);
+                Current.Items.Remove(GiveItem);
                 Friendly.AddItem(GiveItem);
             }
         }
@@ -755,7 +790,7 @@ namespace ZombieApocalypseSimulator
             }
             else if (PlayerChoiceItem is Health)
             {
-                Health HealthPack = (Health) PlayerChoiceItem;
+                Health HealthPack = (Health)PlayerChoiceItem;
                 if (CurrentPlayer is Medic)
                 {
                     ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
@@ -769,7 +804,7 @@ namespace ZombieApocalypseSimulator
             {
                 ((Player)CurrentPlayer).AddItem(PlayerChoiceItem);
             }
-            
+
             Field.RemoveItemInSquare(PlayerChoiceItem, CurrentPlayer.Location);
         }
 
@@ -830,7 +865,7 @@ namespace ZombieApocalypseSimulator
                     AttemptedToDefend = true;
                 }
 
-                
+
 
                 //Checks for a botch on the defender's part
                 if (NaturalDefense == 1)
@@ -843,7 +878,7 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Attack is twice as effective!");
                 }
-                else if(Times == 1.5)
+                else if (Times == 1.5)
                 {
                     Console.WriteLine("Attack is 1.5 times as effective!");
                 }
@@ -946,7 +981,7 @@ namespace ZombieApocalypseSimulator
             //Just in case there is no Trader next to the CurrentPlayer
             if (Trader != null)
             {
-                Transaction Exchange = new Transaction(CurrentPlayer, Trader);
+                Transaction Exchange = new Transaction((Player)CurrentPlayer, Trader);
                 Console.WriteLine("Transaction Started");
                 while (!Exchange.Done)
                 {
@@ -988,10 +1023,10 @@ namespace ZombieApocalypseSimulator
         /// <param name="T"></param>
         private void BuyFromTrader(Transaction Exchange)
         {
-            Trader T = (Trader) Exchange.Seller;
+            Trader T = (Trader)Exchange.Seller;
             //Prints out the Items that can be bought from the Trader
             List<string> ItemsForSale = new List<string>();
-            for(int i = 0; i < T.Items.Count; i++)
+            for (int i = 0; i < T.Items.Count; i++)
             {
                 Item I = T.Items.ElementAt(i);
                 ItemsForSale.Add(I.Name + " for sale at the price $" + T.PurchasePrice(I));
@@ -999,7 +1034,7 @@ namespace ZombieApocalypseSimulator
             int UserChoice = CIO.PromptForMenuSelection(ItemsForSale, false);
             Item ChoosenItem = T.Items.ElementAt(UserChoice);
             int Price = T.PurchasePrice(ChoosenItem);
-            if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".","Yes","No"))
+            if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure you want to buy " + ChoosenItem.Name + " for $" + Price + ".", "Yes", "No"))
             {
                 Exchange.PurchaseItem(ChoosenItem, Price);
                 //CurrentPlayer.Items.Add(T.PurchaseItem(UserChoice));
@@ -1026,7 +1061,7 @@ namespace ZombieApocalypseSimulator
             int UserChoice = CIO.PromptForMenuSelection(ItemsToSell, false);
             Item ChoosenItem = CurrentPlayer.Items.ElementAt(UserChoice);
             int Price = T.SellPrice(ChoosenItem);
-            if(CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + Price, "Yes", "No"))
+            if (CIO.PromptForBool("Are you sure you want to sell " + ChoosenItem.Name + " for $" + Price, "Yes", "No"))
             {
                 Exchange.SellItem(ChoosenItem, Price);
                 //CurrentPlayer.Items.RemoveAt(UserChoice);
@@ -1042,7 +1077,7 @@ namespace ZombieApocalypseSimulator
         {
             Trader T = (Trader)Exchange.Seller;
 
-            int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[]{"Handgun for $1 a round","Rifle for $2 a round","Shotgun for $2 a round"}), false);
+            int UserChoice = CIO.PromptForMenuSelection(new List<string>(new string[] { "Handgun for $1 a round", "Rifle for $2 a round", "Shotgun for $2 a round" }), false);
             AmmoType ChosenType = AmmoType.Handgun;
             switch (UserChoice)
             {
@@ -1051,7 +1086,7 @@ namespace ZombieApocalypseSimulator
                 case 2: ChosenType = AmmoType.Shotgun; break;
             }
 
-            int Amount = CIO.PromptForInt("How many bullets would you like to purchase",0, 100);
+            int Amount = CIO.PromptForInt("How many bullets would you like to purchase", 0, 100);
             int Price = T.PurchaseAmmoCost(ChosenType, Amount);
             if (CurrentPlayer.Money + Exchange.BuyerMoneyChange >= Price && CIO.PromptForBool("Are you sure that you would like to purchase " + Amount + " for $" + Price + "?", "Yes", "No"))
             {
@@ -1066,13 +1101,29 @@ namespace ZombieApocalypseSimulator
 
         private string ZedNames()
         {
-            int nameNumber = 0;
-            for (int i = 0; i > Zeds.Count(); i++)
+            string nameNumber = "";
+            for (int i = 0; i < Zeds.Count(); i++)
             {
-                nameNumber = i;
+                string name = "";
+                if(Zeds[i].GetType() == typeof(Sloucher))
+                {
+                    name = "Sloucher";
+                }
+                else if (Zeds[i].GetType() == typeof(FastAttack))
+                {
+                    name = "Fast Attack";
+                }
+                else if (Zeds[i].GetType() == typeof(Tank))
+                {
+                    name = "Tank";
+                }
+                else if (Zeds[i].GetType() == typeof(Shank))
+                {
+                    name = "Shank";
+                }
+                nameNumber += "Name: " + name + (i + 1) + "\r\n" + Zeds[i].ToString() + "\r\n";
             }
-            string s = "Name : Zombie" + (nameNumber + 1);
-            return s;
+            return nameNumber;
         }
 
         private void Revive()

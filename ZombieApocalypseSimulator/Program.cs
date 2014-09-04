@@ -15,17 +15,13 @@ namespace ZombieApocalypseSimulator
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(120, 50);
-            Controller c = new Controller(20, 20);
+            Controller c = new Controller(10, 10);
 
             Character NewPlayer = new Player();
             NewPlayer.Money = 110;
-            Coordinate Coor = new Coordinate(12, 13);
+            Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    NewPlayer.Items.Add(WeaponFactory.RandomWeapon());
-            //}
+            NewPlayer.Level += 100;
 
             //Character Trader = new Trader(100);
             //Coordinate TraderCoor = new Coordinate(2, 2);
@@ -39,16 +35,15 @@ namespace ZombieApocalypseSimulator
             /*
              * Run Away Test
              */
-            Character Zed6 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor6 = new Coordinate(13, 13);
-            Zed6.Health = 1;
-            c.AddCharacterToField(Zed6, ZedCoor6);
-
+            //Character Zed6 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor6 = new Coordinate(3, 3);
+            //Zed6.Health = 1;
+            //c.AddCharacterToField(Zed6, ZedCoor6);
             /*
              * Cluster test
              */
             //Character Zed2 = ZedFactory.GetInstance("Tank");
-            //Coordinate ZedCoor2 = new Coordinate(12, 2);
+
             //c.AddCharacterToField(Zed2, ZedCoor2);
 
             //Character Zed4 = ZedFactory.GetInstance("Sloucher");

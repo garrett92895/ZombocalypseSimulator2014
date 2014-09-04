@@ -17,15 +17,15 @@
         <Menu Background="Black"
               Foreground="Firebrick">
             <MenuItem Header="File">
-                <MenuItem Header="New" Command="New"/>
-                <MenuItem Header="Open" Command="Open"/>
-                <MenuItem Header="Close" Command="Close"/>
-                <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click"/>
+                <MenuItem Header="New" Command="New" />
+                <MenuItem Header="Open" Command="Open" />
+                <MenuItem Header="Close" Command="Close" />
+                <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click" />
             </MenuItem>
             <MenuItem Header="Add">
-                <MenuItem Header="Player" Click="Player_Add"/>
-                <MenuItem Header="Zombie" Click="Zombie_Add"/>
-                <MenuItem Header="Item" Click="Item_Add"/>
+                <MenuItem Header="Player" Click="Player_Add" />
+                <MenuItem Header="Zombie" Click="Zombie_Add" />
+                <MenuItem Header="Item" Click="Item_Add" />
             </MenuItem>
         </Menu>
 
@@ -49,7 +49,6 @@
                                 <Label Content="{Binding Name}" />
                                 <Label Content="Level: " />
                                 <Label Content="{Binding Level}" />
-
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>

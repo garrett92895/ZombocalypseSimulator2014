@@ -10,5 +10,11 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
     {
         public Coordinate TopLeft { get; set; }
         public Coordinate BottomRight { get; set; }
+
+        public SpawnZoneMarker(Coordinate NewTopLeft, Coordinate NewBottomRight)
+        {
+            TopLeft = NewTopLeft;
+            BottomRight = NewBottomRight;
+        }
     }
 }

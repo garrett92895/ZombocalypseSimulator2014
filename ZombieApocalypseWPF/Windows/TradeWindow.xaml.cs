@@ -322,7 +322,6 @@ namespace ZombieApocalypseWPF.Windows
             }
             else if (Diff < 0)
             {
-                Console.WriteLine("Here");
                 Exchange.UnPurchaseAmmo(TypeOfAmmo, Math.Abs(Diff), T.PurchaseAmmoCost(TypeOfAmmo, Math.Abs(Diff)));
             }
             return true;
