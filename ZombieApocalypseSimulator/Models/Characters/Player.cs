@@ -19,7 +19,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
         public Weapon EquippedWeapon { get; set; }
         protected byte rollAttributes()
         {
-            byte roll = (byte)(DieRoll.RollOne(18));
+            byte roll = (byte)new DieRoll(3, 6).Roll();
             if (roll == 16 || roll == 17 || roll == 18)
             {
                 roll += (byte)(DieRoll.RollOne(6));

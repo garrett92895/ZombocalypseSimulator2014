@@ -13,6 +13,9 @@ using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseSimulator.Models.Items.Enums;
 using ZombieApocalypseSimulator.Modes.HordeMode;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 namespace ZombieApocalypseSimulator
 {
     public enum ActionTypes
@@ -67,6 +70,8 @@ namespace ZombieApocalypseSimulator
             TrapLocations = new List<Coordinate>();
             AI = new ZombieAI(true);
             HordeMode = new Horde(Width, Height);
+
+
         }
 
         public void Run()
@@ -1233,7 +1238,19 @@ namespace ZombieApocalypseSimulator
 
             return CIO.PromptForMenuSelection(VictimChoices, false);
         }
-
+        public void Save(string path)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, Field);
+            formatter.Serialize(stream, Zeds);
+            formatter.Serialize(stream, Players);
+            formatter.Serialize(stream, CorpseSquares);
+            formatter.Serialize(stream, TrapLocations);
+            formatter.Serialize(stream, AI);
+            formatter.Serialize(stream, HordeMode);
+            stream.Dispose();
+        }
         #endregion
 
         #region Logic Helper Methods
@@ -1253,7 +1270,6 @@ namespace ZombieApocalypseSimulator
 
             return Multiplier;
         }
-
         #endregion
     }
 }
