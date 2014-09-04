@@ -399,17 +399,48 @@ namespace ZombieApocalypseSimulator.Models.Characters
         {
             byte bonus = 0;
             byte level = (byte)Level;
-            Level--;
-            MaxHealth -= new DieRoll(1, 6).Roll();
-            MaxSDC -= new DieRoll(1, 4).Roll(); ;
-            IntelligenceQuotient -= new DieRoll(1, 3).Roll();
-            MentalEndurance -= new DieRoll(1, 3).Roll();
-            MentalAffinity -= new DieRoll(1, 3).Roll();
-            PhysicalStrength -= new DieRoll(1, 3).Roll();
-            PhysicalProwess -= new DieRoll(1, 3).Roll();
-            PhysicalBeauty -= new DieRoll(1, 3).Roll();
-            PhysicalEndurance -= new DieRoll(1, 3).Roll();
+            if (level > 0)
+            {
+                Level--;
+                if (MaxHealth > 6)
+                {
+                    MaxHealth -= new DieRoll(1, 6).Roll();
+                }
+                if (MaxHealth > 4)
+                {
+                    MaxSDC -= new DieRoll(1, 4).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    IntelligenceQuotient -= new DieRoll(1, 3).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    MentalEndurance -= new DieRoll(1, 3).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    MentalAffinity -= new DieRoll(1, 3).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    PhysicalStrength -= new DieRoll(1, 3).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    PhysicalProwess -= new DieRoll(1, 3).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    PhysicalBeauty -= new DieRoll(1, 3).Roll();
+                }
+                if (MaxHealth > 3)
+                {
+                    PhysicalEndurance -= new DieRoll(1, 3).Roll();
+                }
+            }
             return bonus;
+
         }
 
         /// <summary>

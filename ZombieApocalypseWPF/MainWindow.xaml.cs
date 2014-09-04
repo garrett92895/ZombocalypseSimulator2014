@@ -34,6 +34,7 @@ namespace ZombieApocalypseWPF
 
         Controller c;
         public bool canEdit;
+        private Character LastCharacterSelected;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -46,6 +47,7 @@ namespace ZombieApocalypseWPF
                 _selectedPlayer = value;
                 this.PlayerControl.c = _selectedPlayer;
                 this.CharacterComboBox.SelectedValue = _selectedPlayer;
+                this.LastCharacterSelected = SelectedPlayer;
             }
         } 
         
@@ -61,6 +63,8 @@ namespace ZombieApocalypseWPF
                 _selectedZombie = value;
                 this.ZombieControl.c = _selectedZombie;
                 this.ZCharacterComboBox.SelectedValue = _selectedZombie;
+                this.LastCharacterSelected = SelectedZombie;
+
             }
         }
 
@@ -134,17 +138,19 @@ namespace ZombieApocalypseWPF
             
             PopulateBoard();
 
-            //MessageBoxResult dr = MessageBox.Show("Would you like to enable intelligent zombies?",
-            //          "Zombie Mode", MessageBoxButton.YesNo);
-            //if(dr.Equals(MessageBoxResult.Yes))
-            //{
-            //    c.AI.IntelligentAI = true;
-            //}
-            //else
-            //{
-            //    c.AI.IntelligentAI = false;
-            //}
+            MessageBoxResult dr = MessageBox.Show("Would you like to enable intelligent zombies?",
+                      "Zombie Mode", MessageBoxButton.YesNo);
+            if(dr.Equals(MessageBoxResult.Yes))
+            {
+                c.AI.IntelligentAI = true;
+            }
+            else
+            {
+                c.AI.IntelligentAI = false;
+            }
+
         }
+
 
         private void PopulateBoard()
         {
@@ -198,7 +204,11 @@ namespace ZombieApocalypseWPF
                     nc.Children.Add(ItemRec);
                     nc.Children.Add(CharRec);
 
-                    ContextMenu cm = new ContextMenu();
+                    //ContextMenu cm = new ContextMenu();
+                    //cm.ItemsSource = new List<Button>
+                    //{
+                    //    new Button { Content = "Trade", Click += ShowTradeMenu  }
+                    //};
 
                     Binding OccupyBind = new Binding("IsOccupiable");
                     OccupyBind.Source = c.Field.GridSquares[i, j];
@@ -214,6 +224,11 @@ namespace ZombieApocalypseWPF
                 }
             }
         }
+
+        //private void ShowTradeMenu(object sender, RoutedEventArgs e)
+        //{
+
+        //}
 
         public static Item newItem = null;
         public static int xCoor;
@@ -304,6 +319,11 @@ namespace ZombieApocalypseWPF
 
             else if (tempgq.OccupyingCharacter is Player)
                 SelectedPlayer = (Player)tempgq.OccupyingCharacter;
+
+            else if (tempgq.OccupyingCharacter == null)
+                if (LastCharacterSelected != null)
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+
         }
 
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
