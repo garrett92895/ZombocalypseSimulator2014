@@ -44,16 +44,16 @@ namespace ZombieApocalypseSimulator
 
         #region Props and Backing Fields
         public GameArea Field { get; set; }
-        private Character CurrentPlayer;
+        public Character CurrentPlayer;
         private int MaxSquares;
-        private int SquaresLeft;
+        public int SquaresLeft { get; set; }
         public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
         public List<Coordinate> CorpseSquares;
         public Horde HordeMode { get; set; }
-        public CharacterStack PlayerOrder;
-        public CharacterStack ZedOrder;
+        public CharacterStack PlayerOrder { get; set; }
+        public CharacterStack ZedOrder { get; set; }
         public List<Coordinate> TrapLocations; 
         #endregion
 
@@ -81,7 +81,6 @@ namespace ZombieApocalypseSimulator
                 //    Console.WriteLine("Game over, zombies have taken over the world.");
                 //    Environment.Exit(0);
                 //}
-
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
@@ -185,6 +184,20 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Turn Sorting
+
+        /// <summary>
+        /// Sets the PlayerOrders and ZedOrders to be new CharacterStacks for a new turn
+        /// </summary>
+        public void DetermineTurnOrder()
+        {
+            PlayerOrder = DetermineTurnOrder(Players);
+            ZedOrder = DetermineTurnOrder(Zeds);
+        }
+        /// <summary>
+        /// Returns a CharacterStack with all of the Character's in the given list ordered according to initiative rolls
+        /// </summary>
+        /// <param name="_characters"></param>
+        /// <returns></returns>
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
