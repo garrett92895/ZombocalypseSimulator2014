@@ -23,29 +23,29 @@ namespace ZombieApocalypseSimulator
             c.AddCharacterToField(NewPlayer, Coor);
             NewPlayer.Level += 100;
 
-            Character Trader = new Trader(100);
-            Coordinate TraderCoor = new Coordinate(2, 2);
-            c.AddCharacterToField(Trader, TraderCoor);
-            for (int i = 0; i < 10; i++)
-            {
-                Trader.Items.Add(WeaponFactory.RandomWeapon());
-            }
+            //Character Trader = new Trader(100);
+            //Coordinate TraderCoor = new Coordinate(2, 2);
+            //c.AddCharacterToField(Trader, TraderCoor);
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Trader.Items.Add(WeaponFactory.RandomWeapon());
+            //}
 
 
             /*
              * Run Away Test
              */
-            Character Zed6 = ZedFactory.GetInstance("Sloucher");
-            Coordinate ZedCoor6 = new Coordinate(3, 3);
-            Zed6.Health = 1;
-            c.AddCharacterToField(Zed6, ZedCoor6);
+            //Character Zed6 = ZedFactory.GetInstance("Sloucher");
+            //Coordinate ZedCoor6 = new Coordinate(3, 3);
+            //Zed6.Health = 1;
+            //c.AddCharacterToField(Zed6, ZedCoor6);
 
             /*
              * Cluster test
              */
-            Character Zed2 = ZedFactory.GetInstance("Tank");
-            Coordinate ZedCoor2 = new Coordinate(2, 5);
-            c.AddCharacterToField(Zed2, ZedCoor2);
+            //Character Zed2 = ZedFactory.GetInstance("Tank");
+            //Coordinate ZedCoor2 = new Coordinate(2, 5);
+            //c.AddCharacterToField(Zed2, ZedCoor2);
 
             //Character Zed4 = ZedFactory.GetInstance("Sloucher");
             //Coordinate ZedCoor4 = new Coordinate(4, 12);

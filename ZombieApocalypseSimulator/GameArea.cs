@@ -30,7 +30,7 @@ namespace ZombieApocalypseSimulator
         public GameArea(int NewHeight = 10, int NewWidth = 10)
         {
             Height = NewHeight;
-            Width = NewHeight;
+            Width = NewWidth;
             ClearBoard();
             Rand = new Random();
         }
@@ -77,9 +77,8 @@ namespace ZombieApocalypseSimulator
             {
                 return null;
             }
-
             //Returns a Randomly selected GridSquare from the ViableSquares
-            return ViableSquares.ElementAt(Rand.Next(ViableSquares.Count - 1)).Coordinate;
+            return ViableSquares.ElementAt(DieRoll.RollOne(ViableSquares.Count) - 1).Coordinate;
         }
 
         /// <summary>

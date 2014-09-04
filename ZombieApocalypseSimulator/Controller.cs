@@ -54,7 +54,7 @@ namespace ZombieApocalypseSimulator
         public Horde HordeMode { get; set; }
         public CharacterStack PlayerOrder;
         public CharacterStack ZedOrder;
-        public List<Coordinate> TrapLocation; 
+        public List<Coordinate> TrapLocations; 
         #endregion
 
         #region Ctor and Run
@@ -64,7 +64,9 @@ namespace ZombieApocalypseSimulator
             Zeds = new List<Character>();
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
+            TrapLocations = new List<Coordinate>();
             AI = new ZombieAI(true);
+            HordeMode = new Horde(Width, Height);
         }
 
         public void Run()
@@ -74,11 +76,11 @@ namespace ZombieApocalypseSimulator
                 Console.WriteLine("Start of Turn Order");
                 PlayerOrder = DetermineTurnOrder(Players);
                 ZedOrder = DetermineTurnOrder(Zeds);
-                if (Players.Count() == 0)
-                {
-                    Console.WriteLine("Game over, zombies have taken over the world.");
-                    Environment.Exit(0);
-                }
+                //if (Players.Count() == 0)
+                //{
+                //    Console.WriteLine("Game over, zombies have taken over the world.");
+                //    Environment.Exit(0);
+                //}
 
                 for (int i = 0; i < Players.Count(); i++)
                 {
@@ -101,12 +103,17 @@ namespace ZombieApocalypseSimulator
                     PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
-                if (HordeMode.Active)
+                if (HordeMode.IsActive)
                 {
-                    //foreach (Character C in HordeMode.NextSpawn())
-                    //{
-
-                    //}
+                    foreach (Character C in HordeMode.NextSpawns())
+                    {
+                        List<Coordinate> ViableSquares = new List<Coordinate>();
+                        foreach(SpawnZoneMarker SZM in HordeMode.SpawnMarkers)
+                        {
+                            ViableSquares.Add(Field.GetViableSquare(SZM.TopLeft, SZM.BottomRight));
+                        }
+                        AddCharacterToField(C, ViableSquares.ElementAt(DieRoll.RollOne(ViableSquares.Count)-1));
+                    }
                 }
             }
         }
@@ -236,8 +243,9 @@ namespace ZombieApocalypseSimulator
                     Console.WriteLine("Move");
                     SquaresLeft = SquaresLeft - Move();
                     Console.WriteLine(Field.ToString());
-                    for (int setOffTrap = 0; setOffTrap < TrapLocation.Count; setOffTrap++ )
-                        if (CurrentPlayer.Location == TrapLocation[setOffTrap])
+                    Console.WriteLine();
+                    for (int setOffTrap = 0; setOffTrap < TrapLocations.Count; setOffTrap++ )
+                        if (CurrentPlayer.Location == TrapLocations[setOffTrap])
                         {
                             //int roll = new DieRoll(1, 6).Roll();
                             //CurrentPlayer.Equals(StatusEffect.Stunned);
@@ -288,7 +296,7 @@ namespace ZombieApocalypseSimulator
                 else if (PlayerAction.Equals(ActionTypes.SetTrap))
                 {
                     Console.WriteLine("Place a trap");
-                    TrapLocation.Add(CurrentPlayer.Location);
+                    TrapLocations.Add(CurrentPlayer.Location);
 
                     //AddTrapToField(CurrentPlayer.Items.Equals(Trap), TrapLocation);
                 }
@@ -620,11 +628,11 @@ namespace ZombieApocalypseSimulator
             {
                 Zeds.RemoveAt(KilledCharacters.ElementAt(i));
             }
-            if (Players.Count() == 0)
-            {
-                Console.WriteLine("Game Over.");
-                Environment.Exit(0);
-            }
+            //if (Players.Count() == 0)
+            //{
+            //    Console.WriteLine("Game Over.");
+            //    Environment.Exit(0);
+            //}
         }
 
         //Returns the next turn's character and removes it from the stack
@@ -1071,7 +1079,10 @@ namespace ZombieApocalypseSimulator
             {
                 Exchange.BuyerMoneyChange -= Price;
                 Exchange.SellerMoneyChange += Price;
-                Exchange.SellingItems.AddRange(T.BuyAmmo(ChosenType, Amount));
+                foreach (Ammo A in T.BuyAmmo(ChosenType, Amount))
+                {
+                    Exchange.SellingItems.Add(A);
+                }
             }
         }
 
