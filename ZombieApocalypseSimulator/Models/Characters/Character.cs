@@ -302,6 +302,18 @@ namespace ZombieApocalypseSimulator.Models.Characters
         {
             return DieRoll.RollOne(10) + 12;
         }
+        public int msquares
+        {
+            get
+            {
+                return squares();
+            }
+
+            set
+            {
+
+            }
+        }
         public int squares()
         {
             int movement = ((Speed * 5) / 4);

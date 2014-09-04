@@ -58,9 +58,11 @@
             <Label Content="Speed: " HorizontalContentAlignment="Right" />
             <TextBox Text="{Binding Speed}" HorizontalContentAlignment="Left" />
 
-
             <Label Content="Money: " HorizontalContentAlignment="Right" />
             <TextBox Text="{Binding Money}" HorizontalContentAlignment="Left" />
+
+            <Label Content="Squares: " HorizontalContentAlignment="Right" />
+            <TextBox Text="{Binding msquares}" HorizontalContentAlignment="Left" />
             
         </UniformGrid>
         
