@@ -75,7 +75,6 @@
                   CanUserAddRows="False"
                   CanUserDeleteRows="True"
                   AutoGenerateColumns="True"
-                  
                   >
             
         </DataGrid>

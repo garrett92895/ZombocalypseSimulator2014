@@ -32,7 +32,6 @@ namespace ZombieApocalypseWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
         Controller c;
         public bool canEdit;
         public Horde hordeMode;
