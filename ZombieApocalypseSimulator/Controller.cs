@@ -44,7 +44,7 @@ namespace ZombieApocalypseSimulator
 
         #region Props and Backing Fields
         public GameArea Field { get; set; }
-        public Character CurrentPlayer;
+        public Character CurrentPlayer { get; set; }
         private int MaxSquares;
         public int SquaresLeft { get; set; }
         public ZombieAI AI { get; set; }
@@ -115,6 +115,31 @@ namespace ZombieApocalypseSimulator
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the CurrentPlayer to be the Next Player according to the initiative order, and resets the TurnOrder if 
+        /// the last Character has taken their turn
+        /// </summary>
+        public void NextTurn()
+        {
+            if (PlayerOrder.Peek() != null)
+            {
+                CurrentPlayer = PlayerOrder.Pop();
+            }
+            else if (ZedOrder.Peek() != null)
+            {
+                CurrentPlayer = ZedOrder.Pop();
+            }
+            else
+            {
+                DetermineTurnOrder();
+                if (Players.Count > 0 || Zeds.Count > 0)
+                {
+                    NextTurn();
+                }
+            }
+            SquaresLeft = CurrentPlayer.squares();
         }
         #endregion
 

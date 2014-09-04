@@ -32,7 +32,7 @@ namespace ZombieApocalypseWPF
     public partial class MainWindow : Window
     {
 
-        Controller c;
+        private Controller c;
         public bool canEdit;
         private Character LastCharacterSelected;
         private Player _selectedPlayer;
@@ -102,8 +102,8 @@ namespace ZombieApocalypseWPF
                 Trader.AddItem(WeaponFactory.RandomWeapon());
             }
 
-            TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
-            NewTrade.ShowDialog();
+            //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
+            //NewTrade.ShowDialog();
 
             //c.Field.Height = 30;
             //c.Field.Width = 30;
@@ -149,6 +149,9 @@ namespace ZombieApocalypseWPF
                 c.AI.IntelligentAI = false;
             }
 
+            c.DetermineTurnOrder();
+            c.NextTurn();
+            canEdit = false;
         }
 
 
@@ -342,35 +345,34 @@ namespace ZombieApocalypseWPF
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (SelectedPlayer == c.CurrentPlayer)
+            Coordinate MoveTo = null;
+            switch (e.Key)
             {
-                switch (e.Key)
+                case Key.W:
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y);
+                    break;
+                case Key.A:
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1);
+                    break;
+                case Key.S:
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y);
+                    break;
+                case Key.D:
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1);
+                    break;
+            }
+            if (!canEdit && LastCharacterSelected == c.CurrentPlayer)
+            {
+                int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, MoveTo);
+                if(c.SquaresLeft - MoveCost > 0)
                 {
-                    case Key.W:
-                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X - 1, SelectedPlayer.Location.Y));
-                        break;
-                    case Key.A:
-                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y - 1));
-                        break;
-                    case Key.S:
-                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X + 1, SelectedPlayer.Location.Y));
-                        break;
-                    case Key.D:
-                        c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
-                        break;
-                    case Key.I:
-                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
-                        break;
-                    case Key.J:
-                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
-                        break;
-                    case Key.K:
-                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
-                        break;
-                    case Key.L:
-                        c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
-                        break;
+                    c.SquaresLeft -= MoveCost;
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
                 }
+            }
+            else if(canEdit)
+            {
+                c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
             }
         }
 
