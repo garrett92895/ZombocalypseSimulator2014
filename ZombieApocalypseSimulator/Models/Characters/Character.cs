@@ -351,7 +351,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             {
                 bonus = 0;
             }
-            return bonus;
+            return bonus + Level;
         }
 
         public abstract bool HasWeapon();

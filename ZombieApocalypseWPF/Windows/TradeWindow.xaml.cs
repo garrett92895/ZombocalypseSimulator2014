@@ -162,7 +162,6 @@ namespace ZombieApocalypseWPF.Windows
         private void FinishTrade_Click(object sender, RoutedEventArgs e)
         {
             Exchange.FinishTransaction();
-            Console.WriteLine(Exchange.Buyer);
             this.Close();
         }
 
@@ -323,7 +322,6 @@ namespace ZombieApocalypseWPF.Windows
             }
             else if (Diff < 0)
             {
-                Console.WriteLine("Here");
                 Exchange.UnPurchaseAmmo(TypeOfAmmo, Math.Abs(Diff), T.PurchaseAmmoCost(TypeOfAmmo, Math.Abs(Diff)));
             }
             return true;

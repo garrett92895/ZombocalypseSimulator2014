@@ -252,6 +252,7 @@ namespace ZombieApocalypseSimulator
             {
                 Buyer.Items.Add(I);
             }
+            SellingItems.Clear();
             //Adds the Ammo bought to the Buyer's Inventory
             for (int i = 0; i < SellingHandgunAmmo; i++)
             {
@@ -271,6 +272,7 @@ namespace ZombieApocalypseSimulator
             {
                 Seller.Items.Add(I);
             }
+            BuyingItems.Clear();
 
             //Removes the Ammo sold from the Buyer's Inventory
             if (BuyingHandgunAmmo > 0 || BuyingRifleAmmo > 0 || BuyingShotgunAmmo > 0)

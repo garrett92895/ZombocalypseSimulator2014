@@ -12,6 +12,7 @@ using ZombieApocalypseSimulator.Factories;
 using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseSimulator.Models.Items.Enums;
+using ZombieApocalypseSimulator.Modes.HordeMode;
 
 namespace ZombieApocalypseSimulator
 {
@@ -41,6 +42,7 @@ namespace ZombieApocalypseSimulator
 
     public class Controller
     {
+
         #region Props and Backing Fields
         public GameArea Field { get; set; }
         private Character CurrentPlayer;
@@ -50,6 +52,7 @@ namespace ZombieApocalypseSimulator
         public List<Character> Zeds;
         public List<Character> Players;
         public List<Coordinate> CorpseSquares;
+        public Horde HordeMode { get; set; }
         public CharacterStack PlayerOrder;
         public CharacterStack ZedOrder;
         public Coordinate TrapLocation;
@@ -99,6 +102,13 @@ namespace ZombieApocalypseSimulator
                     PlayNextTurnAI();
                 }
                 Zeds.AddRange(Field.MakeReviveRolls(CorpseSquares));
+                if (HordeMode.Active)
+                {
+                    //foreach (Character C in HordeMode.NextSpawn())
+                    //{
+
+                    //}
+                }
             }
         }
         #endregion

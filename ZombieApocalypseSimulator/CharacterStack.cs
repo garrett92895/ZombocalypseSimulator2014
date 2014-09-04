@@ -45,7 +45,8 @@ namespace ZombieApocalypseSimulator
         {
             for (int i = 0; i < _characters.Length; i++)
             {
-                if (_characters[i].Equals(c))
+                //Change This
+                if ( _characters[i] != null &&_characters[i].Equals(c))
                 {
                     _characters[i] = null;
                 }

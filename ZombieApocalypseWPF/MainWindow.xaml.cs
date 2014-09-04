@@ -23,7 +23,6 @@ using ZombieApocalypseSimulator.Models.Items;
 using ZombieApocalypseWPF.Converters;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseWPF.Windows;
-using ZombieApocalypseSimulator.Modes.HordeMode;
 
 namespace ZombieApocalypseWPF
 {
@@ -35,7 +34,6 @@ namespace ZombieApocalypseWPF
 
         Controller c;
         public bool canEdit;
-        public Horde hordeMode;
         private Player _selectedPlayer;
         public Player SelectedPlayer
         {
@@ -95,6 +93,13 @@ namespace ZombieApocalypseWPF
             Player Trader = new Trader();
             Coordinate Coor2 = new Coordinate(1, 1);
             c.AddCharacterToField(Trader, Coor2);
+            for (int i = 0; i < 10; i++)
+            {
+                Trader.AddItem(WeaponFactory.RandomWeapon());
+            }
+
+            TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
+            NewTrade.ShowDialog();
 
             //c.Field.Height = 30;
             //c.Field.Width = 30;
@@ -103,6 +108,10 @@ namespace ZombieApocalypseWPF
             {
                 Trader.Items.Add(WeaponFactory.RandomWeapon());
             }
+
+            //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
+            //NewTrade.ShowDialog();
+            //Console.WriteLine("Main Window : " + NewPlayer1);
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
             //Coordinate ZedCoor3 = new Coordinate(5, 5);
