@@ -39,12 +39,11 @@ namespace ZombieApocalypseSimulator
             //Coordinate ZedCoor6 = new Coordinate(3, 3);
             //Zed6.Health = 1;
             //c.AddCharacterToField(Zed6, ZedCoor6);
-
             /*
              * Cluster test
              */
             //Character Zed2 = ZedFactory.GetInstance("Tank");
-            //Coordinate ZedCoor2 = new Coordinate(2, 5);
+
             //c.AddCharacterToField(Zed2, ZedCoor2);
 
             //Character Zed4 = ZedFactory.GetInstance("Sloucher");

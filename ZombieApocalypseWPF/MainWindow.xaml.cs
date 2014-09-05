@@ -31,7 +31,6 @@ namespace ZombieApocalypseWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
         private Controller c;
         public bool canEdit;
         private Character LastCharacterSelected;
@@ -148,9 +147,7 @@ namespace ZombieApocalypseWPF
             {
                 c.AI.IntelligentAI = false;
             }
-
             c.DetermineTurnOrder();
-            c.NextTurn();
             canEdit = false;
         }
 
@@ -522,6 +519,11 @@ namespace ZombieApocalypseWPF
         private void EditMode_Click(object sender, RoutedEventArgs e)
         {
             this.canEdit = !this.canEdit;
+        }
+
+        private void EndTurn_Click(object sender, RoutedEventArgs e)
+        {
+            c.NextTurn();
         }
     }
 }
