@@ -72,9 +72,9 @@
                          Columns="15"
                          Grid.Row="1"
                          >
-                    <UniformGrid.Background>
+                    <!--<UniformGrid.Background>
                         <ImageBrush ImageSource="/Images/TestBackGround.jpg" />
-                    </UniformGrid.Background>
+                    </UniformGrid.Background>-->
 
                 </UniformGrid>
                 

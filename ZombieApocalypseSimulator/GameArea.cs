@@ -8,6 +8,8 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator
 {
+    enum Direction{ UP, RIGHT, DOWN, LEFT, NONE }
+
     public class GameArea
     {
         #region Properties
@@ -312,7 +314,6 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-
         public List<Coordinate> PossibleMovesForCharacter(Character C, int SquaresLeft, bool DiagonalsCostTwo = false)
         {
             Type OriginalType = null;
@@ -324,7 +325,32 @@ namespace ZombieApocalypseSimulator
             {
                 OriginalType = typeof(Zed);
             }
-            return AvailableMoves(C.Location, SquaresLeft, OriginalType, DiagonalsCostTwo, new List<Coordinate>());
+            List<Coordinate> Moves = new List<Coordinate>();
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    Coordinate Coor = new Coordinate(i, j);
+                    Direction Horizontal;
+                    switch(i)
+                    {
+                        case -1: Horizontal = Direction.LEFT; break;
+                        case 0: Horizontal = Direction.NONE; break;
+                        case 1: Horizontal = Direction.RIGHT; break;
+                    }
+
+                    Direction Verticle;
+                    switch (j)
+                    {
+                        case -1: Verticle = Direction.UP; break;
+                        case 0: Verticle = Direction.NONE; break;
+                        case 1: Verticle = Direction.DOWN; break;
+                    }
+                    Moves.AddRange(AvailableMoves(Coor, SquaresLeft, OriginalType, false, Horizontal, Verticle));
+                }
+            }
+            Moves.Distinct(new LocationComparer());
+            return Moves;
         }
 
         /// <summary>
@@ -336,7 +362,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="DiagonalsCostTwo"></param>
         /// <param name="AlreadyChecked"></param>
         /// <returns></returns>
-        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType, bool DiagonalsCostTwo, List<Coordinate> AlreadyChecked)
+        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType, bool DiagonalsCostTwo, Direction Horizontal, Direction Verticle)
         {
             List<Coordinate> ViableMoves = new List<Coordinate>();
 
@@ -348,7 +374,7 @@ namespace ZombieApocalypseSimulator
             }
 
             //Makes sure not to move give one extra Diagonal movement
-            if (DiagonalsCostTwo && SquaresLeft < 0)
+            if (DiagonalsCostTwo && SquaresLeft < 2)
             {
                 return ViableMoves;
             }
@@ -357,8 +383,8 @@ namespace ZombieApocalypseSimulator
                 ViableMoves.Add(Location);
             }
             //Prevents movement through squares occupied by enemy Characters
-            else if ((CurrentSquare.OccupyingCharacter.GetType() != typeof(Player) && OriginalType == typeof(Player))
-                || (CurrentSquare.OccupyingCharacter.GetType() == typeof(Player) && OriginalType != typeof(Player)))
+            else if ((CurrentSquare.OccupyingCharacter is Zed && OriginalType == typeof(Player))
+                || (CurrentSquare.OccupyingCharacter is Player && OriginalType == typeof(Zed)))
             {
                 return ViableMoves;
             }
@@ -376,7 +402,6 @@ namespace ZombieApocalypseSimulator
 
             //Removes Coordinates that have already been checked
             Neighbors = Neighbors.Except(AlreadyChecked, new LocationComparer()).ToList();
-            AlreadyChecked.AddRange(Neighbors);
             for (int i = 0; i < Neighbors.Count(); i++)
             {
                 Coordinate Neighbor = Neighbors.ElementAt(i);
@@ -385,12 +410,14 @@ namespace ZombieApocalypseSimulator
 
                 //True if the Movement from this GridSquare to the Neighbor is diagonal
                 bool DiagonalMovement = Math.Abs(Location.X - Neighbor.X) == Math.Abs(Location.Y - Neighbor.Y);
-                if (DiagonalMovement && DiagonalsCostTwo)
+                if (DiagonalMovement)
                 {
                     MoveCost++;
+                    DiagonalsCostTwo = !DiagonalsCostTwo;
                 }
-                ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, !DiagonalsCostTwo, AlreadyChecked));
+                ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, DiagonalsCostTwo, AlreadyChecked));
             }
+            AlreadyChecked.AddRange(Neighbors);
             return ViableMoves.Distinct(new LocationComparer()).ToList();
         }
 
