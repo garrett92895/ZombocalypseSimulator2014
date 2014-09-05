@@ -102,8 +102,8 @@ namespace ZombieApocalypseWPF
                 Trader.AddItem(WeaponFactory.RandomWeapon());
             }
 
-            TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
-            NewTrade.ShowDialog();
+            //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
+            //NewTrade.ShowDialog();
 
             //c.Field.Height = 30;
             //c.Field.Width = 30;
@@ -197,8 +197,6 @@ namespace ZombieApocalypseWPF
                     TrapRec.SetBinding(Rectangle.FillProperty, TrapBind);
                     TrapRec.SetBinding(Rectangle.HeightProperty, HeightBind);
                     TrapRec.SetBinding(Rectangle.WidthProperty, WidthBind);
-
-
 
                     nc.Children.Add(TrapRec);
                     nc.Children.Add(ItemRec);
@@ -323,6 +321,38 @@ namespace ZombieApocalypseWPF
             else if (tempgq.OccupyingCharacter == null)
                 if (LastCharacterSelected != null)
                     c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+
+            BoardOverlay.Children.Clear();
+            List<Coordinate> possMoves = c.Field.PossibleMovesForCharacter(LastCharacterSelected, LastCharacterSelected.msquares);
+
+            List<Character> possAttacks = new List<Character>();
+            if (LastCharacterSelected is Player)
+                possAttacks = c.Field.PossibleRangedTargets(LastCharacterSelected, c.Zeds);
+
+            List<Coordinate> possAttackCoors = new List<Coordinate>();
+
+            foreach (Character ch in possAttacks)
+                possAttackCoors.Add(ch.Location);
+
+            
+            for (int i = 0; i < c.Field.Height; i++)
+            {
+                for (int j = 0; j < c.Field.Width; j++)
+                {
+                    Coordinate currCoor = new Coordinate(i, j);
+                    Canvas reccy = new Canvas();
+                    reccy.MouseLeftButtonUp += nc_MouseLeftButtonUp;
+
+                    if (possAttackCoors.Contains(currCoor))
+                        reccy.Background = new SolidColorBrush(new Color { A = 100, R = 255, B = 50, G = 50 });
+                    else if (possMoves.Contains(currCoor))
+                        reccy.Background = new SolidColorBrush(new Color { A = 100, R = 0, B = 50, G = 250 });
+
+                    reccy.Resources.Add("Square", c.Field.GridSquares[i, j]);
+
+                    BoardOverlay.Children.Add(reccy);
+                }
+            }
 
         }
 

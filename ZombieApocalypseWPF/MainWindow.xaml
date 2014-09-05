@@ -88,6 +88,13 @@
                     </UniformGrid.Background>
 
                 </UniformGrid>
+                
+                <UniformGrid x:Name="BoardOverlay"
+                             Rows="15"
+                             Columns="15"
+                             Grid.Row="1">
+                    
+                </UniformGrid>
             </Grid>
 
             <StackPanel Grid.Column="2" Background="Black">

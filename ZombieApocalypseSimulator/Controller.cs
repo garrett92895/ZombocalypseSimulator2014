@@ -46,7 +46,17 @@ namespace ZombieApocalypseSimulator
         public GameArea Field { get; set; }
         private Character CurrentPlayer;
         private int MaxSquares;
-        private int SquaresLeft;
+        private int SquaresLeft
+        {
+            get
+            {
+                return CurrentPlayer.msquares;
+            }
+            set
+            {
+                CurrentPlayer.msquares = value;
+            }
+        }
         public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
