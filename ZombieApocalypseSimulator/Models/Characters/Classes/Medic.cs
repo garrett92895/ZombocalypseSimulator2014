@@ -13,7 +13,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
     {
         public Medic()
         {
-            Name = "Phill";
+            Name = "Christain";
             Items = new ObservableCollection<Item>();
             ItemLimit = 5;
             //Items.Add(new MeleeWeapon { Condition = 100, Damage = "2d6", IsEquiped = false, 

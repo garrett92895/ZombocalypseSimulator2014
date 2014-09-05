@@ -14,20 +14,6 @@
     </Window.CommandBindings>
     
     <Grid>
-        <Menu Background="Black"
-              Foreground="Firebrick">
-            <MenuItem Header="File">
-                <MenuItem Header="New" Command="New" />
-                <MenuItem Header="Open" Command="Open" />
-                <MenuItem Header="Close" Command="Close" />
-                <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click" />
-            </MenuItem>
-            <MenuItem Header="Add">
-                <MenuItem Header="Player" Click="Player_Add" />
-                <MenuItem Header="Zombie" Click="Zombie_Add" />
-                <MenuItem Header="Item" Click="Item_Add" />
-            </MenuItem>
-        </Menu>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -70,11 +56,13 @@
                         <MenuItem Header="New" Command="New"/>
                         <MenuItem Header="Open" Command="Open"/>
                         <MenuItem Header="Close" Command="Close"/>
+                        <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click" />
                     </MenuItem>
                     <MenuItem Header="Add">
                         <MenuItem Header="Player" Click="Player_Add"/>
                         <MenuItem Header="Zombie" Click="Zombie_Add"/>
                         <MenuItem Header="Item" Click="Item_Add"/>
+                        <MenuItem Header="Trap" Click="Item_Add"/>
                     </MenuItem>
                     <MenuItem Header="End Turn" Click="EndTurn_Click"/>
                 </Menu>
@@ -116,8 +104,8 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-
-                <uc:CharacterControl x:Name="ZombieControl" Grid.Column="2" MinWidth="300"/>
+                
+                <uc:CharacterControl x:Name="ZombieControl" Grid.Column="2" MinWidth="300" />
 
             </StackPanel>
         </Grid>

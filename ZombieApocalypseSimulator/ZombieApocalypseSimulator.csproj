@@ -62,7 +62,6 @@
     <Compile Include="Models\Characters\Classes\Fighter.cs" />
     <Compile Include="Models\Characters\Classes\HalfZombie.cs" />
     <Compile Include="Models\Characters\Classes\Medic.cs" />
-    <Compile Include="Models\Characters\Classes\ObservaableCollection.cs" />
     <Compile Include="Models\Characters\Classes\Rifleman.cs" />
     <Compile Include="Models\Characters\Classes\Shank.cs" />
     <Compile Include="Models\Characters\Classes\Sloucher.cs" />
