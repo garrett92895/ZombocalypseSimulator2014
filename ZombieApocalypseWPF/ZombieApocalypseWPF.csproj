@@ -179,6 +179,7 @@
     <Content Include="Images\TestBackGround.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\ZAIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\CharacterImages\Items.png">

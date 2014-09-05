@@ -5,7 +5,7 @@
         Height="720" Width="1024"
         KeyDown="Window_KeyDown"
         Title="Zombie Apocalypse"
-        Icon="Images/CharacterImages/Fighter.png">
+        Icon="Images/ZAIcon.png">
 
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="New_Executed"/>
