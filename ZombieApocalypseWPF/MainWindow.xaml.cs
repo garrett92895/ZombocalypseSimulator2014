@@ -31,8 +31,7 @@ namespace ZombieApocalypseWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        Controller c;
+        private Controller c;
         public bool canEdit;
         private Character LastCharacterSelected;
         private Player _selectedPlayer;
@@ -148,7 +147,8 @@ namespace ZombieApocalypseWPF
             {
                 c.AI.IntelligentAI = false;
             }
-
+            c.DetermineTurnOrder();
+            canEdit = false;
         }
 
 
@@ -372,34 +372,34 @@ namespace ZombieApocalypseWPF
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            
+            Coordinate MoveTo = null;
             switch (e.Key)
             {
                 case Key.W:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X - 1, SelectedPlayer.Location.Y));
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y);
                     break;
                 case Key.A:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y - 1));
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1);
                     break;
                 case Key.S:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X + 1, SelectedPlayer.Location.Y));
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y);
                     break;
                 case Key.D:
-                    c.Field.MoveCharacterToSquare(SelectedPlayer, new Coordinate(SelectedPlayer.Location.X, SelectedPlayer.Location.Y + 1));
+                    MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1);
                     break;
-                case Key.I:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X - 1, SelectedZombie.Location.Y));
-                    break;
-                case Key.J:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y - 1));
-                    break;
-                case Key.K:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X + 1, SelectedZombie.Location.Y));
-                    break;
-                case Key.L:
-                    c.Field.MoveCharacterToSquare(SelectedZombie, new Coordinate(SelectedZombie.Location.X, SelectedZombie.Location.Y + 1));
-                    break;
-
+            }
+            if (!canEdit && LastCharacterSelected == c.CurrentPlayer)
+            {
+                int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, MoveTo);
+                if(c.SquaresLeft - MoveCost > 0)
+                {
+                    c.SquaresLeft -= MoveCost;
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
+                }
+            }
+            else if(canEdit)
+            {
+                c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
             }
         }
 
@@ -549,6 +549,11 @@ namespace ZombieApocalypseWPF
         private void EditMode_Click(object sender, RoutedEventArgs e)
         {
             this.canEdit = !this.canEdit;
+        }
+
+        private void EndTurn_Click(object sender, RoutedEventArgs e)
+        {
+            c.NextTurn();
         }
     }
 }

@@ -13,6 +13,9 @@ using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Enums;
 using ZombieApocalypseSimulator.Models.Items.Enums;
 using ZombieApocalypseSimulator.Modes.HordeMode;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 namespace ZombieApocalypseSimulator
 {
     public enum ActionTypes
@@ -44,9 +47,10 @@ namespace ZombieApocalypseSimulator
 
         #region Props and Backing Fields
         public GameArea Field { get; set; }
-        private Character CurrentPlayer;
+        public Character CurrentPlayer { get; set; }
         private int MaxSquares;
-        private int SquaresLeft
+
+        public int SquaresLeft
         {
             get
             {
@@ -57,13 +61,14 @@ namespace ZombieApocalypseSimulator
                 CurrentPlayer.msquares = value;
             }
         }
+
         public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
         public List<Coordinate> CorpseSquares;
         public Horde HordeMode { get; set; }
-        public CharacterStack PlayerOrder;
-        public CharacterStack ZedOrder;
+        public CharacterStack PlayerOrder { get; set; }
+        public CharacterStack ZedOrder { get; set; }
         public List<Coordinate> TrapLocations; 
         #endregion
 
@@ -77,6 +82,8 @@ namespace ZombieApocalypseSimulator
             TrapLocations = new List<Coordinate>();
             AI = new ZombieAI(true);
             HordeMode = new Horde(Width, Height);
+
+
         }
 
         public void Run()
@@ -91,7 +98,6 @@ namespace ZombieApocalypseSimulator
                 //    Console.WriteLine("Game over, zombies have taken over the world.");
                 //    Environment.Exit(0);
                 //}
-
                 for (int i = 0; i < Players.Count(); i++)
                 {
                     CurrentPlayer = PlayerOrder.Pop();
@@ -126,6 +132,31 @@ namespace ZombieApocalypseSimulator
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Sets the CurrentPlayer to be the Next Player according to the initiative order, and resets the TurnOrder if 
+        /// the last Character has taken their turn
+        /// </summary>
+        public void NextTurn()
+        {
+            if (PlayerOrder.Peek() != null)
+            {
+                CurrentPlayer = PlayerOrder.Pop();
+            }
+            else if (ZedOrder.Peek() != null)
+            {
+                CurrentPlayer = ZedOrder.Pop();
+            }
+            else
+            {
+                DetermineTurnOrder();
+                if (Players.Count > 0 || Zeds.Count > 0)
+                {
+                    NextTurn();
+                }
+            }
+            SquaresLeft = CurrentPlayer.squares();
         }
         #endregion
 
@@ -195,6 +226,20 @@ namespace ZombieApocalypseSimulator
         #endregion
 
         #region Turn Sorting
+
+        /// <summary>
+        /// Sets the PlayerOrders and ZedOrders to be new CharacterStacks for a new turn
+        /// </summary>
+        public void DetermineTurnOrder()
+        {
+            PlayerOrder = DetermineTurnOrder(Players);
+            ZedOrder = DetermineTurnOrder(Zeds);
+        }
+        /// <summary>
+        /// Returns a CharacterStack with all of the Character's in the given list ordered according to initiative rolls
+        /// </summary>
+        /// <param name="_characters"></param>
+        /// <returns></returns>
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
             CharacterStack _turnOrder = new CharacterStack(_characters.Count);
@@ -1230,7 +1275,19 @@ namespace ZombieApocalypseSimulator
 
             return CIO.PromptForMenuSelection(VictimChoices, false);
         }
-
+        public void Save(string path)
+        {
+            IFormatter formatter = new BinaryFormatter();
+            Stream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+            formatter.Serialize(stream, Field);
+            formatter.Serialize(stream, Zeds);
+            formatter.Serialize(stream, Players);
+            formatter.Serialize(stream, CorpseSquares);
+            formatter.Serialize(stream, TrapLocations);
+            formatter.Serialize(stream, AI);
+            formatter.Serialize(stream, HordeMode);
+            stream.Dispose();
+        }
         #endregion
 
         #region Logic Helper Methods
@@ -1250,7 +1307,6 @@ namespace ZombieApocalypseSimulator
 
             return Multiplier;
         }
-
         #endregion
     }
 }

@@ -76,6 +76,7 @@
                         <MenuItem Header="Zombie" Click="Zombie_Add"/>
                         <MenuItem Header="Item" Click="Item_Add"/>
                     </MenuItem>
+                    <MenuItem Header="End Turn" Click="EndTurn_Click"/>
                 </Menu>
 
                 <UniformGrid x:Name="Board"
