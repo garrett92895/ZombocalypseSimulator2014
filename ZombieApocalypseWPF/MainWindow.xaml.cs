@@ -91,7 +91,7 @@ namespace ZombieApocalypseWPF
 
             Player NewPlayer1 = new Engineer();
             Coordinate Coor1 = new Coordinate(2, 2);
-            NewPlayer1.Speed = 3;
+            NewPlayer1.Speed = 5;
             c.AddCharacterToField(NewPlayer1, Coor1);
 
 

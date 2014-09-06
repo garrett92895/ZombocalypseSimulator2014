@@ -87,6 +87,7 @@
     <Compile Include="Modes\HordeMode\Horde.cs" />
     <Compile Include="Modes\HordeMode\SpawnZoneMarker.cs" />
     <Compile Include="Modes\HordeMode\Wave.cs" />
+    <Compile Include="PathCoordinate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transaction.cs" />

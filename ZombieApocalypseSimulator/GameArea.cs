@@ -346,71 +346,85 @@ namespace ZombieApocalypseSimulator
             //}
             
             //Moves.Distinct(new LocationComparer());
-            return AvailableMoves(C.Location, SquaresLeft, OriginalType);
+            return AvailableMoves(C.Location, SquaresLeft * 10, OriginalType);
         }
 
         /// <summary>
         /// Super Recursive Fun Time method that finds out how many moves are available
         /// </summary>
         /// <param name="Location"></param>
-        /// <param name="SquaresLeft"></param>
+        /// <param name="Distance"></param>
         /// <param name="OriginalType"></param>
         /// <param name="DiagonalsCostTwo"></param>
         /// <param name="AlreadyChecked"></param>
         /// <returns></returns>
-        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType)
+        private List<Coordinate> AvailableMoves(Coordinate Location, int Distance, Type OriginalType)
         {
             List<Coordinate> ViableMoves = new List<Coordinate>();
             LocationComparer LocComp = new LocationComparer();
 
             //The GridSquares that will be checked in the next 'step'
-            List<Coordinate> NextCoors = new List<Coordinate>();
+            List<PathCoordinate> NextCoors = new List<PathCoordinate>();
             //The GridSquares that will be checked in this 'step'
-            List<Coordinate> CurrentCoors = new List<Coordinate>();
-            CurrentCoors.Add(Location);
+            List<PathCoordinate> CurrentCoors = new List<PathCoordinate>();
+            CurrentCoors.Add(new PathCoordinate(Location, Distance));
             
             //Takes one 'step' in each direction until out of squares
-            while (SquaresLeft >= 0)
+            while (Distance >= 0)
             {
-                foreach (Coordinate C in CurrentCoors)
+                List<Coordinate> Temp = new List<Coordinate>();
+                foreach (PathCoordinate C in CurrentCoors)
                 {
+                    if (C.X == 3 && C.Y == 2)
+                    {
+
+                    }
                     List<Coordinate> Neighbors = new List<Coordinate>();
                     foreach (GridSquare GS in GetAdjacentGridSquares(C))
                     {
-                        if (!ViableMoves.Contains(GS.Coordinate, LocComp) && !(NextCoors.Contains(GS.Coordinate, LocComp)))
+                        //Only Adds squares that need to be checked
+                        if (!ViableMoves.Contains(GS.Coordinate, LocComp))
                         {
                             Neighbors.Add(GS.Coordinate);
                         }
                     }
-                    //Removes squares that do not need to be checked
-                    //Neighbors = Neighbors.Except(PreviousCoors, new LocationComparer()).ToList();
-                    //Neighbors = Neighbors.Except(CurrentCoors, new LocationComparer()).ToList();
 
                     foreach (Coordinate Neighbor in Neighbors)
                     {
-                        if (Neighbor.X == 0 && Neighbor.Y == 0)
+                        int MoveCost = 10;
+                        bool DiagonalMovement = Math.Abs(C.X - Neighbor.X) == Math.Abs(C.Y - Neighbor.Y);
+                        if (DiagonalMovement)
                         {
-
+                            MoveCost += 5;
                         }
-                        GridSquare CurrentSquare = GetGridSquareAt(Neighbor);
 
+                        GridSquare CurrentSquare = GetGridSquareAt(Neighbor);
                         //Checks if the GridSquare is a viable move and if it should be added to NextCoors
-                        if (CurrentSquare.IsOccupiable && CurrentSquare.OccupyingCharacter == null && SquaresLeft - 1 >= 0)
+                        if (CurrentSquare.IsOccupiable && CurrentSquare.OccupyingCharacter == null && C.DistanceLeft - MoveCost >= 0)
                         {
-                            ViableMoves.Add(Neighbor);
-                            NextCoors.Add(Neighbor);
+                            Temp.Add(Neighbor);
+                            NextCoors.Add(new PathCoordinate(Neighbor, C.DistanceLeft - MoveCost));
                         }
                         //Allows movement through squares occupied by friendly characters
-                        else if (SquaresLeft - 1 >= 0 && ((CurrentSquare.OccupyingCharacter is Player && OriginalType == typeof(Player))
+                        else if (Distance - MoveCost >= 0 && ((CurrentSquare.OccupyingCharacter is Player && OriginalType == typeof(Player))
                                 || (CurrentSquare.OccupyingCharacter is Zed && OriginalType == typeof(Zed))))
                         {
-                            NextCoors.Add(Neighbor);
+                            NextCoors.Add(new PathCoordinate(Neighbor, C.DistanceLeft - MoveCost));
                         }
+
+                        //if (Neighbor.Y == 2 && C.Y == 2)
+                        //{
+                        //    Console.WriteLine("Coordinate : " + C);
+                        //    Console.WriteLine("DistanceLeft : " + C.DistanceLeft);
+                        //    Console.WriteLine("Neighbor : " + Neighbor);
+                        //    Console.WriteLine("NeighborDistance : " + (C.DistanceLeft - MoveCost));
+                        //}
                     }
                 }
-                SquaresLeft--;
+                ViableMoves.AddRange(Temp.Distinct(LocComp));
+                Distance -= 10;
                 CurrentCoors = NextCoors;
-                NextCoors = new List<Coordinate>();
+                NextCoors = new List<PathCoordinate>();
             }
 
             ViableMoves.Distinct(new LocationComparer());
