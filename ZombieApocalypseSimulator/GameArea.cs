@@ -383,7 +383,7 @@ namespace ZombieApocalypseSimulator
                     foreach (GridSquare GS in GetAdjacentGridSquares(C))
                     {
                         //Only Adds squares that need to be checked
-                        if (!ViableMoves.Contains(GS.Coordinate, LocComp))
+                        if (!ViableMoves.Contains(GS.Coordinate, LocComp) && !(Neighbors.Contains(GS.Coordinate, LocComp)))
                         {
                             Neighbors.Add(GS.Coordinate);
                         }
@@ -400,7 +400,7 @@ namespace ZombieApocalypseSimulator
 
                         GridSquare CurrentSquare = GetGridSquareAt(Neighbor);
                         //Checks if the GridSquare is a viable move and if it should be added to NextCoors
-                        if (CurrentSquare.IsOccupiable && CurrentSquare.OccupyingCharacter == null && C.DistanceLeft - MoveCost >= 0)
+                        if (CurrentSquare.IsOccupiable && CurrentSquare.OccupyingCharacter == null && C.DistanceLeft - MoveCost >= -5)
                         {
                             Temp.Add(Neighbor);
                             NextCoors.Add(new PathCoordinate(Neighbor, C.DistanceLeft - MoveCost));

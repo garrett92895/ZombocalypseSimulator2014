@@ -91,7 +91,7 @@ namespace ZombieApocalypseWPF
 
             Player NewPlayer1 = new Engineer();
             Coordinate Coor1 = new Coordinate(2, 2);
-            NewPlayer1.Speed = 5;
+            //NewPlayer1.Speed = 7;
             c.AddCharacterToField(NewPlayer1, Coor1);
 
 
@@ -115,7 +115,7 @@ namespace ZombieApocalypseWPF
             //}
 
             //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
-            //NewTrade.ShowDialog();
+            //NewTrade.ShowDialog();l
             //Console.WriteLine("Main Window : " + NewPlayer1);
 
             //Character Zed3 = ZedFactory.GetInstance("Shank");
