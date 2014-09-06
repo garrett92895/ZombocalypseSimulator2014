@@ -316,6 +316,7 @@ namespace ZombieApocalypseSimulator
         /// <returns></returns>
         public List<Coordinate> PossibleMovesForCharacter(Character C, int SquaresLeft, bool DiagonalsCostTwo = false)
         {
+            List<Coordinate> Moves = new List<Coordinate>();
             Type OriginalType = null;
             if (C is Player)
             {
@@ -325,32 +326,27 @@ namespace ZombieApocalypseSimulator
             {
                 OriginalType = typeof(Zed);
             }
-            List<Coordinate> Moves = new List<Coordinate>();
-            for (int i = -1; i < 2; i++)
-            {
-                for (int j = -1; j < 2; j++)
-                {
-                    Coordinate Coor = new Coordinate(i, j);
-                    Direction Horizontal;
-                    switch(i)
-                    {
-                        case -1: Horizontal = Direction.LEFT; break;
-                        case 0: Horizontal = Direction.NONE; break;
-                        case 1: Horizontal = Direction.RIGHT; break;
-                    }
 
-                    Direction Verticle;
-                    switch (j)
-                    {
-                        case -1: Verticle = Direction.UP; break;
-                        case 0: Verticle = Direction.NONE; break;
-                        case 1: Verticle = Direction.DOWN; break;
-                    }
-                    Moves.AddRange(AvailableMoves(Coor, SquaresLeft, OriginalType, false, Horizontal, Verticle));
-                }
-            }
-            Moves.Distinct(new LocationComparer());
-            return Moves;
+            //foreach (GridSquare GS in GetAdjacentGridSquares(C.Location))
+            //{
+            //    //True if the Movement from this GridSquare to the Neighbor is diagonal
+            //    bool DiagonalMovement = Math.Abs(C.Location.X - GS.Coordinate.X) == Math.Abs(C.Location.Y - GS.Coordinate.Y);
+            //    if (DiagonalMovement)
+            //    {
+            //        Moves.AddRange(AvailableMoves(GS.Coordinate, SquaresLeft - 1, OriginalType, true, new List<Coordinate>()));
+            //    }
+            //    else
+            //    {
+            //        if (GS.Coordinate.X == 3 && GS.Coordinate.Y == 2)
+            //        {
+
+            //        }
+            //        Moves.AddRange(AvailableMoves(GS.Coordinate, SquaresLeft - 1, OriginalType, false, new List<Coordinate>()));
+            //    }
+            //}
+            
+            //Moves.Distinct(new LocationComparer());
+            return AvailableMoves(C.Location, SquaresLeft, OriginalType);
         }
 
         /// <summary>
@@ -362,63 +358,134 @@ namespace ZombieApocalypseSimulator
         /// <param name="DiagonalsCostTwo"></param>
         /// <param name="AlreadyChecked"></param>
         /// <returns></returns>
-        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType, bool DiagonalsCostTwo, Direction Horizontal, Direction Verticle)
+        private List<Coordinate> AvailableMoves(Coordinate Location, int SquaresLeft, Type OriginalType)
         {
             List<Coordinate> ViableMoves = new List<Coordinate>();
+            LocationComparer LocComp = new LocationComparer();
 
-            //Checks to prevent recursive calling in certain scenarios
-            GridSquare CurrentSquare = GetGridSquareAt(Location);
-            if (!CurrentSquare.IsOccupiable)
+            //The GridSquares that will be checked in the next 'step'
+            List<Coordinate> NextCoors = new List<Coordinate>();
+            //The GridSquares that will be checked in this 'step'
+            List<Coordinate> CurrentCoors = new List<Coordinate>();
+            CurrentCoors.Add(Location);
+            
+            //Takes one 'step' in each direction until out of squares
+            while (SquaresLeft >= 0)
             {
-                return ViableMoves;
-            }
-
-            //Makes sure not to move give one extra Diagonal movement
-            if (DiagonalsCostTwo && SquaresLeft < 2)
-            {
-                return ViableMoves;
-            }
-            if (CurrentSquare.OccupyingCharacter == null)
-            {
-                ViableMoves.Add(Location);
-            }
-            //Prevents movement through squares occupied by enemy Characters
-            else if ((CurrentSquare.OccupyingCharacter is Zed && OriginalType == typeof(Player))
-                || (CurrentSquare.OccupyingCharacter is Player && OriginalType == typeof(Zed)))
-            {
-                return ViableMoves;
-            }
-
-            if (SquaresLeft < 1)
-            {
-                return ViableMoves;
-            }
-
-            List<Coordinate> Neighbors = new List<Coordinate>();
-            foreach (GridSquare Square in GetAdjacentGridSquares(Location))
-            {
-                Neighbors.Add(Square.Coordinate);
-            }
-
-            //Removes Coordinates that have already been checked
-            Neighbors = Neighbors.Except(AlreadyChecked, new LocationComparer()).ToList();
-            for (int i = 0; i < Neighbors.Count(); i++)
-            {
-                Coordinate Neighbor = Neighbors.ElementAt(i);
-                //Cost of the movement
-                int MoveCost = 1;
-
-                //True if the Movement from this GridSquare to the Neighbor is diagonal
-                bool DiagonalMovement = Math.Abs(Location.X - Neighbor.X) == Math.Abs(Location.Y - Neighbor.Y);
-                if (DiagonalMovement)
+                foreach (Coordinate C in CurrentCoors)
                 {
-                    MoveCost++;
-                    DiagonalsCostTwo = !DiagonalsCostTwo;
+                    List<Coordinate> Neighbors = new List<Coordinate>();
+                    foreach (GridSquare GS in GetAdjacentGridSquares(C))
+                    {
+                        if (!ViableMoves.Contains(GS.Coordinate, LocComp) && !(NextCoors.Contains(GS.Coordinate, LocComp)))
+                        {
+                            Neighbors.Add(GS.Coordinate);
+                        }
+                    }
+                    //Removes squares that do not need to be checked
+                    //Neighbors = Neighbors.Except(PreviousCoors, new LocationComparer()).ToList();
+                    //Neighbors = Neighbors.Except(CurrentCoors, new LocationComparer()).ToList();
+
+                    foreach (Coordinate Neighbor in Neighbors)
+                    {
+                        if (Neighbor.X == 0 && Neighbor.Y == 0)
+                        {
+
+                        }
+                        GridSquare CurrentSquare = GetGridSquareAt(Neighbor);
+
+                        //Checks if the GridSquare is a viable move and if it should be added to NextCoors
+                        if (CurrentSquare.IsOccupiable && CurrentSquare.OccupyingCharacter == null && SquaresLeft - 1 >= 0)
+                        {
+                            ViableMoves.Add(Neighbor);
+                            NextCoors.Add(Neighbor);
+                        }
+                        //Allows movement through squares occupied by friendly characters
+                        else if (SquaresLeft - 1 >= 0 && ((CurrentSquare.OccupyingCharacter is Player && OriginalType == typeof(Player))
+                                || (CurrentSquare.OccupyingCharacter is Zed && OriginalType == typeof(Zed))))
+                        {
+                            NextCoors.Add(Neighbor);
+                        }
+                    }
                 }
-                ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, DiagonalsCostTwo, AlreadyChecked));
+                SquaresLeft--;
+                CurrentCoors = NextCoors;
+                NextCoors = new List<Coordinate>();
             }
-            AlreadyChecked.AddRange(Neighbors);
-            return ViableMoves.Distinct(new LocationComparer()).ToList();
+
+            ViableMoves.Distinct(new LocationComparer());
+            return ViableMoves;
+            //List<Coordinate> ViableMoves = new List<Coordinate>();
+            ////Checks to prevent recursive calling in certain scenarios
+            //GridSquare CurrentSquare = GetGridSquareAt(Location);
+
+            //if (!CurrentSquare.IsOccupiable)
+            //{
+            //    return ViableMoves;
+            //}
+            
+            //if (CurrentSquare.OccupyingCharacter == null)
+            //{
+            //    ViableMoves.Add(Location);
+            //}
+
+            //if (SquaresLeft < 1)
+            //{
+            //    return ViableMoves;
+            //}
+            ////Prevents movement through squares occupied by enemy Characters
+            //else if ((CurrentSquare.OccupyingCharacter is Zed && OriginalType == typeof(Player))
+            //    || (CurrentSquare.OccupyingCharacter is Player && OriginalType == typeof(Zed)))
+            //{
+            //    return ViableMoves;
+            //}
+
+            //List<Coordinate> Neighbors = new List<Coordinate>();
+            //foreach(GridSquare GS in GetAdjacentGridSquares(Location))
+            //{
+            //    Neighbors.Add(GS.Coordinate);
+            //}
+
+            //Neighbors = Neighbors.Except(AlreadyChecked, new LocationComparer()).ToList();
+
+            ////AlreadyChecked.AddRange(Neighbors);
+            //for (int i = 0; i < Neighbors.Count(); i++)
+            //{
+            //    Coordinate Neighbor = Neighbors.ElementAt(i);
+
+            //    //if (Neighbor.X == 8 && Neighbor.Y == 2 && Location.X == 7 && Location.Y == 3)
+            //    //{
+            //    //    //Console.WriteLine("Location is : " + Location);
+            //    //    //Console.WriteLine(AlreadyChecked.Contains(Neih);
+            //    //    //Console.WriteLine(SquaresLeft);
+            //    //}
+
+            //    int MoveCost = 1;
+
+            //    //True if the Movement from this GridSquare to the Neighbor is diagonal
+            //    bool DiagonalMovement = Math.Abs(Location.X - Neighbor.X) == Math.Abs(Location.Y - Neighbor.Y);
+            //    if (DiagonalMovement)
+            //    {
+            //        //Doesn't make a diagonal move if it can't make it
+            //        if (DiagonalsCostTwo && SquaresLeft > 1)
+            //        {
+            //            MoveCost++;
+            //            ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, !DiagonalsCostTwo, AlreadyChecked));
+            //        }
+            //        else if(!DiagonalsCostTwo)
+            //        {
+            //            ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, !DiagonalsCostTwo, AlreadyChecked));
+            //        }
+            //    }
+            //    else
+            //    {
+            //        ViableMoves.AddRange(AvailableMoves(Neighbor, SquaresLeft - MoveCost, OriginalType, DiagonalsCostTwo, AlreadyChecked));
+            //    }
+                
+            //}
+            ////AlreadyChecked.Add(Location);
+
+            //return ViableMoves.Distinct(new LocationComparer()).ToList();
         }
 
         /// <summary>

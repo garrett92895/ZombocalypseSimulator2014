@@ -83,23 +83,25 @@ namespace ZombieApocalypseWPF
 
             c = new Controller();
 
-            Character NewPlayer = new Fighter();
-            Coordinate Coor = new Coordinate(2, 3);
-            c.AddCharacterToField(NewPlayer, Coor);
-            SelectedPlayer = (Player)NewPlayer;
+            //Character NewPlayer = new Fighter();
+            //Coordinate Coor = new Coordinate(8, 2);
+            //c.AddCharacterToField(NewPlayer, Coor);
+            //NewPlayer.Speed = 1;
+            //SelectedPlayer = (Player)NewPlayer;
 
             Player NewPlayer1 = new Engineer();
-            Coordinate Coor1 = new Coordinate(3, 3);
+            Coordinate Coor1 = new Coordinate(2, 2);
+            NewPlayer1.Speed = 3;
             c.AddCharacterToField(NewPlayer1, Coor1);
 
 
-            Player Trader = new Trader();
-            Coordinate Coor2 = new Coordinate(1, 1);
-            c.AddCharacterToField(Trader, Coor2);
-            for (int i = 0; i < 10; i++)
-            {
-                Trader.AddItem(WeaponFactory.RandomWeapon());
-            }
+            //Player Trader = new Trader();
+            //Coordinate Coor2 = new Coordinate(1, 1);
+            //c.AddCharacterToField(Trader, Coor2);
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Trader.AddItem(WeaponFactory.RandomWeapon());
+            //}
 
             //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
             //NewTrade.ShowDialog();
@@ -107,19 +109,19 @@ namespace ZombieApocalypseWPF
             //c.Field.Height = 30;
             //c.Field.Width = 30;
 
-            for (int i = 0; i < 10; i++)
-            {
-                Trader.Items.Add(WeaponFactory.RandomWeapon());
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    Trader.Items.Add(WeaponFactory.RandomWeapon());
+            //}
 
             //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
             //NewTrade.ShowDialog();
             //Console.WriteLine("Main Window : " + NewPlayer1);
 
-            Character Zed3 = ZedFactory.GetInstance("Shank");
-            Coordinate ZedCoor3 = new Coordinate(5, 5);
-            c.AddCharacterToField(Zed3, ZedCoor3);
-            SelectedZombie = (Zed)Zed3;
+            //Character Zed3 = ZedFactory.GetInstance("Shank");
+            //Coordinate ZedCoor3 = new Coordinate(5, 5);
+            //c.AddCharacterToField(Zed3, ZedCoor3);
+            //SelectedZombie = (Zed)Zed3;
 
             //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
             //Coordinate GunCoor = new Coordinate(3, 3);
