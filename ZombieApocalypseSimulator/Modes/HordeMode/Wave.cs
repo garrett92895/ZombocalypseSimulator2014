@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,42 +9,98 @@ using ZombieApocalypseSimulator.Models.Characters;
 
 namespace ZombieApocalypseSimulator.Modes.HordeMode
 {
-    public class Wave
+    public class Wave : INotifyPropertyChanged
     {
+        #region Properties
+        private int _StartZedCount;
         /// <summary>
         /// Total number of Zeds to spawn in this wave
         /// </summary>
-        public int StartZedCount { get; private set; }
+        public int StartZedCount
+        {
+            get { return _StartZedCount; }
+            set
+            {
+                _StartZedCount = value;
+                NotifyPropertyChanged("StartZedCount");
+            }
+        }
 
+        private int _ZedCount;
         /// <summary>
         /// Number of Zeds that have not spawned
         /// </summary>
-        public int ZedCount { get; set; }
+        public int ZedCount
+        {
+            get { return _ZedCount; }
+            set
+            {
+                _ZedCount = value;
+                NotifyPropertyChanged("ZedCount");
+            }
+        }
 
+        private int _NumberOfRounds;
         /// <summary>
         /// The number of Rounds that the Wave should last, will spawn an equal number of Zeds each round
         /// </summary>
-        public int NumberOfRounds { get; set; }
+        public int NumberOfRounds
+        {
+            get { return _NumberOfRounds; }
+            set
+            {
+                _NumberOfRounds = value;
+                NotifyPropertyChanged("NumberOfRounds");
+            }
+        }
 
+        private int _SpecialSpawnRate;
         /// <summary>
         /// Percentage of the spawned Zeds that will be Specials
         /// </summary>
-        public int SpecialSpawnRate { get; set; }
+        public int SpecialSpawnRate
+        {
+            get { return _SpecialSpawnRate; }
+            set
+            {
+                _SpecialSpawnRate = value;
+                NotifyPropertyChanged("SpecialSpawnRate");
+            }
+        }
 
+        private int _MaxSpecialSpawnRate;
         /// <summary>
         /// Maximum percentage of the spawned Zeds that can be Specials
         /// </summary>
-        public int MaxSpecialSpawnRate { get; set; }
+        public int MaxSpecialSpawnRate
+        {
+            get { return _MaxSpecialSpawnRate; }
+            set
+            {
+                _MaxSpecialSpawnRate = value;
+                NotifyPropertyChanged("MaxSpecialSpawnRate");
+            }
+        }
 
+        private int _BreakRounds;
         /// <summary>
         /// Number of Rounds in between each Wave
         /// </summary>
-        public int BreakRounds { get; set; }
+        public int BreakRounds
+        {
+            get { return _BreakRounds; }
+            set
+            {
+                _BreakRounds = value;
+                NotifyPropertyChanged("BreakRounds");
+            }
+        }
 
         /// <summary>
         /// Counts the number of rounds that have gone by in a break
         /// </summary>
         private int BreakRoundCounter { get; set; }
+#endregion
 
         public Wave(int NewZedCount, int NewNumberOfRounds = 5, int NewSpecialSpawnRate = 5, int NewMaxSpecialSpawnRate = 40, int NewBreakRounds = 5)
         {
@@ -71,6 +128,10 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             BreakRoundCounter = 0;
         }
 
+        /// <summary>
+        /// Returns a list of newly created Zeds for the next part of the wave
+        /// </summary>
+        /// <returns></returns>
         public List<Zed> NextSpawns()
         {
             List<Zed> NewZeds = new List<Zed>();
@@ -101,5 +162,15 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             }
             return NewZeds;
         }
+
+        private void NotifyPropertyChanged(string Info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(Info));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -375,15 +375,12 @@ namespace ZombieApocalypseSimulator
                 List<Coordinate> Temp = new List<Coordinate>();
                 foreach (PathCoordinate C in CurrentCoors)
                 {
-                    if (C.X == 3 && C.Y == 2)
-                    {
-
-                    }
                     List<Coordinate> Neighbors = new List<Coordinate>();
                     foreach (GridSquare GS in GetAdjacentGridSquares(C))
                     {
                         //Only Adds squares that need to be checked
-                        if (!ViableMoves.Contains(GS.Coordinate, LocComp) && !(Neighbors.Contains(GS.Coordinate, LocComp)))
+                        if (!ViableMoves.Contains(GS.Coordinate, LocComp)
+                            && !(Neighbors.Contains(GS.Coordinate, LocComp)))
                         {
                             Neighbors.Add(GS.Coordinate);
                         }

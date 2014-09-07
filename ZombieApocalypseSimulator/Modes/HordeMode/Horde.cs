@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,15 +9,41 @@ using ZombieApocalypseSimulator.Models.Characters;
 
 namespace ZombieApocalypseSimulator.Modes.HordeMode
 {
-    public class Horde
+    public class Horde : INotifyPropertyChanged
     {
-        public bool IsActive { get; set; }
 
-        public ObservableCollection<SpawnZoneMarker> SpawnMarkers { get; set; }
+        private bool _IsActive;
+        public bool IsActive 
+        {
+            get { return _IsActive; }
+            set
+            {
+                _IsActive = value;
+                NotifyPropertyChanged("IsActive");
+            }
+        }
 
-        public Wave CurrentWave { get; set; }
+        private ObservableCollection<SpawnZoneMarker> _SpawnMarkers;
+        public ObservableCollection<SpawnZoneMarker> SpawnMarkers 
+        {
+            get { return _SpawnMarkers; }
+            set
+            {
+                _SpawnMarkers = value;
+                NotifyPropertyChanged("SpawnMarkers");
+            }
+        }
 
-        public int TurnsLasting { get; set; }
+        private Wave _CurrentWave;
+        public Wave CurrentWave
+        {
+            get { return _CurrentWave; }
+            set
+            {
+                _CurrentWave = value;
+                NotifyPropertyChanged("CurrentWave");
+            }
+        }
 
         private int GridHeight { get; set; }
         private int GridWidth { get; set; }
@@ -50,6 +77,16 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
         public List<Zed> NextSpawns()
         {
             return CurrentWave.NextSpawns();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string Info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(Info));
+            }
         }
     }
 }

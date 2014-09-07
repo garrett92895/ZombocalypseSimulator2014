@@ -1,0 +1,36 @@
+﻿<Window x:Class="TempProject.HordeSettings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="HordeSettings" Height="300" Width="500">
+    <UniformGrid Rows="6" Columns="3">
+        <Label>Horde Mode Active</Label>
+        <CheckBox IsChecked="{Binding Path=IsActive}"/>
+        <Label></Label>
+        
+        <Label>Zombies Per Wave</Label>
+        <Slider Value="{Binding Path=CurrentWave.StartZedCount}"
+                Minimum="0" Maximum="100"/>
+        <Label Content="{Binding Path=CurrentWave.StartZedCount}"/>
+        
+        <Label>Rounds Per Wave</Label>
+        <Slider Value="{Binding Path=CurrentWave.NumberOfRounds}"
+                Minimum="0" Maximum="10"/>
+        <Label Content="{Binding Path=CurrentWave.NumberOfRounds}"/>
+        
+        <Label>Special Spawn Rate</Label>
+        <Slider Value="{Binding Path=CurrentWave.SpecialSpawnRate}"
+                Minimum="0" 
+                Maximum="{Binding Path=CurrentWave.MaxSpecialSpawnRate}"/>
+        <Label Content="{Binding Path=CurrentWave.SpecialSpawnRate}"/>
+        
+        <Label>Max Special Spawn Rate</Label>
+        <Slider Value="{Binding Path=CurrentWave.MaxSpecialSpawnRate}"
+                Minimum="0" Maximum="100"/>
+        <Label Content="{Binding Path=CurrentWave.MaxSpecialSpawnRate}"/>
+        
+        <Label>Rounds Between Waves</Label>
+        <Slider Value="{Binding Path=CurrentWave.BreakRounds}"
+                Minimum="0" Maximum="20"/>
+        <Label Content="{Binding Path=CurrentWave.BreakRounds}"/>
+    </UniformGrid>
+</Window>
