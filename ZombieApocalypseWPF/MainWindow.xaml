@@ -56,7 +56,9 @@
                         <MenuItem Header="New" Command="New"/>
                         <MenuItem Header="Open" Command="Open"/>
                         <MenuItem Header="Close" Command="Close"/>
-                        <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click" />
+                        <MenuItem x:Name="EditMode" Header="Toggle Edit Mode (OFF)" Click="EditMode_Click" />
+                        <MenuItem x:Name="AIMode" Header="Toggle Smart AI (OFF)" Click="AIMode_Click" />
+                        
                     </MenuItem>
                     <MenuItem Header="Add">
                         <MenuItem Header="Player" Click="Player_Add"/>
@@ -72,9 +74,9 @@
                          Columns="15"
                          Grid.Row="1"
                          >
-                    <!--<UniformGrid.Background>
+                    <UniformGrid.Background>
                         <ImageBrush ImageSource="/Images/TestBackGround.jpg" />
-                    </UniformGrid.Background>-->
+                    </UniformGrid.Background>
 
                 </UniformGrid>
                 

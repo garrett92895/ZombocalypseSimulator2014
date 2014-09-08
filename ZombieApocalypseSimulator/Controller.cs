@@ -48,20 +48,6 @@ namespace ZombieApocalypseSimulator
         #region Props and Backing Fields
         public GameArea Field { get; set; }
         public Character CurrentPlayer { get; set; }
-        private int MaxSquares;
-
-        public int SquaresLeft
-        {
-            get
-            {
-                return CurrentPlayer.MSquares;
-            }
-            set
-            {
-                CurrentPlayer.MSquares = value;
-            }
-        }
-
         public ZombieAI AI { get; set; }
         public List<Character> Zeds;
         public List<Character> Players;
@@ -69,7 +55,8 @@ namespace ZombieApocalypseSimulator
         public Horde HordeMode { get; set; }
         public CharacterStack PlayerOrder { get; set; }
         public CharacterStack ZedOrder { get; set; }
-        public List<Coordinate> TrapLocations; 
+        public List<Coordinate> TrapLocations;
+        private int MaxSquares; 
         #endregion
 
         #region Ctor and Run
@@ -157,7 +144,7 @@ namespace ZombieApocalypseSimulator
                     NextTurn();
                 }
             }
-            SquaresLeft = CurrentPlayer.squares();
+            CurrentPlayer.MSquares = CurrentPlayer.squares();
         }
         #endregion
 
@@ -282,22 +269,22 @@ namespace ZombieApocalypseSimulator
         {
             //CurrentPlayer = GetNextCharacter();
 
-            SquaresLeft = CurrentPlayer.squares();
-            MaxSquares = SquaresLeft;
+            CurrentPlayer.MSquares = CurrentPlayer.squares();
+            MaxSquares = CurrentPlayer.MSquares;
             Console.WriteLine(Field.ToString());
 
-            while (SquaresLeft > 0)
+            while (CurrentPlayer.MSquares > 0)
             {
-                Console.WriteLine("\r\nSquares Left: " + SquaresLeft);
+                Console.WriteLine("\r\nSquares Left: " + CurrentPlayer.MSquares);
                 Console.WriteLine(CurrentPlayer.GetType().ToString());
 
-                ActionTypes PlayerAction = GetActionFromPlayer(SquaresLeft);
+                ActionTypes PlayerAction = GetActionFromPlayer(CurrentPlayer.MSquares);
 
                 //Take Selected Action
                 if (PlayerAction.Equals(ActionTypes.Move))
                 {
                     Console.WriteLine("Move");
-                    SquaresLeft = SquaresLeft - Move();
+                    CurrentPlayer.MSquares = CurrentPlayer.MSquares - Move();
                     Console.WriteLine(Field.ToString());
                     Console.WriteLine();
                     for (int setOffTrap = 0; setOffTrap < TrapLocations.Count; setOffTrap++ )
@@ -312,7 +299,7 @@ namespace ZombieApocalypseSimulator
                 else if (PlayerAction.Equals(ActionTypes.EndTurn))
                 {
                     Console.WriteLine("Ended turn");
-                    SquaresLeft -= MaxSquares;
+                    CurrentPlayer.MSquares -= MaxSquares;
 
                     //Status Effect Calculation
 
@@ -323,11 +310,11 @@ namespace ZombieApocalypseSimulator
                     }
                     if (CurrentPlayer.Equals(StatusEffect.Crippled))
                     {
-                        SquaresLeft = MaxSquares / 2;
+                        CurrentPlayer.MSquares = MaxSquares / 2;
                     }
                     if (CurrentPlayer.Equals(StatusEffect.Stunned))
                     {
-                        SquaresLeft = 0;
+                        CurrentPlayer.MSquares = 0;
                     }
                     if (CurrentPlayer.Equals(StatusEffect.Infected))
                     {
@@ -365,50 +352,50 @@ namespace ZombieApocalypseSimulator
                 {
                     Console.WriteLine("Drop item");
                     DropItem();
-                    SquaresLeft--;
+                    CurrentPlayer.MSquares--;
                 }
                 else if (PlayerAction.Equals(ActionTypes.GiveItem))
                 {
                     Console.WriteLine("Give item");
                     GiveItem();
-                    SquaresLeft -= 3;
+                    CurrentPlayer.MSquares -= 3;
                 }
 
                 else if (PlayerAction.Equals(ActionTypes.Heal))
                 {
                     Console.WriteLine("Heal");
 
-                    SquaresLeft -= 3;
+                    CurrentPlayer.MSquares -= 3;
                 }
                 else if (PlayerAction.Equals(ActionTypes.Revive))
                 {
                     Console.WriteLine("Revive");
                     Revive();
-                    SquaresLeft -= MaxSquares / 2;
+                    CurrentPlayer.MSquares -= MaxSquares / 2;
                 }
                 else if (PlayerAction.Equals(ActionTypes.Shout))
                 {
                     Console.WriteLine("Shout");
 
-                    SquaresLeft -= 1;
+                    CurrentPlayer.MSquares -= 1;
                 }
                 else if (PlayerAction.Equals(ActionTypes.MakeTrap))
                 {
                     Console.WriteLine("Make Trap");
                     //CurrentPlayer.addTrap();
-                    SquaresLeft -= 3;
+                    CurrentPlayer.MSquares -= 3;
                 }
                 else if (PlayerAction.Equals(ActionTypes.FixWeapon))
                 {
                     Console.WriteLine("Fix Your Equiped Weapon");
 
-                    SquaresLeft -= 4;
+                    CurrentPlayer.MSquares -= 4;
                 }
                 else if (PlayerAction.Equals(ActionTypes.PickUpItem))
                 {
                     Console.WriteLine("Pick up item");
                     PickUpItem();
-                    SquaresLeft -= 2;
+                    CurrentPlayer.MSquares -= 2;
                 }
                 else if (PlayerAction.Equals(ActionTypes.LevelUp))
                 {
@@ -436,13 +423,13 @@ namespace ZombieApocalypseSimulator
                     MeleeAttack(Victim);
                     if (CurrentPlayer is Fighter)
                     {
-                        SquaresLeft -= (int)MaxSquares / 4;
+                        CurrentPlayer.MSquares -= (int)MaxSquares / 4;
                     }
                     else
                     {
-                        SquaresLeft -= (int)MaxSquares / 2;
+                        CurrentPlayer.MSquares -= (int)MaxSquares / 2;
                     }
-                    if (SquaresLeft > 0)
+                    if (CurrentPlayer.MSquares > 0)
                     {
                         Console.WriteLine("\r\n" + Field.ToString());
                     }
@@ -452,8 +439,8 @@ namespace ZombieApocalypseSimulator
                     && CurrentPlayer is Player)
                 {
                     Console.WriteLine("Ranged attack");
-                    RangedAttack(PlayerAction);
-                    SquaresLeft -= (int)MaxSquares / 2;
+                   // RangedAttack(PlayerAction);
+                    CurrentPlayer.MSquares -= (int)MaxSquares / 2;
                     Console.WriteLine(Field.ToString());
                 }
                 else if (PlayerAction.Equals(ActionTypes.Trade))
@@ -468,29 +455,29 @@ namespace ZombieApocalypseSimulator
 
         private void PlayNextTurnAI()
         {
-            SquaresLeft = CurrentPlayer.squares();
-            MaxSquares = SquaresLeft;
+            
+            MaxSquares = CurrentPlayer.MSquares;
 
-            List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
-            ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
+            List<ActionTypes> PossibleActions = GetPossibleActions(CurrentPlayer.MSquares);
+            ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, CurrentPlayer.MSquares, Field, Players, Zeds);
 
             if (BestAction.Equals(ActionTypes.Move))
             {
-                Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
-                SquaresLeft -= Field.ShortestPathCost(CurrentPlayer, BestMove);
+                Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, CurrentPlayer.MSquares, Field, Players, Zeds);
+                CurrentPlayer.MSquares -= Field.ShortestPathCost(CurrentPlayer, BestMove);
                 Field.MoveCharacterToSquare(CurrentPlayer, BestMove);
 
             }
             else
             {
-                MeleeAttack(AI.DetermineAttack((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds));
+                MeleeAttack(AI.DetermineAttack((Zed)CurrentPlayer, MaxSquares, CurrentPlayer.MSquares, Field, Players, Zeds));
             }
         }
 
-        private ActionTypes GetActionFromPlayer(int SquaresLeft)
+        private ActionTypes GetActionFromPlayer(int MSquares)
         {
             //Gets the actions and the respective string
-            List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
+            List<ActionTypes> PossibleActions = GetPossibleActions(MSquares);
             List<string> PossibleActionStrings = ActionsToStrings(PossibleActions);
 
             //Gets the user's menu choice
@@ -500,7 +487,7 @@ namespace ZombieApocalypseSimulator
         }
 
         //Returns a list of all of the actions that the current character can perform this turn
-        private List<ActionTypes> GetPossibleActions(int SquaresLeft)
+        private List<ActionTypes> GetPossibleActions(int MSquares)
         {
             List<ActionTypes> PossibleActions = new List<ActionTypes>();
             PossibleActions.Add(ActionTypes.CharacterScreen);
@@ -516,7 +503,7 @@ namespace ZombieApocalypseSimulator
                 PossibleActions.Add(ActionTypes.Move);
             }
             //Checks for the ability to melee attack
-            if ((SquaresLeft * 2) >= MaxSquares
+            if ((MSquares * 2) >= MaxSquares
                 && Field.AdjacentCharacters(CurrentPlayer, false).Any())
             {
                 if (CurrentPlayer is Player
@@ -564,7 +551,7 @@ namespace ZombieApocalypseSimulator
                     PossibleActions.Add(ActionTypes.Shout);
                 }
                 //Checks for the ability to pick up an item
-                if (SquaresLeft >= 2
+                if (CurrentPlayer.MSquares >= 2
                     && Field.GetItemsInSquare(CurrentPlayer.Location).Any())
                 {
                     PossibleActions.Add(ActionTypes.PickUpItem);
@@ -574,7 +561,7 @@ namespace ZombieApocalypseSimulator
                 {
                     PossibleActions.Add(ActionTypes.DropItem);
                     //Checks for the ability to give an item to a friendly type
-                    if (SquaresLeft >= 3)
+                    if (CurrentPlayer.MSquares >= 3)
                     {
                         List<Character> Neighbors = Field.AdjacentCharacters(CurrentPlayer, true);
                         if (Neighbors.Any())
@@ -593,21 +580,21 @@ namespace ZombieApocalypseSimulator
                 }
                 //Checks for the ability to make a ranged attack
                 if (Current is Player
-                    && (SquaresLeft * 2) >= MaxSquares
+                    && (CurrentPlayer.MSquares * 2) >= MaxSquares
                     && Current.EquippedWeaponType().Equals("Ranged")
                     && Current.CanShoot()
                     && Field.PossibleRangedTargets(Current, Zeds).Any())
                 {
                     PossibleActions.Add(ActionTypes.UnaimedRangedAttack);
                     //Checks for the ability to make an aimed shot
-                    if (SquaresLeft == MaxSquares)
+                    if (CurrentPlayer.MSquares == MaxSquares)
                     {
                         PossibleActions.Add(ActionTypes.AimedRangedAttack);
                     }
                 }
                 //Testing Ranged Weapons
                 //Console.WriteLine(Current.GetType() == typeof(Player));
-                //Console.WriteLine((SquaresLeft * 2) >= MaxSquares);
+                //Console.WriteLine((CurrentPlayer.MSquares * 2) >= MaxSquares);
                 //Console.WriteLine(Current.EquippedWeaponType().Equals("Ranged"));
                 //Console.WriteLine(Current.CanShoot());
                 Field.PossibleRangedTargets(Current, Zeds).Any();
@@ -649,46 +636,27 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void KillDeadCharacters()
         {
-            List<int> KilledCharacters = new List<int>();
-            for (int i = 0; i < Players.Count; i++)
-            {
-                Character P = Players.ElementAt(i);
-                if (!P.isAlive)
-                {
-                    if (P is Player)
-                    {
-                        CorpseSquares.Add(P.Location);
-                    }
-                    Field.KillCharacter(P);
-                    KilledCharacters.Add(i);
-                    PlayerOrder.RemoveCharacter(P);
-                }
-            }
-            for (int i = 0; i < KilledCharacters.Count; i++)
-            {
-                Players.RemoveAt(KilledCharacters.ElementAt(i));
-            }
-            KilledCharacters.Clear();
+           foreach (Player P in Players)
+           {
+               if (P.Health <= 0)
+               {
+                   CorpseSquares.Add(P.Location);
+                   Field.KillCharacter(P);
+                   PlayerOrder.RemoveCharacter(P);
+               }
 
-            for (int i = 0; i < Zeds.Count; i++)
-            {
-                Character Z = Zeds.ElementAt(i);
-                if (!Z.isAlive)
-                {
-                    Field.KillCharacter(Z);
-                    KilledCharacters.Add(i);
-                    ZedOrder.RemoveCharacter(Z);
-                }
-            }
-            for (int i = 0; i < KilledCharacters.Count; i++)
-            {
-                Zeds.RemoveAt(KilledCharacters.ElementAt(i));
-            }
-            //if (Players.Count() == 0)
-            //{
-            //    Console.WriteLine("Game Over.");
-            //    Environment.Exit(0);
-            //}
+           }
+
+           foreach (Zed z in Zeds)
+           {
+               if (z.Health <= 0)
+               {
+                   CorpseSquares.Add(z.Location);
+                   Field.KillCharacter(z);
+                   PlayerOrder.RemoveCharacter(z);
+               }
+           }
+            
         }
 
         //Returns the next turn's character and removes it from the stack
@@ -872,12 +840,12 @@ namespace ZombieApocalypseSimulator
         /// <summary>
         /// Performs a melee attack on a victim
         /// </summary>
-        private void MeleeAttack(Character Victim)
+        public void MeleeAttack(Character Victim)
         {
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
             Console.WriteLine("Struck for " + TotalStrike);
-            if ((TotalStrike > 4 && TotalStrike > Victim.ArmorRating) || NaturalStrike == 20)
+            if ((TotalStrike > 4 && TotalStrike > Victim.ArmorRating) || NaturalStrike == 20 && CurrentPlayer.MSquares >= 3)
             {
                 Attack CharAttack = CurrentPlayer.MeleeAttack();
 
@@ -954,6 +922,9 @@ namespace ZombieApocalypseSimulator
                 CurrentPlayer.MeleeAttack();
                 Console.WriteLine("Attack ineffective");
             }
+            KillDeadCharacters();
+            CurrentPlayer.MSquares -= 3;
+            
         }
 
         /// <summary>
@@ -962,10 +933,10 @@ namespace ZombieApocalypseSimulator
         /// on the PlayerAction parameter) on the victim the player chooses
         /// </summary>
         /// <param name="PlayerAction"></param>
-        private void RangedAttack(ActionTypes PlayerAction)
+        public void RangedAttack(ActionTypes PlayerAction, Character Victim)
         {
             List<Character> PossibleVictims = Field.PossibleRangedTargets(CurrentPlayer, Zeds);
-            Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
+            //Character Victim = PossibleVictims.ElementAt(GetPlayerAttackChoice(PossibleVictims));
             //Player Current = (Player)CurrentPlayer;
             Player Current = CurrentPlayer as Player;
 
@@ -977,7 +948,7 @@ namespace ZombieApocalypseSimulator
 
             int Strike = Current.toHitRanged(Bonus);
             Console.WriteLine("Rolled " + Strike);
-            if (Strike > 4 && Strike > Victim.ArmorRating)
+            if (Strike > 4 && Strike > Victim.ArmorRating && CurrentPlayer.MSquares >= 3)
             {
                 int Damage = Current.RangedAttack();
                 int Defense = 0;
@@ -1007,6 +978,10 @@ namespace ZombieApocalypseSimulator
                 Current.RangedAttack();
                 Console.WriteLine("Attack ineffective");
             }
+
+            KillDeadCharacters();
+
+            CurrentPlayer.MSquares -= 3;
         }
 
         /// <summary>

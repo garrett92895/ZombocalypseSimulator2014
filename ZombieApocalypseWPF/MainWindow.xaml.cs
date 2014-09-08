@@ -140,16 +140,8 @@ namespace ZombieApocalypseWPF
             
             PopulateBoard();
 
-            MessageBoxResult dr = MessageBox.Show("Would you like to enable intelligent zombies?",
-                      "Zombie Mode", MessageBoxButton.YesNo);
-            if(dr.Equals(MessageBoxResult.Yes))
-            {
-                c.AI.IntelligentAI = true;
-            }
-            else
-            {
-                c.AI.IntelligentAI = false;
-            }
+            c.AI.IntelligentAI = false;
+
             c.DetermineTurnOrder();
             c.NextTurn();
             canEdit = false;
@@ -315,7 +307,25 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
-            if (tempgq.OccupyingCharacter is Zed)
+            
+            if(!canEdit && LastCharacterSelected == c.CurrentPlayer)
+            {
+                if(LastCharacterSelected is Player && tempgq.OccupyingCharacter is Zed)
+                {
+                    if ((c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
+                        c.MeleeAttack(tempgq.OccupyingCharacter);
+                    else
+                        c.RangedAttack(ActionTypes.AimedRangedAttack, tempgq.OccupyingCharacter);
+
+                }
+                else if(LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player)
+                {
+                    c.MeleeAttack(tempgq.OccupyingCharacter);
+                }
+
+
+            }
+            else if (tempgq.OccupyingCharacter is Zed)
                 SelectedZombie = (Zed)tempgq.OccupyingCharacter;
 
             else if (tempgq.OccupyingCharacter is Player)
@@ -329,7 +339,7 @@ namespace ZombieApocalypseWPF
                         c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
                     else if (LastCharacterSelected == c.CurrentPlayer && LastCharacterSelected.MSquares >= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate))
                     {
-                        c.SquaresLeft -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
+                        c.CurrentPlayer.MSquares -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
                         c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
                     }
                 }
@@ -342,6 +352,7 @@ namespace ZombieApocalypseWPF
         /// </summary>
         private void LastCharacterSelectedHighlightMoves()
         {
+
             BoardOverlay.Children.Clear();
             List<Coordinate> possMoves = c.Field.PossibleMovesForCharacter(LastCharacterSelected);
             List<Character> possAttacks = new List<Character>();
@@ -360,6 +371,7 @@ namespace ZombieApocalypseWPF
                     Coordinate currCoor = new Coordinate(i, j);
                     Canvas reccy = new Canvas();
                     reccy.MouseLeftButtonUp += nc_MouseLeftButtonUp;
+                    reccy.MouseRightButtonUp += nc_MouseRightButtonUp;
 
                     if (possAttackCoors.Contains(currCoor, new LocationComparer()))
                         reccy.Background = new SolidColorBrush(new Color { A = 100, R = 255, B = 50, G = 50 });
@@ -408,7 +420,7 @@ namespace ZombieApocalypseWPF
             if (!canEdit && LastCharacterSelected == c.CurrentPlayer)
             {
                 int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, MoveTo);
-                if(c.SquaresLeft - MoveCost >= 0)
+                if(c.CurrentPlayer.MSquares - MoveCost >= 0)
                 {
                     c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
                     LastCharacterSelected.MSquares -= MoveCost;
@@ -568,6 +580,10 @@ namespace ZombieApocalypseWPF
         private void EditMode_Click(object sender, RoutedEventArgs e)
         {
             this.canEdit = !this.canEdit;
+            if (canEdit)
+                EditMode.Header = "Toggle Edit Mode (ON)";
+            else
+                EditMode.Header = "Toggle Edit Mode (OFF)";
         }
 
         private void EndTurn_Click(object sender, RoutedEventArgs e)
@@ -575,6 +591,15 @@ namespace ZombieApocalypseWPF
             c.NextTurn();
             LastCharacterSelected = c.CurrentPlayer;
             LastCharacterSelectedHighlightMoves();
+        }
+
+        private void AIMode_Click(object sender, RoutedEventArgs e)
+        {
+            c.AI.IntelligentAI = !c.AI.IntelligentAI;
+            if (c.AI.IntelligentAI)
+                AIMode.Header = "Toggle Smart AI (ON)";
+            else
+                AIMode.Header = "Toggle Smart AI (OFF)";
         }
     }
 }
