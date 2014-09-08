@@ -31,8 +31,8 @@ namespace ZombieApocalypseWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Controller c;
-        public bool canEdit;
+        public Controller c;
+        public Settings settings;
         private Character LastCharacterSelected;
         private Player _selectedPlayer;
         public Player SelectedPlayer
@@ -70,7 +70,7 @@ namespace ZombieApocalypseWPF
         public MainWindow()
         {
             InitializeComponent();
-            canEdit = true;
+            settings = new Settings();
             PlayerControl.Level_Up_Button.Click += Level_Up_Player_Button_Click;
             PlayerControl.Level_Down_Button.Click += Level_Down_Player_Button_Click;
             
@@ -139,20 +139,12 @@ namespace ZombieApocalypseWPF
 
             
             PopulateBoard();
-
-            MessageBoxResult dr = MessageBox.Show("Would you like to enable intelligent zombies?",
-                      "Zombie Mode", MessageBoxButton.YesNo);
-            if(dr.Equals(MessageBoxResult.Yes))
-            {
-                c.AI.IntelligentAI = true;
-            }
-            else
-            {
-                c.AI.IntelligentAI = false;
-            }
             c.DetermineTurnOrder();
             c.NextTurn();
-            canEdit = false;
+
+            settings.CanEdit = false;
+            settings.ShowBattleScene = false;
+            settings.EnforceTurnOrder = true;
         }
 
 
@@ -251,7 +243,7 @@ namespace ZombieApocalypseWPF
             if (SelectedPlayer == null)
                 return;
 
-            if (canEdit)
+            if (settings.CanEdit)
             {
                 Item i = AddItem();
 
@@ -265,7 +257,7 @@ namespace ZombieApocalypseWPF
             if (SelectedZombie == null)
                 return;
 
-            if (canEdit)
+            if (settings.CanEdit)
             {
                 Item i = AddItem();
 
@@ -276,25 +268,27 @@ namespace ZombieApocalypseWPF
 
         private void Level_Up_Player_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPlayer != null)
-                SelectedPlayer.LevelUp();
+            if (SelectedPlayer != null && settings.CanEdit)
+            {
+                    SelectedPlayer.LevelUp();
+            }
         }
        
         private void Level_Down_Player_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedPlayer != null)
+            if (SelectedPlayer != null && settings.CanEdit)
                 SelectedPlayer.LevelDown();
         }
 
         private void Level_Up_Zombie_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedZombie != null)
+            if (SelectedZombie != null && settings.CanEdit)
                 SelectedZombie.LevelUp();
         }
 
         private void Level_Down_Zombie_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedZombie != null)
+            if (SelectedZombie != null && settings.CanEdit)
                 SelectedZombie.LevelDown();
         }
 
@@ -315,31 +309,59 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
-            if (tempgq.OccupyingCharacter is Zed)
-                SelectedZombie = (Zed)tempgq.OccupyingCharacter;
+            if (settings.EnforceTurnOrder)
+            {
+                if (tempgq.OccupyingCharacter is Zed)
+                    SelectedZombie = (Zed)tempgq.OccupyingCharacter;
 
-            else if (tempgq.OccupyingCharacter is Player)
-                SelectedPlayer = (Player)tempgq.OccupyingCharacter;
-
-            else if (tempgq.OccupyingCharacter == null)
-                if (LastCharacterSelected != null)
+                else if (tempgq.OccupyingCharacter is Player)
+                    SelectedPlayer = (Player)tempgq.OccupyingCharacter;
+                if(SelectedZombie != null
+                    && SelectedZombie.Equals(LastCharacterSelected))
                 {
-                    if (canEdit)
+                    LastCharacterSelected = SelectedZombie;
+                    PaintMoves();
+                }
+                else if(SelectedPlayer != null
+                    && SelectedPlayer.Equals(LastCharacterSelected))
+                {
+
+                    Console.WriteLine("Here : " + settings.CanEdit);
+                    if (settings.CanEdit)
                         c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
                     else if (LastCharacterSelected == c.CurrentPlayer && LastCharacterSelected.MSquares >= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate))
                     {
                         c.SquaresLeft -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
-                        c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+                        MoveCharacter(tempgq.Coordinate);
+                        PaintMoves();
                     }
                 }
-            LastCharacterSelectedHighlightMoves();
+                else
+                {
+                    if(LastCharacterSelected == c.CurrentPlayer)
+                    {
+                        c.SquaresLeft -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
+                        c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+                        MoveCharacter(tempgq.Coordinate);
+                    }
+                }
+            }
+            else
+            {
+                if (tempgq.OccupyingCharacter is Zed)
+                    SelectedZombie = (Zed)tempgq.OccupyingCharacter;
 
+                else if (tempgq.OccupyingCharacter is Player)
+                    SelectedPlayer = (Player)tempgq.OccupyingCharacter;
+                else if (tempgq.OccupyingCharacter == null)
+                    if (LastCharacterSelected != null)
+                        MoveCharacter(tempgq.Coordinate);
+
+            }
+            PaintMoves();
         }
 
-        /// <summary>
-        /// Highlights parts of the board that can be moved to by the currently selected character
-        /// </summary>
-        private void LastCharacterSelectedHighlightMoves()
+        public void PaintMoves()
         {
             BoardOverlay.Children.Clear();
             List<Coordinate> possMoves = c.Field.PossibleMovesForCharacter(LastCharacterSelected);
@@ -374,7 +396,7 @@ namespace ZombieApocalypseWPF
 
         private void nc_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (canEdit)
+            if (settings.CanEdit)
             {
                 Canvas tempc = (Canvas)sender;
                 GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
@@ -407,20 +429,57 @@ namespace ZombieApocalypseWPF
                     c.NextTurn();
                     break;
             }
-            if (!canEdit && LastCharacterSelected == c.CurrentPlayer)
+            if (settings.EnforceTurnOrder && LastCharacterSelected == c.CurrentPlayer)
             {
                 int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, MoveTo);
                 if(c.SquaresLeft - MoveCost >= 0)
                 {
-                    c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
-                    LastCharacterSelected.MSquares -= MoveCost;
-                    LastCharacterSelectedHighlightMoves();
+                    c.SquaresLeft -= MoveCost;
+                    MoveCharacter(MoveTo);
                 }
             }
-            else if(canEdit)
+            else if(settings.CanEdit && !settings.EnforceTurnOrder)
             {
-                c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
-                LastCharacterSelectedHighlightMoves();
+                MoveCharacter(MoveTo);
+            }
+            PaintMoves();
+        }
+        
+        /// <summary>
+        /// Either moves the latest character or commences battle
+        /// </summary>
+        /// <param name="Destination"></param>
+        public void MoveCharacter(Coordinate Destination)
+        {
+            if (Destination != null)
+            {
+                Character Victim = c.Field.GetGridSquareAt(Destination).OccupyingCharacter;
+
+                if (Victim != null)
+                {
+                    if (settings.ShowBattleScene)
+                    {
+
+                    }
+                    else
+                    {
+                        if (LastCharacterSelected.Equals(SelectedPlayer))
+                        {
+                            if (SelectedPlayer.EquippedWeapon is RangedWeapon)
+                            {
+
+                            }
+                            else
+                            {
+                                c.MeleeAttack(Victim);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, Destination);
+                }
             }
         }
 
@@ -508,7 +567,7 @@ namespace ZombieApocalypseWPF
 
         private void Player_Add(object sender, RoutedEventArgs e)
         {
-            if (canEdit)
+            if (settings.CanEdit)
             {
                 xCoor = -9;
                 yCoor = -9;
@@ -525,6 +584,7 @@ namespace ZombieApocalypseWPF
                     return;
 
                 c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
+                c.PlayerOrder.Push(NewCharacter);
 
                 NewCharacter = null;
 
@@ -535,7 +595,7 @@ namespace ZombieApocalypseWPF
 
         private void Zombie_Add(object sender, RoutedEventArgs e)
         {
-            if (canEdit)
+            if (settings.CanEdit)
             {
                 xCoor = -9;
                 yCoor = -9;
@@ -552,7 +612,7 @@ namespace ZombieApocalypseWPF
                     return;
 
                 c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
-
+                c.ZedOrder.Push(NewCharacter);
                 NewCharacter = null;
 
                 xCoor = -9;
@@ -562,7 +622,7 @@ namespace ZombieApocalypseWPF
 
         private void Item_Add(object sender, RoutedEventArgs e)
         {
-            if (canEdit)
+            if (settings.CanEdit)
             {
                 xCoor = -9;
                 yCoor = -9;
@@ -582,16 +642,24 @@ namespace ZombieApocalypseWPF
             }
         }
 
-        private void EditMode_Click(object sender, RoutedEventArgs e)
-        {
-            this.canEdit = !this.canEdit;
-        }
-
         private void EndTurn_Click(object sender, RoutedEventArgs e)
         {
-            c.NextTurn();
-            LastCharacterSelected = c.CurrentPlayer;
-            LastCharacterSelectedHighlightMoves();
+            if (settings.EnforceTurnOrder)
+            {
+                c.NextTurn();
+                Console.WriteLine(c.CurrentPlayer);
+                //SelectedPlayer = null;
+                //SelectedZombie = null;
+                LastCharacterSelected = c.CurrentPlayer;
+                PaintMoves();
+            }
+        }
+
+        public void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow sw = new SettingsWindow();
+            sw.SettingsControl.w = this;
+            sw.Show();
         }
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)

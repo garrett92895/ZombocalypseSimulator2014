@@ -887,7 +887,7 @@ namespace ZombieApocalypseSimulator
         /// <summary>
         /// Performs a melee attack on a victim
         /// </summary>
-        private void MeleeAttack(Character Victim)
+        public void MeleeAttack(Character Victim)
         {
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
