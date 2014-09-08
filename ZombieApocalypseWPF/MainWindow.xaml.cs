@@ -95,28 +95,6 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(NewPlayer1, Coor1);
 
 
-            //Player Trader = new Trader();
-            //Coordinate Coor2 = new Coordinate(1, 1);
-            //c.AddCharacterToField(Trader, Coor2);
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    Trader.AddItem(WeaponFactory.RandomWeapon());
-            //}
-
-            //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
-            //NewTrade.ShowDialog();
-
-            //c.Field.Height = 30;
-            //c.Field.Width = 30;
-
-            //for (int i = 0; i < 10; i++)
-            //{
-            //    Trader.Items.Add(WeaponFactory.RandomWeapon());
-            //}
-
-            //TradeWindow NewTrade = new TradeWindow(NewPlayer1, Trader);
-            //NewTrade.ShowDialog();l
-            //Console.WriteLine("Main Window : " + NewPlayer1);
 
             Character Zed3 = ZedFactory.GetInstance("Shank");
             Coordinate ZedCoor3 = new Coordinate(5, 5);
@@ -128,8 +106,8 @@ namespace ZombieApocalypseWPF
             Coordinate GunCoor = new Coordinate(3, 3);
             c.AddItemToField(Gun, GunCoor);
 
-            //Trap akbar = new Trap { Damage = "1d2", Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
-            //c.AddTrapToField(akbar, new Coordinate(5, 4));
+            Trap akbar = new Trap { Damage = new DieRoll(1, 2, 3, 4), Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            c.AddTrapToField(akbar, new Coordinate(5, 4));
 
             CharacterComboBox.ItemsSource = c.Players;
             CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
@@ -139,6 +117,9 @@ namespace ZombieApocalypseWPF
 
             
             PopulateBoard();
+
+            c.AI.IntelligentAI = false;
+
             c.DetermineTurnOrder();
             c.NextTurn();
 
@@ -212,7 +193,7 @@ namespace ZombieApocalypseWPF
                     nc.SetBinding(Canvas.BackgroundProperty, OccupyBind);
 
                     nc.MouseLeftButtonUp += nc_MouseLeftButtonUp;
-                    nc.MouseRightButtonUp += nc_MouseRightButtonUp;
+                    //nc.MouseRightButtonUp += nc_MouseRightButtonUp;
 
                     Board.Children.Add(nc);
                 }
@@ -309,6 +290,27 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
+
+            
+            if(!settings.CanEdit && LastCharacterSelected == c.CurrentPlayer)
+            {
+                if(LastCharacterSelected is Player && tempgq.OccupyingCharacter is Zed)
+                {
+                    if ((c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
+                        c.MeleeAttack(tempgq.OccupyingCharacter);
+                    else
+                        c.RangedAttack(ActionTypes.AimedRangedAttack, tempgq.OccupyingCharacter);
+
+                }
+                else if(LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player)
+                {
+                    c.MeleeAttack(tempgq.OccupyingCharacter);
+                }
+
+
+            }
+            else if (tempgq.OccupyingCharacter is Zed)
+
             if (settings.EnforceTurnOrder)
             {
                 if (tempgq.OccupyingCharacter is Zed)
@@ -353,9 +355,19 @@ namespace ZombieApocalypseWPF
 
                 else if (tempgq.OccupyingCharacter is Player)
                     SelectedPlayer = (Player)tempgq.OccupyingCharacter;
+
+
+                if (tempgq.OccupyingCharacter is Zed)
+                    SelectedZombie = (Zed)tempgq.OccupyingCharacter;
+
+
                 else if (tempgq.OccupyingCharacter == null)
                     if (LastCharacterSelected != null)
                         MoveCharacter(tempgq.Coordinate);
+
+                    else if (tempgq.OccupyingCharacter == null)
+                        if (LastCharacterSelected != null)
+                            MoveCharacter(tempgq.Coordinate);
 
             }
             PaintMoves();
@@ -363,6 +375,16 @@ namespace ZombieApocalypseWPF
 
         public void PaintMoves()
         {
+            LastCharacterSelectedHighlightMoves();
+
+        }
+
+        /// <summary>
+        /// Highlights parts of the board that can be moved to by the currently selected character
+        /// </summary>
+        private void LastCharacterSelectedHighlightMoves()
+        {
+
             BoardOverlay.Children.Clear();
             List<Coordinate> possMoves = c.Field.PossibleMovesForCharacter(LastCharacterSelected);
             List<Character> possAttacks = new List<Character>();
@@ -381,6 +403,7 @@ namespace ZombieApocalypseWPF
                     Coordinate currCoor = new Coordinate(i, j);
                     Canvas reccy = new Canvas();
                     reccy.MouseLeftButtonUp += nc_MouseLeftButtonUp;
+                    reccy.MouseRightButtonUp += nc_MouseRightButtonUp;
 
                     if (possAttackCoors.Contains(currCoor, new LocationComparer()))
                         reccy.Background = new SolidColorBrush(new Color { A = 100, R = 255, B = 50, G = 50 });
@@ -432,9 +455,17 @@ namespace ZombieApocalypseWPF
             if (settings.EnforceTurnOrder && LastCharacterSelected == c.CurrentPlayer)
             {
                 int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, MoveTo);
-                if(c.SquaresLeft - MoveCost >= 0)
+                if(c.CurrentPlayer.MSquares - MoveCost >= 0)
                 {
-                    c.SquaresLeft -= MoveCost;
+
+                    c.CurrentPlayer.MSquares -= MoveCost;
+                    MoveCharacter(MoveTo);
+
+                    c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
+                    LastCharacterSelected.MSquares -= MoveCost;
+                    LastCharacterSelectedHighlightMoves();
+
+                    c.CurrentPlayer.MSquares -= MoveCost;
                     MoveCharacter(MoveTo);
                 }
             }
@@ -480,6 +511,10 @@ namespace ZombieApocalypseWPF
                 {
                     c.Field.MoveCharacterToSquare(LastCharacterSelected, Destination);
                 }
+
+                c.Field.MoveCharacterToSquare(LastCharacterSelected, Destination);
+                LastCharacterSelectedHighlightMoves();
+
             }
         }
 
@@ -660,6 +695,7 @@ namespace ZombieApocalypseWPF
             SettingsWindow sw = new SettingsWindow();
             sw.SettingsControl.w = this;
             sw.Show();
+
         }
 
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)

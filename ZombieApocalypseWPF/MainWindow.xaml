@@ -62,6 +62,7 @@
                         <MenuItem Header="Save" Command="Save"/>
                         <MenuItem Header="Settings" Click="Settings_Click" />
                         <MenuItem Header="Close" Command="Close"/>
+           
                     </MenuItem>
                     <MenuItem Header="Add">
                         <MenuItem Header="Player" Click="Player_Add"/>
