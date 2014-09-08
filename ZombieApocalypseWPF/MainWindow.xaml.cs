@@ -308,8 +308,6 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
-<<<<<<< HEAD
-
             if (settings.EnforceTurnOrder)
             {
                 if (tempgq.OccupyingCharacter is Zed)
@@ -344,44 +342,15 @@ namespace ZombieApocalypseWPF
 
                 else if (tempgq.OccupyingCharacter is Player)
                     SelectedPlayer = (Player)tempgq.OccupyingCharacter;
-=======
-            if (tempgq.OccupyingCharacter is Zed)
-                SelectedZombie = (Zed)tempgq.OccupyingCharacter;
->>>>>>> origin/master
-
                 else if (tempgq.OccupyingCharacter == null)
                     if (LastCharacterSelected != null)
                         MoveCharacter(tempgq.Coordinate);
-
-<<<<<<< HEAD
 
             }
             PaintMoves();
         }
 
         public void PaintMoves()
-=======
-            else if (tempgq.OccupyingCharacter == null)
-                if (LastCharacterSelected != null)
-                {
-                    Console.WriteLine(c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate));
-                    if (canEdit)
-                        c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
-                    else if (LastCharacterSelected == c.CurrentPlayer && LastCharacterSelected.MSquares >= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate))
-                    {
-                        c.SquaresLeft -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
-                        c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
-                    }
-                }
-            LastCharacterSelectedHighlightMoves();
-
-        }
-
-        /// <summary>
-        /// Highlights parts of the board that can be moved to by the currently selected character
-        /// </summary>
-        private void LastCharacterSelectedHighlightMoves()
->>>>>>> origin/master
         {
             BoardOverlay.Children.Clear();
             List<Coordinate> possMoves = c.Field.PossibleMovesForCharacter(LastCharacterSelected);
@@ -451,14 +420,8 @@ namespace ZombieApocalypseWPF
                 int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, MoveTo);
                 if(c.SquaresLeft - MoveCost >= 0)
                 {
-<<<<<<< HEAD
                     c.SquaresLeft -= MoveCost;
                     MoveCharacter(MoveTo);
-=======
-                    c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
-                    LastCharacterSelected.MSquares -= MoveCost;
-                    LastCharacterSelectedHighlightMoves();
->>>>>>> origin/master
                 }
             }
             else if(settings.CanEdit && !settings.EnforceTurnOrder)
@@ -476,7 +439,6 @@ namespace ZombieApocalypseWPF
         {
             if (Destination != null)
             {
-<<<<<<< HEAD
                 Character Victim = c.Field.GetGridSquareAt(Destination).OccupyingCharacter;
 
                 if (Victim != null)
@@ -504,10 +466,6 @@ namespace ZombieApocalypseWPF
                 {
                     c.Field.MoveCharacterToSquare(LastCharacterSelected, Destination);
                 }
-=======
-                c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
-                LastCharacterSelectedHighlightMoves();
->>>>>>> origin/master
             }
         }
 
