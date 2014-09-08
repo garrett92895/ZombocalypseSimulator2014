@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="ZombieApocalypseWPF.UserControls.SettingsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextElement.Foreground" Value="Firebrick" />
+            <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextElement.Foreground" Value="Firebrick" />
+            <Setter Property="TextElement.FontWeight" Value="SemiBold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="MinWidth" Value="15" />
+        </Style>
+
+    </UserControl.Resources>
+
+    <Grid>
+        <TabControl Background="Black">
+            <TabItem Header="Game Mode">
+                <UniformGrid Rows="2">
+                    <ComboBox x:Name="GameModesCombo"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              SelectedIndex="0"
+                              SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBoxItem x:Name="Normal">Normal Play</ComboBoxItem>
+                        <ComboBoxItem x:Name="Pause">Pause Mode</ComboBoxItem>
+                        <ComboBoxItem x:Name="Sandbox">Sandbox</ComboBoxItem>
+                    </ComboBox>
+                    <UniformGrid Columns="4">
+                        <Label HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Margin="0">Horde</Label>
+                        <CheckBox HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Margin="10"
+                                  Checked="CheckBox_Checked"
+                                  x:Name="HordeCheck"></CheckBox>
+                        <Label HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Margin="0">Intelligent AI</Label>
+                        <CheckBox HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Margin="10"
+                                  Checked="CheckBox_Checked_1"
+                                  x:Name="IntelligentCheck"></CheckBox>
+                    </UniformGrid>
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="Drop Rates">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30*"></ColumnDefinition>
+                        <ColumnDefinition Width="70*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                           Text="{Binding StringFormat=Weapon: {0}, ElementName=Weapon, Path=Value}"></TextBlock>
+                    <Slider x:Name="Weapon"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding WeaponDropRate}"
+                            ValueChanged="Weapon_ValueChanged"></Slider>
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                           Text="{Binding StringFormat=Health: {0}, ElementName=Health, Path=Value}"></TextBlock>
+                    <Slider x:Name="Health"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding HealthPackDropRate}"
+                            ValueChanged="Health_ValueChanged"></Slider>
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                           Text="{Binding StringFormat=Scrap: {0}, ElementName=SpareParts, Path=Value}"></TextBlock>
+                    <Slider x:Name="SpareParts"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding SparePartDropRate}"
+                            ValueChanged="SpareParts_ValueChanged"></Slider>
+                    <TextBlock Grid.Column="0" Grid.Row="3"
+                           Text="{Binding StringFormat=Ammo: {0}, ElementName=Ammo, Path=Value}"></TextBlock>
+                    <Slider x:Name="Ammo"
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            Minimum="0"
+                            Maximum="100"
+                            SmallChange="1"
+                            LargeChange="5"
+                            IsSnapToTickEnabled="True"
+                            Value="{Binding AmmoDropRate}"
+                            ValueChanged="Ammo_ValueChanged"></Slider>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Preferences">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="65*"/>
+                        <ColumnDefinition Width="35*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Margin="20">Show Battle Scenes</Label>
+                    <CheckBox Grid.Column="1"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Left"
+                              Margin="0"
+                              IsChecked="{Binding ShowBattleScene}"></CheckBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

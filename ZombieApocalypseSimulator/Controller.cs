@@ -140,11 +140,11 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         public void NextTurn()
         {
-            if (PlayerOrder.Peek() != null)
+            if (PlayerOrder.Count() != 0)
             {
                 CurrentPlayer = PlayerOrder.Pop();
             }
-            else if (ZedOrder.Peek() != null)
+            else if (ZedOrder.Count() != 0)
             {
                 CurrentPlayer = ZedOrder.Pop();
             }
@@ -242,7 +242,7 @@ namespace ZombieApocalypseSimulator
         /// <returns></returns>
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
-            CharacterStack _turnOrder = new CharacterStack(_characters.Count);
+            CharacterStack _turnOrder = new CharacterStack();
             //int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
             {
@@ -871,7 +871,7 @@ namespace ZombieApocalypseSimulator
         /// <summary>
         /// Performs a melee attack on a victim
         /// </summary>
-        private void MeleeAttack(Character Victim)
+        public void MeleeAttack(Character Victim)
         {
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
