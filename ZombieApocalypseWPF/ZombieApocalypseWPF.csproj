@@ -68,6 +68,9 @@
     <Compile Include="Windows\AddZombieWindow.xaml.cs">
       <DependentUpon>AddZombieWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\HordeSettings.xaml.cs">
+      <DependentUpon>HordeSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\NewCoorWindow.xaml.cs">
       <DependentUpon>NewCoorWindow.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
     <Page Include="Windows\AddZombieWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\HordeSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\NewCoorWindow.xaml">
       <SubType>Designer</SubType>

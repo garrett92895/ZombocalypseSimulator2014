@@ -314,7 +314,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-        public List<Coordinate> PossibleMovesForCharacter(Character C, int SquaresLeft, bool DiagonalsCostTwo = false)
+        public List<Coordinate> PossibleMovesForCharacter(Character C)
         {
             List<Coordinate> Moves = new List<Coordinate>();
             Type OriginalType = null;
@@ -346,7 +346,7 @@ namespace ZombieApocalypseSimulator
             //}
             
             //Moves.Distinct(new LocationComparer());
-            return AvailableMoves(C.Location, SquaresLeft * 10, OriginalType);
+            return AvailableMoves(C.Location, C.MSquares * 10, OriginalType);
         }
 
         /// <summary>
@@ -770,12 +770,12 @@ namespace ZombieApocalypseSimulator
         public int ShortestPathCost(Character CurrentPlayer, Coordinate Destination)
         {
             Coordinate Location = CurrentPlayer.Location;
-            return PathCost(Location, Destination);            
+            return Distance(Location, Destination);            
         }
 
-        public int PathCost(Coordinate Location, Coordinate Destination)
+        public int Distance(Coordinate Location, Coordinate Destination)
         {
-            return (int)(Math.Pow(Location.X - Destination.X, 2) + Math.Pow(Location.Y - Destination.Y, 2));
+            return (int) Math.Sqrt((Math.Pow(Location.X - Destination.X, 2) + Math.Pow(Location.Y - Destination.Y, 2)));
         }
         #endregion
 

@@ -54,11 +54,11 @@ namespace ZombieApocalypseSimulator
         {
             get
             {
-                return CurrentPlayer.msquares;
+                return CurrentPlayer.MSquares;
             }
             set
             {
-                CurrentPlayer.msquares = value;
+                CurrentPlayer.MSquares = value;
             }
         }
 
@@ -140,13 +140,14 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         public void NextTurn()
         {
-            if (PlayerOrder.Peek() != null)
+            if (PlayerOrder.Count > 0)
             {
                 CurrentPlayer = PlayerOrder.Pop();
             }
-            else if (ZedOrder.Peek() != null)
+            else if (ZedOrder.Count > 0)
             {
                 CurrentPlayer = ZedOrder.Pop();
+                PlayNextTurnAI();
             }
             else
             {
@@ -242,7 +243,7 @@ namespace ZombieApocalypseSimulator
         /// <returns></returns>
         private CharacterStack DetermineTurnOrder(List<Character> _characters)
         {
-            CharacterStack _turnOrder = new CharacterStack(_characters.Count);
+            CharacterStack _turnOrder = new CharacterStack();
             //int[] rolls = new int[_characters.Count];
             for (int i = 0; i < _characters.Count; i++)
             {
@@ -469,7 +470,6 @@ namespace ZombieApocalypseSimulator
         {
             SquaresLeft = CurrentPlayer.squares();
             MaxSquares = SquaresLeft;
-            Console.WriteLine(Field.ToString());
 
             List<ActionTypes> PossibleActions = GetPossibleActions(SquaresLeft);
             ActionTypes BestAction = AI.DecideAction(PossibleActions, CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
@@ -477,6 +477,7 @@ namespace ZombieApocalypseSimulator
             if (BestAction.Equals(ActionTypes.Move))
             {
                 Coordinate BestMove = AI.DetermineMove((Zed)CurrentPlayer, MaxSquares, SquaresLeft, Field, Players, Zeds);
+                SquaresLeft -= Field.ShortestPathCost(CurrentPlayer, BestMove);
                 Field.MoveCharacterToSquare(CurrentPlayer, BestMove);
 
             }
@@ -508,7 +509,7 @@ namespace ZombieApocalypseSimulator
             PossibleActions.Add(ActionTypes.LevelDown);
             PossibleActions.Add(ActionTypes.ZedScreen);
             //Checks for possible moves
-            if (Field.PossibleMovesForCharacter(CurrentPlayer, SquaresLeft).Any())
+            if (Field.PossibleMovesForCharacter(CurrentPlayer).Any())
             {
                 //Only sees if the character is not trapped. This method (GetPossibleActions)
                 //assumes that if it is being called, the character must have some squares left
@@ -705,7 +706,7 @@ namespace ZombieApocalypseSimulator
         private int Move()
         {
             //Gets all of the moves that the player can make
-            List<Coordinate> PossibleMoves = Field.PossibleMovesForCharacter(CurrentPlayer, SquaresLeft);
+            List<Coordinate> PossibleMoves = Field.PossibleMovesForCharacter(CurrentPlayer);
             //Prints the moves and gets the user's choice
             List<string> MoveStrings = new List<string>();
             for (int i = 0; i < PossibleMoves.Count(); i++)
