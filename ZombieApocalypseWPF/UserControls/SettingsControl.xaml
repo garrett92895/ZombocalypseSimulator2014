@@ -49,7 +49,8 @@
                                   VerticalAlignment="Center"
                                   Margin="10"
                                   Checked="CheckBox_Checked_1"
-                                  x:Name="IntelligentCheck"></CheckBox>
+                                  x:Name="IntelligentCheck"
+                                  IsChecked="{Binding c.HordeMode.IsActive}"></CheckBox>
                     </UniformGrid>
                 </UniformGrid>
             </TabItem>
