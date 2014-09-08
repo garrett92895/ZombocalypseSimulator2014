@@ -32,7 +32,7 @@ namespace ZombieApocalypseWPF.UserControls
             set
             {
                 this._w = value;
-                this.DataContext = w;
+                this.DataContext = w.settings;
             }
         }
         public SettingsControl()

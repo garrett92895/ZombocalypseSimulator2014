@@ -192,7 +192,7 @@ namespace ZombieApocalypseWPF
                     nc.SetBinding(Canvas.BackgroundProperty, OccupyBind);
 
                     nc.MouseLeftButtonUp += nc_MouseLeftButtonUp;
-                    nc.MouseRightButtonUp += nc_MouseRightButtonUp;
+                    //nc.MouseRightButtonUp += nc_MouseRightButtonUp;
 
                     Board.Children.Add(nc);
                 }
@@ -310,7 +310,6 @@ namespace ZombieApocalypseWPF
             }
             else if (tempgq.OccupyingCharacter is Zed)
 
-
             if (settings.EnforceTurnOrder)
             {
                 if (tempgq.OccupyingCharacter is Zed)
@@ -346,13 +345,19 @@ namespace ZombieApocalypseWPF
                 else if (tempgq.OccupyingCharacter is Player)
                     SelectedPlayer = (Player)tempgq.OccupyingCharacter;
 
-            if (tempgq.OccupyingCharacter is Zed)
-                SelectedZombie = (Zed)tempgq.OccupyingCharacter;
+
+                if (tempgq.OccupyingCharacter is Zed)
+                    SelectedZombie = (Zed)tempgq.OccupyingCharacter;
 
 
                 else if (tempgq.OccupyingCharacter == null)
                     if (LastCharacterSelected != null)
                         MoveCharacter(tempgq.Coordinate);
+
+                    else if (tempgq.OccupyingCharacter == null)
+                        if (LastCharacterSelected != null)
+                            MoveCharacter(tempgq.Coordinate);
+
             }
             PaintMoves();
         }
@@ -446,6 +451,8 @@ namespace ZombieApocalypseWPF
                     LastCharacterSelected.MSquares -= MoveCost;
                     LastCharacterSelectedHighlightMoves();
 
+                    c.CurrentPlayer.MSquares -= MoveCost;
+                    MoveCharacter(MoveTo);
                 }
             }
             else if(settings.CanEdit && !settings.EnforceTurnOrder)
