@@ -302,16 +302,18 @@ namespace ZombieApocalypseSimulator.Models.Characters
         {
             return DieRoll.RollOne(10) + 12;
         }
-        public int msquares
+
+        private int _MSquares;
+        public int MSquares
         {
             get
             {
-                return squares();
+                return _MSquares;
             }
 
             set
             {
-
+                _MSquares = value;
             }
         }
         public int squares()

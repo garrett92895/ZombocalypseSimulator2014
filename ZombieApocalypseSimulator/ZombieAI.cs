@@ -265,7 +265,7 @@ namespace ZombieApocalypseSimulator
         {
             Coordinate bestMove = null;
 
-            List<Coordinate> moves = Area.PossibleMovesForCharacter(CurrentPlayer, MovesLeft);
+            List<Coordinate> moves = Area.PossibleMovesForCharacter(CurrentPlayer);
             List<KeyValuePair<Coordinate, Character>> enemies = new List<KeyValuePair<Coordinate, Character>>();
 
             foreach (Coordinate c in moves)
@@ -518,7 +518,7 @@ namespace ZombieApocalypseSimulator
        
         private Coordinate RunAway(Zed Zombie, GameArea Area, int SquaresLeft, List<Character> Players)
         {
-            List<Coordinate> PossibleMoves = Area.PossibleMovesForCharacter(Zombie, SquaresLeft);
+            List<Coordinate> PossibleMoves = Area.PossibleMovesForCharacter(Zombie);
             Coordinate BestMove = PossibleMoves.ElementAt(0);
 
             foreach(Coordinate c in PossibleMoves)
@@ -539,7 +539,7 @@ namespace ZombieApocalypseSimulator
         {
             Coordinate bestMove = null;
 
-            List<Coordinate> moves = Area.PossibleMovesForCharacter(CurrentPlayer, MovesLeft);
+            List<Coordinate> moves = Area.PossibleMovesForCharacter(CurrentPlayer);
             List<KeyValuePair<Coordinate, Character>> enemies = new List<KeyValuePair<Coordinate, Character>>();
             foreach (Coordinate c in moves)
             {
@@ -594,7 +594,7 @@ namespace ZombieApocalypseSimulator
 
         private Coordinate BestMoveToZombies(Zed Zombie, GameArea Area, int SquaresLeft, List<Character> Zombies)
         {
-            List<Coordinate> PossibleMoves = Area.PossibleMovesForCharacter(Zombie, SquaresLeft);
+            List<Coordinate> PossibleMoves = Area.PossibleMovesForCharacter(Zombie);
             Coordinate BestMove = PossibleMoves.ElementAt(0);
 
             foreach (Coordinate c in PossibleMoves)
