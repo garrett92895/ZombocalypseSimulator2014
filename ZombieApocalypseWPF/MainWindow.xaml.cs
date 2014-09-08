@@ -124,9 +124,9 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(Zed3, ZedCoor3);
             SelectedZombie = (Zed)Zed3;
 
-            //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
-            //Coordinate GunCoor = new Coordinate(3, 3);
-            //c.AddItemToField(Gun, GunCoor);
+            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(3, 3);
+            c.AddItemToField(Gun, GunCoor);
 
             //Trap akbar = new Trap { Damage = "1d2", Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
             //c.AddTrapToField(akbar, new Coordinate(5, 4));
@@ -324,7 +324,6 @@ namespace ZombieApocalypseWPF
             else if (tempgq.OccupyingCharacter == null)
                 if (LastCharacterSelected != null)
                 {
-                    Console.WriteLine(c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate));
                     if (canEdit)
                         c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
                     else if (LastCharacterSelected == c.CurrentPlayer && LastCharacterSelected.MSquares >= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate))
@@ -404,6 +403,9 @@ namespace ZombieApocalypseWPF
                 case Key.D:
                     MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1);
                     break;
+                case Key.Enter:
+                    c.NextTurn();
+                    break;
             }
             if (!canEdit && LastCharacterSelected == c.CurrentPlayer)
             {
@@ -430,9 +432,15 @@ namespace ZombieApocalypseWPF
         /// <param name="e"></param>
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("Would you like to save the current game?");
-            SavePrompt();
-            c = new Controller();
+            MessageBoxResult Response = MessageBox.Show("Would you like to save the current game?", "Save Game", MessageBoxButton.YesNoCancel);
+            if(Response.Equals(MessageBoxResult.Yes))
+            {
+                SavePrompt();
+            }
+            if(!Response.Equals(MessageBoxResult.Cancel))
+            {
+                c = new Controller();
+            }
         }
 
         /// <summary>
@@ -451,7 +459,7 @@ namespace ZombieApocalypseWPF
 
                 if ((input = OpenFile.OpenFile()) != null)
                 {
-                    throw new NotImplementedException();
+                    c = (Controller) bf.Deserialize(input);
                 }
                 input.Close();
             }
@@ -465,8 +473,15 @@ namespace ZombieApocalypseWPF
         /// <param name="e"></param>
         private void Close_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            SavePrompt();
-            this.Close();
+            MessageBoxResult Response = MessageBox.Show("Would you like to save the current game?", "Save Game", MessageBoxButton.YesNoCancel);
+            if(Response.Equals(MessageBoxResult.Yes))
+            {
+                SavePrompt();
+            }
+            if(!Response.Equals(MessageBoxResult.Cancel))
+            {
+                this.Close();
+            }
         }
 
         /// <summary>
@@ -475,7 +490,7 @@ namespace ZombieApocalypseWPF
         private void SavePrompt()
         {
             SaveFileDialog SaveFile = new SaveFileDialog();
-            SaveFile.Filter = "Saved Games|*.zombieapoc";
+            SaveFile.Filter = "Saved ZombiApoc Games|*.zombieapoc";
 
             if (SaveFile.ShowDialog() == true)
             {
@@ -484,7 +499,9 @@ namespace ZombieApocalypseWPF
 
                 if (output != null)
                 {
-                    throw new NotImplementedException();
+                    bf.Serialize(output, c);
+                    output.Flush();
+                    output.Close();
                 }
             }
         }
@@ -575,6 +592,17 @@ namespace ZombieApocalypseWPF
             c.NextTurn();
             LastCharacterSelected = c.CurrentPlayer;
             LastCharacterSelectedHighlightMoves();
+        }
+
+        private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            SavePrompt();
+        }
+
+        private void HordeSettings_Click(object sender, RoutedEventArgs e)
+        {
+            HordeSettings NewSettings = new HordeSettings(c.HordeMode);
+            NewSettings.ShowDialog();
         }
     }
 }

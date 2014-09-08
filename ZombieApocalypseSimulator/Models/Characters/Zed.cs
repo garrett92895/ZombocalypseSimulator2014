@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
+    [Serializable()]
     public abstract class Zed : Character
     {
         public bool HasAttacked { get; set; }

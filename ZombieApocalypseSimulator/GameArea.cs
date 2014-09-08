@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZombieApocalypseSimulator.Models.Characters;
+using ZombieApocalypseSimulator.Models.Characters.Classes;
 using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator
 {
     enum Direction{ UP, RIGHT, DOWN, LEFT, NONE }
 
+    [Serializable()]
     public class GameArea
     {
         #region Properties
@@ -192,7 +194,7 @@ namespace ZombieApocalypseSimulator
 
         public void RemoveItemInSquare(Item RemoveItem, Coordinate Location)
         {
-            GridSquare Square = GridSquares[Location.X, Location.Y];
+            GridSquare Square = GetGridSquareAt(Location);
             Square.ItemList.Remove(RemoveItem);
         }
         #endregion
@@ -260,6 +262,34 @@ namespace ZombieApocalypseSimulator
                 {
                     RemoveCharacterFromSquare(C);
                     AddCharacterToSquare(C, Destination);
+                    List<Item> ItemsInSquare = GetItemsInSquare(Destination);
+                    if (C is Player)
+                    {
+                        foreach (Item I in ItemsInSquare)
+                        {
+                            if (I.GetType() == typeof(Item))
+                            {
+                                ((Player)C).Money += I.Value;
+                            }
+                            else if (I is Health)
+                            {
+                                Health HealthPack = (Health)I;
+                                if (C is Medic)
+                                {
+                                    ((Player)C).AddItem(I);
+                                }
+                                else
+                                {
+                                    C.Health += HealthPack.AmountHealed.Roll();
+                                }
+                            }
+                            else
+                            {
+                                ((Player)C).AddItem(I);
+                            }
+                        }
+                        ItemsInSquare.Clear();
+                    }
                 }
             }
             catch (ArgumentOutOfRangeException ex)

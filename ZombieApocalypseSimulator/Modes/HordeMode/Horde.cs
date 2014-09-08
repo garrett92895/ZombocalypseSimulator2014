@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models.Characters;
 
 namespace ZombieApocalypseSimulator.Modes.HordeMode
 {
+    [Serializable()]
     public class Horde : INotifyPropertyChanged
     {
 

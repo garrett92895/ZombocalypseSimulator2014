@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
+    [Serializable()]
     public class HalfZombie : Player
     {
         public HalfZombie()

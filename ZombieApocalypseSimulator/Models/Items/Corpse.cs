@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models.Characters;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
+    [Serializable()]
     public class Corpse : Item
     {
         public Character OriginalCharacter { get; set; }

@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Characters;
 
 namespace ZombieApocalypseSimulator
 {
+    [Serializable()]
     public class CharacterStack : Stack<Character>
     {
         //public CharacterStack(int size)

@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models.Characters;
 
 namespace ZombieApocalypseSimulator.Modes.HordeMode
 {
+    [Serializable()]
     public class Wave : INotifyPropertyChanged
     {
         #region Properties
@@ -23,6 +24,7 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             {
                 _StartZedCount = value;
                 NotifyPropertyChanged("StartZedCount");
+                ResetWave();
             }
         }
 
@@ -51,6 +53,7 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             {
                 _NumberOfRounds = value;
                 NotifyPropertyChanged("NumberOfRounds");
+                ResetWave();
             }
         }
 
@@ -65,6 +68,7 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             {
                 _SpecialSpawnRate = value;
                 NotifyPropertyChanged("SpecialSpawnRate");
+                ResetWave();
             }
         }
 
@@ -93,6 +97,7 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             {
                 _BreakRounds = value;
                 NotifyPropertyChanged("BreakRounds");
+                ResetWave();
             }
         }
 
@@ -126,6 +131,12 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
                 SpecialSpawnRate = MaxSpecialSpawnRate;
             }
             BreakRoundCounter = 0;
+        }
+
+        private void ResetWave()
+        {
+            ZedCount = StartZedCount;
+            BreakRoundCounter = BreakRounds;
         }
 
         /// <summary>

@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
+    [Serializable()]
     public class Sloucher: Zed
     {
         public override bool CanDodge 
@@ -38,7 +39,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             PhysicalStrength = DieRoll.RollOne(11) + 19;
             PhysicalProwess = DieRoll.RollOne(6) + 1;
             PhysicalEndurance = DieRoll.RollOne(6) + 15;
-            Speed = DieRoll.RollOne(4) + 6;
+            Speed = DieRoll.RollOne(6) + 1;
 			MaxHealth = rollHP();
 			Health = MaxHealth;
 			MaxSDC = rollsdc();

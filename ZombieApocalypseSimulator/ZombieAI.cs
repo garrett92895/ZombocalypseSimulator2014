@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Characters.Classes;
 
 namespace ZombieApocalypseSimulator
 {
+    [Serializable()]
     public class ZombieAI
     {
         #region Properties

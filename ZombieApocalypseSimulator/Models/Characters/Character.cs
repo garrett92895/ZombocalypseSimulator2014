@@ -9,6 +9,7 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
+    [Serializable()]
     public abstract class Character : INotifyPropertyChanged, IComparable, IComparable<Character>
     {
 
@@ -69,7 +70,6 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
-       
         public virtual bool HasDodged
         {
             get

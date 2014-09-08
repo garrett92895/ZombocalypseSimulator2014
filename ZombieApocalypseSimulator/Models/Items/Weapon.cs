@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
+    [Serializable()]
 	public abstract class Weapon : Item
 	{
         private DieRoll _Damage;

@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
+    [Serializable()]
     public class FastAttack: Zed
     {
        public FastAttack()
@@ -16,7 +17,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             PhysicalStrength = DieRoll.RollOne(6) + 18;
             PhysicalProwess = DieRoll.RollOne(6) + 7;
             PhysicalEndurance = DieRoll.RollOne(6) + 15;
-            Speed = DieRoll.RollOne(7) + 16;
+            Speed = DieRoll.RollOne(6) + 1;
 			MaxSDC = rollsdc();
 			SDC = MaxSDC;
 			MaxHealth = rollHP();

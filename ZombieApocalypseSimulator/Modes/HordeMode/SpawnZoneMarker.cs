@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator.Modes.HordeMode
 {
+    [Serializable()]
     public class SpawnZoneMarker
     {
         public Coordinate TopLeft { get; set; }

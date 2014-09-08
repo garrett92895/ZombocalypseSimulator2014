@@ -10,6 +10,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters
 {
+    [Serializable()]
     public class Player : Character
     {
 

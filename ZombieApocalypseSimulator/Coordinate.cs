@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator
 {
+    [Serializable()]
     public class Coordinate
     {
         public int X { get; set; }

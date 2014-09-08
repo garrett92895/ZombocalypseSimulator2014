@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
+    [Serializable()]
 	public class SparePart : Item
 	{
         private DieRoll _AmountHealed;

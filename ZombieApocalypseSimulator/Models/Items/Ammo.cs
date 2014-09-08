@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
+    [Serializable()]
 	public class Ammo : Item
 	{
         public bool IsUsed { get; set; }

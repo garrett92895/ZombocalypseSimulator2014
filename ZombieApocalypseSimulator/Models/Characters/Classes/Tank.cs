@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Characters.Classes
 {
+    [Serializable()]
     public class Tank : Zed
     {
         public Tank()
@@ -16,7 +17,7 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             PhysicalStrength = DieRoll.RollOne(16) + 29;
             PhysicalProwess = DieRoll.RollOne(6) + 1;
             PhysicalEndurance = DieRoll.RollOne(6) + 15;
-            Speed = DieRoll.RollOne(4) + 6;
+            Speed = DieRoll.RollOne(6) + 1;
 			MaxSDC = rollsdc();
 			SDC = MaxSDC;
 			MaxHealth = rollHP();

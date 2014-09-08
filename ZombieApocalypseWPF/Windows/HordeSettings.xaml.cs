@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ZombieApocalypseSimulator.Modes.HordeMode;
 
-namespace TempProject
+namespace ZombieApocalypseWPF.Windows
 {
     /// <summary>
     /// Interaction logic for HordeSettings.xaml

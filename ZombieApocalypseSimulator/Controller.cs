@@ -42,6 +42,8 @@ namespace ZombieApocalypseSimulator
         FixWeapon,
         SetTrap
     }
+
+    [Serializable()]
     public class Controller
     {
 
@@ -82,8 +84,7 @@ namespace ZombieApocalypseSimulator
             TrapLocations = new List<Coordinate>();
             AI = new ZombieAI(true);
             HordeMode = new Horde(Width, Height);
-
-
+            HordeMode.IsActive = true;
         }
 
         public void Run()
@@ -148,9 +149,23 @@ namespace ZombieApocalypseSimulator
             {
                 CurrentPlayer = ZedOrder.Pop();
                 PlayNextTurnAI();
+                NextTurn();
             }
+            //Runs if the turn is over
             else
             {
+                if (HordeMode.IsActive)
+                {
+                    foreach (Character C in HordeMode.NextSpawns())
+                    {
+                        List<Coordinate> ViableSquares = new List<Coordinate>();
+                        foreach (SpawnZoneMarker SZM in HordeMode.SpawnMarkers)
+                        {
+                            ViableSquares.Add(Field.GetViableSquare(SZM.TopLeft, SZM.BottomRight));
+                        }
+                        AddCharacterToField(C, ViableSquares.ElementAt(DieRoll.RollOne(ViableSquares.Count) - 1));
+                    }
+                }
                 DetermineTurnOrder();
                 if (Players.Count > 0 || Zeds.Count > 0)
                 {

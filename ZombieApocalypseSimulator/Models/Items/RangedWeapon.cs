@@ -7,6 +7,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Models.Items
 {
+    [Serializable()]
 	public class RangedWeapon : Weapon
 	{
 		public RangedWeaponType RangedWeaponType { get; set; }

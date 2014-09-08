@@ -9,6 +9,7 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="New_Executed"/>
+        <CommandBinding Command="Save" Executed="Save_Executed"/>
         <CommandBinding Command="Open" Executed="Open_Executed"/>
         <CommandBinding Command="Close" Executed="Close_Executed"/>
     </Window.CommandBindings>
@@ -54,6 +55,7 @@
               Foreground="Firebrick">
                     <MenuItem Header="File">
                         <MenuItem Header="New" Command="New"/>
+                        <MenuItem Header="Save" Command="Save"/>
                         <MenuItem Header="Open" Command="Open"/>
                         <MenuItem Header="Close" Command="Close"/>
                         <MenuItem Header="Toggle Edit Mode..." Click="EditMode_Click" />
@@ -65,6 +67,7 @@
                         <MenuItem Header="Trap" Click="Item_Add"/>
                     </MenuItem>
                     <MenuItem Header="End Turn" Click="EndTurn_Click"/>
+                    <MenuItem Header="Horde Settings" Click="HordeSettings_Click"/>
                 </Menu>
 
                 <UniformGrid x:Name="Board"
@@ -72,9 +75,9 @@
                          Columns="15"
                          Grid.Row="1"
                          >
-                    <!--<UniformGrid.Background>
+                    <UniformGrid.Background>
                         <ImageBrush ImageSource="/Images/TestBackGround.jpg" />
-                    </UniformGrid.Background>-->
+                    </UniformGrid.Background>
 
                 </UniformGrid>
                 

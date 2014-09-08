@@ -10,7 +10,7 @@ using ZombieApocalypseSimulator.Models.Items;
 
 namespace ZombieApocalypseSimulator
 {
-
+    [Serializable()]
     public class GridSquare : INotifyPropertyChanged
     {
         public Coordinate Coordinate { get; set; }

@@ -21,7 +21,21 @@ namespace ZombieApocalypseSimulator
             NewPlayer.Money = 110;
             Coordinate Coor = new Coordinate(2, 3);
             c.AddCharacterToField(NewPlayer, Coor);
-            NewPlayer.Level += 100;
+            NewPlayer.Health -= 5;
+
+            Item H = new Health();
+            Coordinate H1Coor = new Coordinate(2,3);
+            c.AddItemToField(H, H1Coor);
+
+            Character NewMedic = new Medic();
+            Coordinate MedicCoor = new Coordinate(3, 3);
+            c.AddCharacterToField(NewMedic, MedicCoor);
+            NewMedic.Health -= 5;
+
+
+            Item H2 = new Health();
+            Coordinate H2Coor = new Coordinate(3, 3);
+            c.AddItemToField(H2, H2Coor);
 
             //Character Trader = new Trader(100);
             //Coordinate TraderCoor = new Coordinate(2, 2);

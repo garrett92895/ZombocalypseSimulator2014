@@ -1,7 +1,7 @@
-﻿<Window x:Class="TempProject.HordeSettings"
+﻿<Window x:Class="ZombieApocalypseWPF.Windows.HordeSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="HordeSettings" Height="300" Width="500">
+        Title="Horde Settings" Height="300" Width="500">
     <UniformGrid Rows="5" Columns="3">
         
         <Label>Zombies Per Wave</Label>
@@ -11,7 +11,7 @@
         
         <Label>Rounds Per Wave</Label>
         <Slider Value="{Binding Path=CurrentWave.NumberOfRounds}"
-                Minimum="0" Maximum="10"/>
+                Minimum="1" Maximum="10"/>
         <Label Content="{Binding Path=CurrentWave.NumberOfRounds}"/>
         
         <Label>Special Spawn Rate</Label>
