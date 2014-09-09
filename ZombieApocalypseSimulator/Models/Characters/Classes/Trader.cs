@@ -35,6 +35,11 @@ namespace ZombieApocalypseSimulator.Models.Characters.Classes
             HandgunAmmo = NewHandgunAmmo;
             RifleAmmo = NewRifleAmmo;
             ShotgunAmmo = NewShotgunAmmo;
+
+            for (int i = 0; i < 5; i++)
+            {
+                Items.Add(WeaponFactory.RandomWeapon());
+            }
         }
 
         /// <summary>
