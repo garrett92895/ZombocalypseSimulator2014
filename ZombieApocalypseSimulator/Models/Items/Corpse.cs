@@ -19,6 +19,7 @@ namespace ZombieApocalypseSimulator.Models.Items
         public Corpse(Character C)
         {
             OriginalCharacter = C;
+            Name = OriginalCharacter.Name + "'s Corpse";
             TurnCounter = 0;
             ReviveRoll = new DieRoll(1, 100);
         }

@@ -101,6 +101,8 @@ namespace ZombieApocalypseWPF
             NewPlayer1.Speed = 7;
             c.AddCharacterToField(NewPlayer1, Coor1);
 
+            c.Field.KillCharacter(NewPlayer1);
+
             Trader NewTrader = new Trader(200);
             Coordinate TraderCoor = new Coordinate(1, 1);
             c.AddCharacterToField(NewTrader, TraderCoor);
