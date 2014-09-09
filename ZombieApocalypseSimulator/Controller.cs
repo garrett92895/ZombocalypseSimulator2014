@@ -132,21 +132,24 @@ namespace ZombieApocalypseSimulator
         public void NextTurn()
         {
             if (PlayerOrder == null || ZedOrder == null)
-                return;
-            if (PlayerOrder.Count() != 0)
             {
-                CurrentPlayer = PlayerOrder.Pop();
+                return;
             }
-            else if (ZedOrder.Count() != 0)
+
             if (PlayerOrder.Count > 0)
             {
                 CurrentPlayer = PlayerOrder.Pop();
+                CurrentPlayer.MSquares = CurrentPlayer.squares();
             }
             else if (ZedOrder.Count > 0)
             {
+                for (int i = 0; i < 100; i++)
+                {
+                    Console.WriteLine("We done goofed : " + ZedOrder.Count);
+                }
                 CurrentPlayer = ZedOrder.Pop();
+                CurrentPlayer.MSquares = CurrentPlayer.squares();
                 PlayNextTurnAI();
-                NextTurn();
             }
             //Runs if the turn is over
             else
@@ -169,7 +172,6 @@ namespace ZombieApocalypseSimulator
                     NextTurn();
                 }
             }
-            CurrentPlayer.MSquares = CurrentPlayer.squares();
         }
         #endregion
 
