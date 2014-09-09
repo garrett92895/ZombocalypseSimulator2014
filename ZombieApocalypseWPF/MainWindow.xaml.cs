@@ -634,7 +634,10 @@ namespace ZombieApocalypseWPF
 
                 if ((input = OpenFile.OpenFile()) != null)
                 {
+                    c.Field.ClearBoard();
+                    this.Board.Children.Clear();
                     c.Load(OpenFile.FileName, input);
+                    PopulateBoard();
                 }
                 input.Close();
             }
