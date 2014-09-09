@@ -16,6 +16,7 @@ using ZombieApocalypseSimulator.Modes.HordeMode;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Collections.ObjectModel;
 namespace ZombieApocalypseSimulator
 {
     public enum ActionTypes
@@ -805,7 +806,7 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void PickUpItem()
         {
-            List<Item> ItemsInSquare = Field.GetItemsInSquare(CurrentPlayer.Location);
+            ObservableCollection<Item> ItemsInSquare = Field.GetItemsInSquare(CurrentPlayer.Location);
             List<string> ItemNames = new List<string>();
 
             for (int i = 0; i < ItemsInSquare.Count(); i++)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,7 @@ namespace ZombieApocalypseSimulator
         /// <param name="NewItemList"></param>
         /// <param name="NewTrap"></param>
         /// <param name="NewOccupiable"></param>
-        public GridSquare(int NewX, int NewY, Character NewCharacter = null, List<Item> NewItemList = null,
+        public GridSquare(int NewX, int NewY, Character NewCharacter = null, ObservableCollection<Item> NewItemList = null,
             Trap NewTrap = null, bool NewOccupiable = true)
         {
             Coordinate = new Coordinate(NewX, NewY);
@@ -36,7 +37,7 @@ namespace ZombieApocalypseSimulator
             OccupyingCharacter = NewCharacter;
             if (NewItemList == null)
             {
-                NewItemList = new List<Item>();
+                NewItemList = new ObservableCollection<Item>();
             }
             ItemList = NewItemList;
             ActiveTrap = NewTrap;
@@ -62,14 +63,14 @@ namespace ZombieApocalypseSimulator
             }
         }
 
-        private List<Item> _ItemList;
+        private ObservableCollection<Item> _ItemList;
         /// <summary>
         /// Stores all of the Items that are located in this GridSquare in a List.
         /// If no items are located in this GridSquare than this will be an empty List, this should never be null.
         /// If this GridSquare is closed, meaning that the IsOccupiable property is set to false, then the ItemList will be reset to an empty ItemList.
         /// Will not allow for the ItemList to be set to a new List if this GridSquare is not occupiable.
         /// </summary>
-        public List<Item> ItemList
+        public ObservableCollection<Item> ItemList
         {
             get
             { return _ItemList; }

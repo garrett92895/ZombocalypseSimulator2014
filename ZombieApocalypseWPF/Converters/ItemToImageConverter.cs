@@ -18,7 +18,7 @@ namespace ZombieApocalypseWPF.Converters
 
             Uri uri = null;
             if (value is IEnumerable<Item>)
-                if (((List<Item>)value).Count > 0)
+                if (((ObservableCollection<Item>)value).Count > 0)
                     uri = new Uri("Images/ItemImages/Items.png", UriKind.Relative);
 
             if (value is Trap)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -167,9 +168,9 @@ namespace ZombieApocalypseSimulator
         /// <param name="TargetX"></param>
         /// <param name="TargetY"></param>
         /// <returns></returns>
-        public List<Item> GetItemsInSquare(Coordinate Location)
+        public ObservableCollection<Item> GetItemsInSquare(Coordinate Location)
         {
-            List<Item> Items = new List<Item>();
+            ObservableCollection<Item> Items = new ObservableCollection<Item>();
             try
             {
                 GridSquare Square = GetGridSquareAt(Location);
@@ -262,9 +263,10 @@ namespace ZombieApocalypseSimulator
                 {
                     RemoveCharacterFromSquare(C);
                     AddCharacterToSquare(C, Destination);
-                    List<Item> ItemsInSquare = GetItemsInSquare(Destination);
+                    ObservableCollection<Item> ItemsInSquare = GetItemsInSquare(Destination);
                     if (C is Player)
                     {
+                        Console.WriteLine("Start : " + ItemsInSquare.Count);
                         foreach (Item I in ItemsInSquare)
                         {
                             if (I.GetType() == typeof(Item))
@@ -316,7 +318,10 @@ namespace ZombieApocalypseSimulator
             {
                 if (C.Items != null)
                 {
-                    Target.ItemList.AddRange(C.Items);
+                    foreach (Item I in C.Items)
+                    {
+                        Target.ItemList.Add(I);
+                    }
                 }
             }
 
@@ -805,7 +810,11 @@ namespace ZombieApocalypseSimulator
 
         public int Distance(Coordinate Location, Coordinate Destination)
         {
-            return (int) Math.Sqrt((Math.Pow(Location.X - Destination.X, 2) + Math.Pow(Location.Y - Destination.Y, 2)));
+            if (Location != null && Destination != null)
+            {
+                return (int)Math.Sqrt((Math.Pow(Location.X - Destination.X, 2) + Math.Pow(Location.Y - Destination.Y, 2)));
+            }
+            return -1;
         }
         #endregion
 

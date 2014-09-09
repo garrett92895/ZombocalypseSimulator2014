@@ -91,6 +91,7 @@ namespace ZombieApocalypseWPF
 
             Player NewPlayer1 = new Engineer();
             Coordinate Coor1 = new Coordinate(2, 2);
+            NewPlayer1.Health -= 5;
             NewPlayer1.Speed = 7;
             c.AddCharacterToField(NewPlayer1, Coor1);
 
@@ -158,12 +159,11 @@ namespace ZombieApocalypseWPF
                     CharRec.SetBinding(Rectangle.HeightProperty, HeightBind);
                     CharRec.SetBinding(Rectangle.WidthProperty, WidthBind);
 
-
                     Rectangle ItemRec = new Rectangle();
                     Binding ItemBind = new Binding("ItemList");
-                    ItemBind.Source = c.Field.GridSquares[i, j];
+                    ItemBind.Source = c.Field.GetGridSquareAt(new Coordinate(i, j));
                     ItemBind.Converter = new ItemToImageConverter();
-                    ItemRec.SetBinding(Rectangle.FillProperty, ItemBind);
+                    ItemRec.SetBinding(Rectangle.FillProperty, ItemBind); //Issues here
                     ItemRec.SetBinding(Rectangle.HeightProperty, HeightBind);
                     ItemRec.SetBinding(Rectangle.WidthProperty, WidthBind);
 
