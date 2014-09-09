@@ -15,7 +15,6 @@ namespace ZombieApocalypseWPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-
             Uri uri = null;
             if (value is IEnumerable<Item>)
                 if (((ObservableCollection<Item>)value).Count > 0)
