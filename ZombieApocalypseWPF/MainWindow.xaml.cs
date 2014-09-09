@@ -86,8 +86,14 @@ namespace ZombieApocalypseWPF
             Character NewPlayer = new Fighter();
             Coordinate Coor = new Coordinate(8, 2);
             c.AddCharacterToField(NewPlayer, Coor);
-            NewPlayer.Speed = 1;
+            NewPlayer.Speed = 3;
             SelectedPlayer = (Player)NewPlayer;
+
+
+            Character NewPlayer2 = new Rifleman();
+            Coordinate Coor2 = new Coordinate(3, 2);
+            c.AddCharacterToField(NewPlayer, Coor);
+            NewPlayer2.Speed = 3;
 
             Player NewPlayer1 = new Engineer();
             Coordinate Coor1 = new Coordinate(2, 2);
@@ -105,9 +111,13 @@ namespace ZombieApocalypseWPF
             c.AddCharacterToField(Zed3, ZedCoor3);
             SelectedZombie = (Zed)Zed3;
 
-            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            Weapon Gun = WeaponFactory.GetInstance("Trogdor Gun|Ranged|Shotgun|80|3d6|4");
             Coordinate GunCoor = new Coordinate(3, 3);
             c.AddItemToField(Gun, GunCoor);
+
+            Weapon v = WeaponFactory.GetInstance("Consumate V|Melee|Slash|80|3d6|4");
+            Coordinate vCoor = new Coordinate(3, 3);
+            c.AddItemToField(v, vCoor);
 
             //Trap akbar = new Trap { Damage = new DieRoll(1, 2, 3, 4), Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
             //c.AddTrapToField(akbar, new Coordinate(5, 4));
@@ -442,17 +452,69 @@ namespace ZombieApocalypseWPF
             switch (e.Key)
             {
                 case Key.W:
-                    MoveTo = new Coordinate(LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y);
+                    if ( (c.Field.GridSquares[LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y].OccupyingCharacter is Zed && LastCharacterSelected is Player)
+                        || (c.Field.GridSquares[LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y].OccupyingCharacter is Player && LastCharacterSelected is Zed))
+                    {
+                        if (LastCharacterSelected is Zed)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y].OccupyingCharacter);
+                        else if (((Player)LastCharacterSelected).EquippedWeapon is MeleeWeapon)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y].OccupyingCharacter);
+                        else
+                            c.RangedAttack(ActionTypes.AimedRangedAttack, c.Field.GridSquares[LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y].OccupyingCharacter);
+                    }
+                    else
+                        MoveTo = new Coordinate(LastCharacterSelected.Location.X - 1, LastCharacterSelected.Location.Y);
                     break;
                 case Key.A:
-                    MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1);
+
+                    if ((c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1].OccupyingCharacter is Zed && LastCharacterSelected is Player)
+                        || (c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1].OccupyingCharacter is Player && LastCharacterSelected is Zed))
+                    {
+                        if (LastCharacterSelected is Zed)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1].OccupyingCharacter);
+                        else if (((Player)LastCharacterSelected).EquippedWeapon is MeleeWeapon)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1].OccupyingCharacter);
+                        else
+                            c.RangedAttack(ActionTypes.AimedRangedAttack, c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1].OccupyingCharacter);
+                    }
+                    else
+                        MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y - 1);
+
                     break;
                 case Key.S:
-                    MoveTo = new Coordinate(LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y);
+                    
+                    if ((c.Field.GridSquares[LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y].OccupyingCharacter is Zed && LastCharacterSelected is Player)
+                        || (c.Field.GridSquares[LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y].OccupyingCharacter is Player && LastCharacterSelected is Zed))
+                    {
+                        if (LastCharacterSelected is Zed)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y].OccupyingCharacter);
+                        else if (((Player)LastCharacterSelected).EquippedWeapon is MeleeWeapon)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y].OccupyingCharacter);
+                        else
+                            c.RangedAttack(ActionTypes.AimedRangedAttack, c.Field.GridSquares[LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y].OccupyingCharacter);
+                    }
+                    else
+                        MoveTo = new Coordinate(LastCharacterSelected.Location.X + 1, LastCharacterSelected.Location.Y);
+
                     break;
                 case Key.D:
+
+                    if ((c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1].OccupyingCharacter is Zed && LastCharacterSelected is Player)
+                        || (c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1].OccupyingCharacter is Player && LastCharacterSelected is Zed))
+                    {
+                        if (LastCharacterSelected is Zed)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1].OccupyingCharacter);
+                        else if (((Player)LastCharacterSelected).EquippedWeapon is MeleeWeapon)
+                            c.MeleeAttack(c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1].OccupyingCharacter);
+                        else
+                            c.RangedAttack(ActionTypes.AimedRangedAttack, c.Field.GridSquares[LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1].OccupyingCharacter);
+                    }
+                    else
+                        MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1);
+
                     MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1);
                     break;
+
                 case Key.Enter:
                     EndTurn_Click(this, null);
                     break;
