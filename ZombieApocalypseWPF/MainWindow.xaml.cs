@@ -89,26 +89,26 @@ namespace ZombieApocalypseWPF
             //NewPlayer.Speed = 1;
             //SelectedPlayer = (Player)NewPlayer;
 
-            Player NewPlayer1 = new Engineer();
-            Coordinate Coor1 = new Coordinate(2, 2);
-            NewPlayer1.Health -= 5;
-            NewPlayer1.Speed = 7;
-            c.AddCharacterToField(NewPlayer1, Coor1);
+            //Player NewPlayer1 = new Engineer();
+            //Coordinate Coor1 = new Coordinate(2, 2);
+            //NewPlayer1.Health -= 5;
+            //NewPlayer1.Speed = 7;
+            //c.AddCharacterToField(NewPlayer1, Coor1);
 
 
 
-            Character Zed3 = ZedFactory.GetInstance("Shank");
-            Coordinate ZedCoor3 = new Coordinate(5, 5);
-            Zed3.Speed = 7;
-            c.AddCharacterToField(Zed3, ZedCoor3);
-            SelectedZombie = (Zed)Zed3;
+            //Character Zed3 = ZedFactory.GetInstance("Shank");
+            //Coordinate ZedCoor3 = new Coordinate(5, 5);
+            //Zed3.Speed = 7;
+            //c.AddCharacterToField(Zed3, ZedCoor3);
+            //SelectedZombie = (Zed)Zed3;
 
-            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
-            Coordinate GunCoor = new Coordinate(3, 3);
-            c.AddItemToField(Gun, GunCoor);
+            //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            //Coordinate GunCoor = new Coordinate(3, 3);
+            //c.AddItemToField(Gun, GunCoor);
 
-            Trap akbar = new Trap { Damage = new DieRoll(1, 2, 3, 4), Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
-            c.AddTrapToField(akbar, new Coordinate(5, 4));
+            //Trap akbar = new Trap { Damage = new DieRoll(1, 2, 3, 4), Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
+            //c.AddTrapToField(akbar, new Coordinate(5, 4));
 
             CharacterComboBox.ItemsSource = c.Players;
             CharacterComboBox.SelectionChanged += PlayerComboBox_SelectionChanged;
@@ -121,8 +121,8 @@ namespace ZombieApocalypseWPF
 
             c.AI.IntelligentAI = false;
 
-            c.DetermineTurnOrder();
-            c.NextTurn();
+            //c.DetermineTurnOrder();
+            //c.NextTurn();
 
             settings.CanEdit = false;
             settings.ShowBattleScene = false;
@@ -291,22 +291,25 @@ namespace ZombieApocalypseWPF
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
 
+            if (tempgq.OccupyingCharacter == null || LastCharacterSelected == null)
+                return;
+
             if(!settings.CanEdit && LastCharacterSelected == c.CurrentPlayer)
             {
                 if(LastCharacterSelected is Player && tempgq.OccupyingCharacter is Zed)
                 {
-                    if ((c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
+                    if ((c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)) && ((Player)LastCharacterSelected).EquippedWeapon is MeleeWeapon)
                         c.MeleeAttack(tempgq.OccupyingCharacter);
-                    else
+                    else if (((Player)LastCharacterSelected).EquippedWeapon is RangedWeapon)
                         c.RangedAttack(ActionTypes.AimedRangedAttack, tempgq.OccupyingCharacter);
 
                 }
-                else if(LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player)
+                else if(LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player && (c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
                 {
                     c.MeleeAttack(tempgq.OccupyingCharacter);
                 }
             }
-            if (settings.EnforceTurnOrder)
+            else if (settings.EnforceTurnOrder)
             {
                 if (tempgq.OccupyingCharacter is Zed)
                     SelectedZombie = (Zed)tempgq.OccupyingCharacter;
@@ -427,6 +430,9 @@ namespace ZombieApocalypseWPF
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             Coordinate MoveTo = null;
+            if (LastCharacterSelected == null)
+                return;
+            
             switch (e.Key)
             {
                 case Key.W:
@@ -612,7 +618,8 @@ namespace ZombieApocalypseWPF
                     return;
 
                 c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
-                c.PlayerOrder.Push(NewCharacter);
+                if (c.PlayerOrder != null)
+                    c.PlayerOrder.Push(NewCharacter);
 
                 NewCharacter = null;
 
@@ -640,7 +647,8 @@ namespace ZombieApocalypseWPF
                     return;
 
                 c.AddCharacterToField(NewCharacter, new Coordinate(xCoor, yCoor));
-                c.ZedOrder.Push(NewCharacter);
+                if (c.ZedOrder != null)
+                    c.ZedOrder.Push(NewCharacter);
                 NewCharacter = null;
 
                 xCoor = -9;

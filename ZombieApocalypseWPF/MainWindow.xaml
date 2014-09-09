@@ -6,7 +6,8 @@
         KeyDown="Window_KeyDown"
         Title="Zombie Apocalypse"
         Icon="Images/ZAIcon.png"
-        x:Name="GameWindow">
+        x:Name="GameWindow"
+        Background="Black">
 
     <Window.CommandBindings>
         <CommandBinding Command="New" Executed="New_Executed"/>
@@ -15,7 +16,11 @@
         <CommandBinding Command="Close" Executed="Close_Executed"/>
         <CommandBinding Command="Save" Executed="Save_Executed"/>
     </Window.CommandBindings>
-    
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextElement.Foreground" Value="Firebrick" />
+        </Style>
+    </Window.Resources>
     <Grid>
 
         <Grid Grid.Row="1">
@@ -53,7 +58,8 @@
                     <RowDefinition Height="1*" />
 
                 </Grid.RowDefinitions>
-                <Menu Background="Black"
+                
+                <Menu Background="Transparent"
               Foreground="Firebrick">
                     <MenuItem Header="File">
                         <MenuItem Header="New" Command="New"/>
@@ -74,6 +80,7 @@
                     <MenuItem Header="Horde Settings" Click="HordeSettings_Click"/>
                 </Menu>
 
+                
                 <UniformGrid x:Name="Board"
                          Rows="15"
                          Columns="15"

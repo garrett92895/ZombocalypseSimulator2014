@@ -113,7 +113,7 @@ namespace ZombieApocalypseSimulator
         /// <returns></returns>
         public GridSquare GetGridSquareAt(Coordinate Location)
         {
-            if (Location.X >= 0 && Location.X < Width && Location.Y >= 0 && Location.Y < Height)
+            if ((Location != null) && Location.X >= 0 && Location.X < Width && Location.Y >= 0 && Location.Y < Height)
             {
                 return GridSquares[Location.X, Location.Y];
             }
@@ -381,7 +381,16 @@ namespace ZombieApocalypseSimulator
             //}
             
             //Moves.Distinct(new LocationComparer());
-            return AvailableMoves(C.Location, C.MSquares * 10, OriginalType);
+            try
+            {
+                return AvailableMoves(C.Location, C.MSquares * 10, OriginalType);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return new List<Coordinate>();
         }
 
         /// <summary>

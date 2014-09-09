@@ -129,6 +129,9 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         public void NextTurn()
         {
+            if (PlayerOrder == null || ZedOrder == null)
+                return;
+
             if (PlayerOrder.Count() != 0)
             {
                 CurrentPlayer = PlayerOrder.Pop();

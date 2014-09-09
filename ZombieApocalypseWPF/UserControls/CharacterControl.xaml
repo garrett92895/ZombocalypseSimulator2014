@@ -10,7 +10,7 @@
         <Style TargetType="Label">
             <Setter Property="TextElement.Foreground" Value="Firebrick" />
             <Setter Property="TextElement.FontWeight" Value="SemiBold" />
-            <Setter Property="TextElement.FontSize" Value="15" />
+            <Setter Property="TextElement.FontSize" Value="16" />
         </Style>
     </UserControl.Resources>
     <StackPanel>
