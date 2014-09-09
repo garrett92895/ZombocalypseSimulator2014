@@ -92,7 +92,7 @@ namespace ZombieApocalypseWPF
 
             Character NewPlayer2 = new Rifleman();
             Coordinate Coor2 = new Coordinate(3, 2);
-            c.AddCharacterToField(NewPlayer, Coor);
+            c.AddCharacterToField(NewPlayer2, Coor2);
             NewPlayer2.Speed = 3;
 
             Player NewPlayer1 = new Engineer();
@@ -331,11 +331,13 @@ namespace ZombieApocalypseWPF
                 else if (LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player && LastCharacterSelected.Equals(c.CurrentPlayer) && (c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
                 {
                     c.MeleeAttack(tempgq.OccupyingCharacter);
+                    
                 }
+                return;
             }
 
             // Determines actions when settings is enforcing turn order
-            else if (settings.EnforceTurnOrder)
+            if (settings.EnforceTurnOrder)
             {
                 if (tempgq.OccupyingCharacter is Zed)
                     SelectedZombie = (Zed)tempgq.OccupyingCharacter;
