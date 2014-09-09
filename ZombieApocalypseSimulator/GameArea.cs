@@ -324,7 +324,6 @@ namespace ZombieApocalypseSimulator
                     }
                 }
             }
-
             Target.OccupyingCharacter = null;
         }
 

@@ -74,7 +74,7 @@ namespace ZombieApocalypseSimulator
             ZedOrder = new CharacterStack();
             AI = new ZombieAI(true);
             HordeMode = new Horde(Width, Height);
-            HordeMode.IsActive = true;
+            HordeMode.IsActive = false;
         }
 
         public void Run()
@@ -660,6 +660,7 @@ namespace ZombieApocalypseSimulator
         /// </summary>
         private void KillDeadCharacters()
         {
+           List<Player> RemovePlayers = new List<Player>();
            foreach (Player P in Players)
            {
                if (P.Health <= 0)
@@ -667,18 +668,27 @@ namespace ZombieApocalypseSimulator
                    CorpseSquares.Add(P.Location);
                    Field.KillCharacter(P);
                    PlayerOrder.RemoveCharacter(P);
+                   RemovePlayers.Add(P);
                }
            }
+           foreach (Player P in RemovePlayers)
+           {
+               Players.Remove(P);
+           }
+           List<Zed> RemoveZeds = new List<Zed>();
            foreach (Zed z in Zeds)
            {
                if (z.Health <= 0)
                {
-                   CorpseSquares.Add(z.Location);
                    Field.KillCharacter(z);
                    ZedOrder.RemoveCharacter(z);
+                   RemoveZeds.Add(z);
                }
            }
-            
+           foreach (Zed z in RemoveZeds)
+           {
+               Zeds.Remove(z);
+           }            
         }
 
         //Returns the next turn's character and removes it from the stack
