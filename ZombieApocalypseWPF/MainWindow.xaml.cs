@@ -131,6 +131,7 @@ namespace ZombieApocalypseWPF
             settings.CanEdit = false;
             settings.ShowBattleScene = false;
             settings.EnforceTurnOrder = true;
+            PaintMoves();
         }
 
 
