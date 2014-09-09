@@ -176,7 +176,7 @@ namespace ZombieApocalypseSimulator
                 PropertyChanged(this, new PropertyChangedEventArgs(Info));
             }
         }
-
+        [field:NonSerialized () ]
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

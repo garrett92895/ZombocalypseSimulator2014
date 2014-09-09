@@ -182,6 +182,7 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             }
         }
 
+        [field:NonSerialized () ]
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

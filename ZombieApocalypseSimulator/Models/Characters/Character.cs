@@ -469,6 +469,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             }
         }
 
+        [field:NonSerialized () ]
         public event PropertyChangedEventHandler PropertyChanged;
 
 

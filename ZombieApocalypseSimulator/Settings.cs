@@ -79,6 +79,7 @@ namespace ZombieApocalypseSimulator
             ShowBattleScene = true;
         }
 
+        [field:NonSerialized () ]
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(String Info)

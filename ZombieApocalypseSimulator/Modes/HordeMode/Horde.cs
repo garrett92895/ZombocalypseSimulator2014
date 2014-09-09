@@ -80,6 +80,7 @@ namespace ZombieApocalypseSimulator.Modes.HordeMode
             return CurrentWave.NextSpawns();
         }
 
+        [field:NonSerialized () ]
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(string Info)

@@ -8,6 +8,7 @@ using ZombieApocalypseSimulator.Models.Items.Enums;
 
 namespace ZombieApocalypseSimulator.Factories
 {
+    [Serializable()]
     public static class WeaponFactory
     {
         public static Weapon RandomWeapon()

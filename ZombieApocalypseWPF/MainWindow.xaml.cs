@@ -556,7 +556,7 @@ namespace ZombieApocalypseWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDialog OpenFile = new OpenFileDialog();
             OpenFile.Filter = "Saved Games|*.zombieapoc";
@@ -567,7 +567,7 @@ namespace ZombieApocalypseWPF
 
                 if ((input = OpenFile.OpenFile()) != null)
                 {
-                    c = (Controller) bf.Deserialize(input);
+                    c.Load(OpenFile.FileName);
                 }
                 input.Close();
             }
@@ -602,15 +602,15 @@ namespace ZombieApocalypseWPF
 
             if (SaveFile.ShowDialog() == true)
             {
-                BinaryFormatter bf = new BinaryFormatter();
                 Stream output = File.Create(SaveFile.FileName);
 
                 if (output != null)
                 {
-                    bf.Serialize(output, c);
+                    c.Save(SaveFile.FileName, output);
                     output.Flush();
                     output.Close();
                 }
+                
             }
         }
 
