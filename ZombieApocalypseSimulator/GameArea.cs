@@ -267,7 +267,6 @@ namespace ZombieApocalypseSimulator
                     ObservableCollection<Item> ItemsInSquare = GetItemsInSquare(Destination);
                     if (C is Player)
                     {
-                        Console.WriteLine("Start : " + ItemsInSquare.Count);
                         foreach (Item I in ItemsInSquare)
                         {
                             if (I.GetType() == typeof(Item))

@@ -89,11 +89,11 @@ namespace ZombieApocalypseWPF
             NewPlayer.Speed = 1;
             SelectedPlayer = (Player)NewPlayer;
 
-            //Player NewPlayer1 = new Engineer();
-            //Coordinate Coor1 = new Coordinate(2, 2);
-            //NewPlayer1.Health -= 5;
-            //NewPlayer1.Speed = 7;
-            //c.AddCharacterToField(NewPlayer1, Coor1);
+            Player NewPlayer1 = new Engineer();
+            Coordinate Coor1 = new Coordinate(2, 2);
+            NewPlayer1.Health -= 5;
+            NewPlayer1.Speed = 7;
+            c.AddCharacterToField(NewPlayer1, Coor1);
 
             Trader NewTrader = new Trader(200);
             Coordinate TraderCoor = new Coordinate(1, 1);
@@ -298,7 +298,7 @@ namespace ZombieApocalypseWPF
             //Actions if the game is in normal mode and the currently selected player is the current player
             if(!settings.CanEdit && LastCharacterSelected == c.CurrentPlayer && LastCharacterSelected.MSquares >= 3)
             {
-                if(LastCharacterSelected is Player && LastCharacterSelected.Equals(c.CurrentPlayer) && tempgq.OccupyingCharacter is Zed)
+                if(LastCharacterSelected is Player && LastCharacterSelected == c.CurrentPlayer && tempgq.OccupyingCharacter is Zed)
                 {
                     if ((c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)) && ((Player)LastCharacterSelected).EquippedWeapon is MeleeWeapon)
                         c.MeleeAttack(tempgq.OccupyingCharacter);
@@ -306,12 +306,19 @@ namespace ZombieApocalypseWPF
                         c.RangedAttack(ActionTypes.AimedRangedAttack, tempgq.OccupyingCharacter);
 
                 }
-                else if(LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player && LastCharacterSelected.Equals(c.CurrentPlayer) && (c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
+                else if (LastCharacterSelected == c.CurrentPlayer && tempgq.IsOccupiable == true && tempgq.OccupyingCharacter == null)
+                {
+                    int MoveCost = c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
+                    if (LastCharacterSelected.MSquares >= MoveCost)
+                    {
+                        LastCharacterSelected.MSquares -= MoveCost;
+                        c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
+                    }
+                }
+                else if (LastCharacterSelected is Zed && tempgq.OccupyingCharacter is Player && LastCharacterSelected.Equals(c.CurrentPlayer) && (c.Field.AdjacentCharacters(LastCharacterSelected, false).Contains(tempgq.OccupyingCharacter)))
                 {
                     c.MeleeAttack(tempgq.OccupyingCharacter);
                 }
-
-
             }
 
             // Determines actions when settings is enforcing turn order
@@ -326,7 +333,6 @@ namespace ZombieApocalypseWPF
                     && SelectedZombie.Equals(LastCharacterSelected))
                 {
                     LastCharacterSelected = SelectedZombie;
-                    PaintMoves();
                 }
                 else if(SelectedPlayer != null
                     && SelectedPlayer.Equals(LastCharacterSelected))
@@ -338,7 +344,6 @@ namespace ZombieApocalypseWPF
                     {
                         c.CurrentPlayer.MSquares -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
                         MoveCharacter(tempgq.Coordinate);
-                        PaintMoves();
                     }
                 }
                 else
@@ -377,18 +382,11 @@ namespace ZombieApocalypseWPF
             PaintMoves();
         }
 
-        public void PaintMoves()
-        {
-            LastCharacterSelectedHighlightMoves();
-
-        }
-
         /// <summary>
         /// Highlights parts of the board that can be moved to by the currently selected character
         /// </summary>
-        private void LastCharacterSelectedHighlightMoves()
+        public void PaintMoves()
         {
-
             BoardOverlay.Children.Clear();
             List<Coordinate> possMoves = c.Field.PossibleMovesForCharacter(LastCharacterSelected);
             List<Character> possAttacks = new List<Character>();
@@ -456,7 +454,7 @@ namespace ZombieApocalypseWPF
                     MoveTo = new Coordinate(LastCharacterSelected.Location.X, LastCharacterSelected.Location.Y + 1);
                     break;
                 case Key.Enter:
-                    c.NextTurn();
+                    EndTurn_Click(this, null);
                     break;
             }
             if (MoveTo != null)
@@ -703,7 +701,6 @@ namespace ZombieApocalypseWPF
                 //SelectedPlayer = null;
                 //SelectedZombie = null;
                 LastCharacterSelected = c.CurrentPlayer;
-                PaintMoves();
             }
         }
 

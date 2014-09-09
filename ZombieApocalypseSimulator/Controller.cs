@@ -70,6 +70,8 @@ namespace ZombieApocalypseSimulator
             Players = new List<Character>();
             CorpseSquares = new List<Coordinate>();
             TrapLocations = new List<Coordinate>();
+            PlayerOrder = new CharacterStack();
+            ZedOrder = new CharacterStack();
             AI = new ZombieAI(true);
             HordeMode = new Horde(Width, Height);
             HordeMode.IsActive = true;
@@ -131,7 +133,6 @@ namespace ZombieApocalypseSimulator
         {
             if (PlayerOrder == null || ZedOrder == null)
                 return;
-
             if (PlayerOrder.Count() != 0)
             {
                 CurrentPlayer = PlayerOrder.Pop();
