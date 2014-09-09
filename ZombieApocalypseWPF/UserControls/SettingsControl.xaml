@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="300">
+             d:DesignHeight="200" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="TextElement.Foreground" Value="Firebrick" />
@@ -39,14 +39,16 @@
                         <CheckBox HorizontalAlignment="Left"
                                   VerticalAlignment="Center"
                                   Margin="10"
-                                  x:Name="HordeCheck"></CheckBox>
+                                  x:Name="HordeCheck"
+                                  IsChecked="{Binding c.HordeMode.IsActive}"
+                                  ></CheckBox>
                         <Label HorizontalAlignment="Right"
                                VerticalAlignment="Center"
                                Margin="0">Intelligent AI</Label>
                         <CheckBox HorizontalAlignment="Left"
                                   VerticalAlignment="Center"
                                   Margin="10"
-                                  IsChecked="{Binding c.HordeMode.IsActive}"></CheckBox>
+                                  IsChecked="{Binding c.AI.IntelligentAI}"></CheckBox>
                     </UniformGrid>
 
                     <Button HorizontalAlignment="Center"
