@@ -74,7 +74,7 @@ namespace ZombieApocalypseSimulator
             ZedOrder = new CharacterStack();
             AI = new ZombieAI(true);
             HordeMode = new Horde(Width, Height);
-            HordeMode.IsActive = false;
+            HordeMode.IsActive = true;
         }
 
         public void Run()
