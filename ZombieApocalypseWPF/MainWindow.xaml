@@ -77,7 +77,6 @@
                         <MenuItem Header="Trap" Click="Item_Add"/>
                     </MenuItem>
                     <MenuItem Header="End Turn" Click="EndTurn_Click"/>
-                    <MenuItem Header="Horde Settings" Click="HordeSettings_Click"/>
                 </Menu>
 
                 
