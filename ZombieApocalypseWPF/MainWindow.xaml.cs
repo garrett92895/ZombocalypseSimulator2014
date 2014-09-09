@@ -31,8 +31,8 @@ namespace ZombieApocalypseWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Controller c;
-        public Settings settings;
+		public Controller c { get; set; }
+		public Settings settings { get; set; }
         private Character LastCharacterSelected;
         private Player _selectedPlayer;
         public Player SelectedPlayer
@@ -292,7 +292,6 @@ namespace ZombieApocalypseWPF
         {
             Canvas tempc = (Canvas)sender;
             GridSquare tempgq = (GridSquare)tempc.Resources["Square"];
-
             //Actions if the game is in normal mode and the currently selected player is the current player
             if(!settings.CanEdit && LastCharacterSelected == c.CurrentPlayer && LastCharacterSelected.MSquares >= 3)
             {
@@ -308,6 +307,8 @@ namespace ZombieApocalypseWPF
                 {
                     c.MeleeAttack(tempgq.OccupyingCharacter);
                 }
+
+
             }
             // Determines actions when settings is enforcing turn order
             else if (settings.EnforceTurnOrder)
@@ -340,7 +341,7 @@ namespace ZombieApocalypseWPF
                 {
                     if(LastCharacterSelected == c.CurrentPlayer)
                     {
-                        c.CurrentPlayer.MSquares -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
+						c.CurrentPlayer.MSquares -= c.Field.ShortestPathCost(LastCharacterSelected, tempgq.Coordinate);
                         c.Field.MoveCharacterToSquare(LastCharacterSelected, tempgq.Coordinate);
                         MoveCharacter(tempgq.Coordinate);
                     }
@@ -692,6 +693,7 @@ namespace ZombieApocalypseWPF
             if (settings.EnforceTurnOrder)
             {
                 c.NextTurn();
+                Console.WriteLine(c.CurrentPlayer);
                 //SelectedPlayer = null;
                 //SelectedZombie = null;
                 LastCharacterSelected = c.CurrentPlayer;
@@ -703,6 +705,7 @@ namespace ZombieApocalypseWPF
         {
             SettingsWindow sw = new SettingsWindow();
             sw.SettingsControl.w = this;
+			sw.SettingsControl.init();
             sw.Show();
 
         }

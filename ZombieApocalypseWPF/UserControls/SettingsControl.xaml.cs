@@ -32,7 +32,7 @@ namespace ZombieApocalypseWPF.UserControls
             set
             {
                 this._w = value;
-                this.DataContext = w.settings;
+                this.DataContext = w;
             }
         }
         public SettingsControl()
@@ -40,8 +40,12 @@ namespace ZombieApocalypseWPF.UserControls
             InitializeComponent();
             LastSliderDecremented = "";
             this.DataContext = w;
-            
         }
+
+		public void init()
+		{
+			GameModesCombo.SelectedIndex = GetIndexFromSettings();
+		}
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -55,16 +59,19 @@ namespace ZombieApocalypseWPF.UserControls
                     {
                         w.settings.CanEdit = false;
                         w.settings.EnforceTurnOrder = true;
+						GameModesCombo.SelectedIndex = 0;
                     }
                     else if (ItemSelected == 1)
                     {
                         w.settings.CanEdit = true;
                         w.settings.EnforceTurnOrder = true;
+						GameModesCombo.SelectedIndex = 1;
                     }
                     else
                     {
                         w.settings.CanEdit = true;
                         w.settings.EnforceTurnOrder = false;
+						GameModesCombo.SelectedIndex = 2;
                     }
                 }
             }
@@ -214,21 +221,33 @@ namespace ZombieApocalypseWPF.UserControls
             return Next;
         }
 
+		private int GetIndexFromSettings()
+		{
+			int Index = 0;
+
+			if (w != null && w.settings != null)
+			{
+				if (w.settings.CanEdit)
+				{
+					if (w.settings.EnforceTurnOrder)
+					{
+						Index = 1;
+					}
+					else
+					{
+						Index = 2;
+					}
+				}
+			}
+
+			return Index;
+		}
+
         private int SumValue()
         {
             int value = (int)(Weapon.Value + Ammo.Value + SpareParts.Value + Health.Value);
             Console.WriteLine(value);
             return value;
-        }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            w.c.HordeMode.IsActive = (bool)HordeCheck.IsChecked;
-        }
-
-        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
-        {
-            w.c.AI.IntelligentAI = (bool)IntelligentCheck.IsChecked;
         }
     }
 }

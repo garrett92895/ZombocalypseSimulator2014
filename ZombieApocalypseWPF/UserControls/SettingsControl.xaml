@@ -27,7 +27,6 @@
                     <ComboBox x:Name="GameModesCombo"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
-                              SelectedIndex="0"
                               SelectionChanged="ComboBox_SelectionChanged">
                         <ComboBoxItem x:Name="Normal">Normal Play</ComboBoxItem>
                         <ComboBoxItem x:Name="Pause">Pause Mode</ComboBoxItem>
@@ -40,7 +39,6 @@
                         <CheckBox HorizontalAlignment="Left"
                                   VerticalAlignment="Center"
                                   Margin="10"
-                                  Checked="CheckBox_Checked"
                                   x:Name="HordeCheck"></CheckBox>
                         <Label HorizontalAlignment="Right"
                                VerticalAlignment="Center"
@@ -48,8 +46,6 @@
                         <CheckBox HorizontalAlignment="Left"
                                   VerticalAlignment="Center"
                                   Margin="10"
-                                  Checked="CheckBox_Checked_1"
-                                  x:Name="IntelligentCheck"
                                   IsChecked="{Binding c.HordeMode.IsActive}"></CheckBox>
                     </UniformGrid>
                 </UniformGrid>
@@ -76,7 +72,7 @@
                             SmallChange="1"
                             LargeChange="5"
                             IsSnapToTickEnabled="True"
-                            Value="{Binding WeaponDropRate}"
+                            Value="{Binding settings.WeaponDropRate}"
                             ValueChanged="Weapon_ValueChanged"></Slider>
                     <TextBlock Grid.Column="0" Grid.Row="1"
                            Text="{Binding StringFormat=Health: {0}, ElementName=Health, Path=Value}"></TextBlock>
@@ -88,7 +84,7 @@
                             SmallChange="1"
                             LargeChange="5"
                             IsSnapToTickEnabled="True"
-                            Value="{Binding HealthPackDropRate}"
+                            Value="{Binding settings.HealthPackDropRate}"
                             ValueChanged="Health_ValueChanged"></Slider>
                     <TextBlock Grid.Column="0" Grid.Row="2"
                            Text="{Binding StringFormat=Scrap: {0}, ElementName=SpareParts, Path=Value}"></TextBlock>
@@ -100,7 +96,7 @@
                             SmallChange="1"
                             LargeChange="5"
                             IsSnapToTickEnabled="True"
-                            Value="{Binding SparePartDropRate}"
+                            Value="{Binding settings.SparePartDropRate}"
                             ValueChanged="SpareParts_ValueChanged"></Slider>
                     <TextBlock Grid.Column="0" Grid.Row="3"
                            Text="{Binding StringFormat=Ammo: {0}, ElementName=Ammo, Path=Value}"></TextBlock>
@@ -112,7 +108,7 @@
                             SmallChange="1"
                             LargeChange="5"
                             IsSnapToTickEnabled="True"
-                            Value="{Binding AmmoDropRate}"
+                            Value="{Binding settings.AmmoDropRate}"
                             ValueChanged="Ammo_ValueChanged"></Slider>
                 </Grid>
             </TabItem>
