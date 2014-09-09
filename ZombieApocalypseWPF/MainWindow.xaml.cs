@@ -119,6 +119,8 @@ namespace ZombieApocalypseWPF
             Coordinate vCoor = new Coordinate(3, 3);
             c.AddItemToField(v, vCoor);
 
+            c.AddItemToField(WeaponFactory.RandomWeapon(), GunCoor);
+
             //Trap akbar = new Trap { Damage = new DieRoll(1, 2, 3, 4), Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
             //c.AddTrapToField(akbar, new Coordinate(5, 4));
 
@@ -139,6 +141,7 @@ namespace ZombieApocalypseWPF
             settings.CanEdit = false;
             settings.ShowBattleScene = false;
             settings.EnforceTurnOrder = true;
+            PaintMoves();
         }
 
 
@@ -523,7 +526,8 @@ namespace ZombieApocalypseWPF
             {
                 if (settings.EnforceTurnOrder && LastCharacterSelected == c.CurrentPlayer)
                 {
-                    if (LastCharacterSelected is Player && c.Field.GetGridSquareAt(MoveTo).OccupyingCharacter is Trader)
+                    GridSquare Target = c.Field.GetGridSquareAt(MoveTo);
+                    if (LastCharacterSelected is Player && Target != null &&  Target.OccupyingCharacter is Trader)
                     {
                         TradeWindow Trade = new TradeWindow((Player)LastCharacterSelected, (Trader)c.Field.GetGridSquareAt(MoveTo).OccupyingCharacter);
                         Trade.ShowDialog();
@@ -763,6 +767,7 @@ namespace ZombieApocalypseWPF
                 //SelectedPlayer = null;
                 //SelectedZombie = null;
                 LastCharacterSelected = c.CurrentPlayer;
+                PaintMoves();
             }
         }
 
