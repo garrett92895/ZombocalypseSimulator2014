@@ -478,10 +478,6 @@ namespace ZombieApocalypseWPF
                             MoveCharacter(MoveTo);
 
                             c.Field.MoveCharacterToSquare(LastCharacterSelected, MoveTo);
-                            LastCharacterSelected.MSquares -= MoveCost;
-                            LastCharacterSelectedHighlightMoves();
-
-                            c.CurrentPlayer.MSquares -= MoveCost;
                             MoveCharacter(MoveTo);
                         }
                     }
@@ -531,7 +527,7 @@ namespace ZombieApocalypseWPF
                 }
 
                 c.Field.MoveCharacterToSquare(LastCharacterSelected, Destination);
-                LastCharacterSelectedHighlightMoves();
+                PaintMoves();
 
             }
         }

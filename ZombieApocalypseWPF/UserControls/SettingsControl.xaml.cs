@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ZombieApocalypseSimulator;
+using ZombieApocalypseWPF.Windows;
 
 namespace ZombieApocalypseWPF.UserControls
 {
@@ -248,6 +249,11 @@ namespace ZombieApocalypseWPF.UserControls
             int value = (int)(Weapon.Value + Ammo.Value + SpareParts.Value + Health.Value);
             Console.WriteLine(value);
             return value;
+        }
+
+        private void HordeSettings_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

@@ -259,7 +259,7 @@ namespace ZombieApocalypseSimulator
             try
             {
                 GridSquare Target = GetGridSquareAt(Destination);
-                if (Target.OccupyingCharacter == null
+                if (Target != null && Target.OccupyingCharacter == null
                     && Target.IsOccupiable)
                 {
                     RemoveCharacterFromSquare(C);
@@ -291,7 +291,7 @@ namespace ZombieApocalypseSimulator
                                 ((Player)C).AddItem(I);
                             }
                         }
-                        ItemsInSquare.Clear();
+                        Target.ItemList.Clear();
                     }
                 }
             }

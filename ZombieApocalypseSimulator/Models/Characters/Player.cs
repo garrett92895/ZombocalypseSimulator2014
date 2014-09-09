@@ -60,7 +60,7 @@ namespace ZombieApocalypseSimulator.Models.Characters
             PhysicalEndurance = rollAttributes();
             PhysicalProwess = rollAttributes();
             PhysicalBeauty = rollAttributes();
-            Speed = rollAttributes();
+            Speed = DieRoll.RollOne(6) + 1;
             ArmorRating = 0;
             base.SetLife();
         }

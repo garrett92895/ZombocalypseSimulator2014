@@ -27,7 +27,6 @@ namespace ZombieApocalypseWPF.Converters
 
             if (uri == null)
                 return Brushes.Transparent;
-
             ImageSource i = new BitmapImage(uri);
             return new ImageBrush(i);
         }
