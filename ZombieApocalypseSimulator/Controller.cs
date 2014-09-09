@@ -143,13 +143,10 @@ namespace ZombieApocalypseSimulator
             }
             else if (ZedOrder.Count > 0)
             {
-                for (int i = 0; i < 100; i++)
-                {
-                    Console.WriteLine("We done goofed : " + ZedOrder.Count);
-                }
                 CurrentPlayer = ZedOrder.Pop();
                 CurrentPlayer.MSquares = CurrentPlayer.squares();
                 PlayNextTurnAI();
+                NextTurn();
             }
             //Runs if the turn is over
             else
@@ -670,14 +667,8 @@ namespace ZombieApocalypseSimulator
                    CorpseSquares.Add(P.Location);
                    Field.KillCharacter(P);
                    PlayerOrder.RemoveCharacter(P);
-                   for (int i = 0; i < 1000; i++)
-                   {
-                       Console.WriteLine("Notice Me Senpai");
-                   }
                }
-
            }
-
            foreach (Zed z in Zeds)
            {
                if (z.Health <= 0)
@@ -685,10 +676,6 @@ namespace ZombieApocalypseSimulator
                    CorpseSquares.Add(z.Location);
                    Field.KillCharacter(z);
                    ZedOrder.RemoveCharacter(z);
-                   for (int i = 0; i < 1000; i++)
-                   {
-                       Console.WriteLine("Notice Me Senpai");
-                   }
                }
            }
             
