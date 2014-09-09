@@ -632,7 +632,7 @@ namespace ZombieApocalypseWPF
 
                 if ((input = OpenFile.OpenFile()) != null)
                 {
-                    c.Load(OpenFile.FileName);
+                    c.Load(OpenFile.FileName, input);
                 }
                 input.Close();
             }

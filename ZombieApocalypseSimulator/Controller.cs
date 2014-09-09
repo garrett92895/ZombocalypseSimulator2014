@@ -1288,18 +1288,16 @@ namespace ZombieApocalypseSimulator
             formatter.Serialize(stream, HordeMode);
         }
 
-        public void Load(string path)
+        public void Load(string path, Stream stream)
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            GameArea objField = (GameArea)formatter.Deserialize(stream);
-            Zed objZed = (Zed)formatter.Deserialize(stream);
-            Player objPlayer = (Player)formatter.Deserialize(stream);
-            Corpse objCorpse = (Corpse)formatter.Deserialize(stream);
-            Trap objTrap = (Trap)formatter.Deserialize(stream);
-            ZombieAI objAI = (ZombieAI)formatter.Deserialize(stream);
-            Horde objHord = (Horde)formatter.Deserialize(stream);
-            stream.Dispose();
+            BinaryFormatter format = new BinaryFormatter();
+            Field = (GameArea)format.Deserialize(stream);
+            Zeds = (List<Character>)format.Deserialize(stream);
+            Players = (List<Character>)format.Deserialize(stream);
+            CorpseSquares = (List<Coordinate>)format.Deserialize(stream);
+            TrapLocations = (List<Coordinate>)format.Deserialize(stream);
+            AI = (ZombieAI)format.Deserialize(stream);
+            HordeMode = (Horde)format.Deserialize(stream);
         }
         #endregion
 
