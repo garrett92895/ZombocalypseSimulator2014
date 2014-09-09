@@ -175,8 +175,8 @@ namespace ZombieApocalypseWPF
                     CharRec.SetBinding(Rectangle.WidthProperty, WidthBind);
 
                     Rectangle ItemRec = new Rectangle();
-                    Binding ItemBind = new Binding("ItemList");
-                    ItemBind.Source = c.Field.GetGridSquareAt(new Coordinate(i, j));
+                    Binding ItemBind = new Binding();
+                    ItemBind.Source = c.Field.GetGridSquareAt(new Coordinate(i, j)).ItemList;
                     ItemBind.Converter = new ItemToImageConverter();
                     ItemRec.SetBinding(Rectangle.FillProperty, ItemBind); //Issues here
                     ItemRec.SetBinding(Rectangle.HeightProperty, HeightBind);
