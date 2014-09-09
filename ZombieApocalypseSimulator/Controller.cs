@@ -667,6 +667,10 @@ namespace ZombieApocalypseSimulator
                    CorpseSquares.Add(P.Location);
                    Field.KillCharacter(P);
                    PlayerOrder.RemoveCharacter(P);
+                   for (int i = 0; i < 1000; i++)
+                   {
+                       Console.WriteLine("Notice Me Senpai");
+                   }
                }
 
            }
@@ -677,7 +681,11 @@ namespace ZombieApocalypseSimulator
                {
                    CorpseSquares.Add(z.Location);
                    Field.KillCharacter(z);
-                   PlayerOrder.RemoveCharacter(z);
+                   ZedOrder.RemoveCharacter(z);
+                   for (int i = 0; i < 1000; i++)
+                   {
+                       Console.WriteLine("Notice Me Senpai");
+                   }
                }
            }
             
@@ -869,82 +877,85 @@ namespace ZombieApocalypseSimulator
             int NaturalStrike = DieRoll.RollOne(20);
             int TotalStrike = NaturalStrike + CurrentPlayer.StrikeBonus();
             Console.WriteLine("Struck for " + TotalStrike);
-            if ((TotalStrike > 4 && TotalStrike > Victim.ArmorRating) || NaturalStrike == 20 && CurrentPlayer.MSquares >= 3)
+            if (CurrentPlayer.MSquares >= 3)
             {
-                Attack CharAttack = CurrentPlayer.MeleeAttack();
+                if ((TotalStrike > 4 && TotalStrike > Victim.ArmorRating) || NaturalStrike == 20 && CurrentPlayer.MSquares >= 3)
+                {
+                    Attack CharAttack = CurrentPlayer.MeleeAttack();
 
-                Console.WriteLine("Attack Hit!");
-                Console.WriteLine("Attacked for {0}", CharAttack.Damage);// + Damage);
-                if (NaturalStrike == 20)
-                {
-                    CharAttack.Damage *= 2;
-                    Console.WriteLine("Critical hit! Damage x2");
-                }
-                int NaturalDefense = DieRoll.RollOne(20);
-                int TotalDefense = 0;
-                bool AttemptedToDefend = false;
-                //Parrying or dodging
-                if (Victim.CanParry && !(CurrentPlayer is Tank))
-                {
-                    TotalDefense = NaturalDefense + Victim.toParry();
-                    Victim.CanParry = false;
-                    Console.WriteLine("Enemy parried for " + TotalDefense);
-                    AttemptedToDefend = true;
-                }
-                else if (Victim.CanDodge)
-                {
-                    TotalDefense = NaturalDefense + Victim.toDodge();
-                    Victim.CanDodge = false;
-                    Victim.HasDodged = true;
-                    Console.WriteLine("Enemy dodged for " + TotalDefense);
-                    AttemptedToDefend = true;
-                }
-
-
-
-                //Checks for a botch on the defender's part
-                if (NaturalDefense == 1)
-                {
-                    Console.WriteLine("Enemy rolled a botch! Attacker damage x2");
-                    CharAttack.Damage *= 2;
-                }
-                double Times = DetermineMultiplier(CurrentPlayer, Victim);
-                if (Times == 2)
-                {
-                    Console.WriteLine("Attack is twice as effective!");
-                }
-                else if (Times == 1.5)
-                {
-                    Console.WriteLine("Attack is 1.5 times as effective!");
-                }
-                else if (Times == .5)
-                {
-                    Console.WriteLine("Attack is half as effective!");
-                }
-                CharAttack.Damage = (int)(Times * CharAttack.Damage);
-
-                //Battle
-                if (CharAttack.Damage > TotalDefense)
-                {
-                    if (AttemptedToDefend && NaturalDefense == 20)
+                    Console.WriteLine("Attack Hit!");
+                    Console.WriteLine("Attacked for {0}", CharAttack.Damage);// + Damage);
+                    if (NaturalStrike == 20)
                     {
-                        Console.WriteLine("Enemy rolled a natural 20 to defend! Attack failed.");
+                        CharAttack.Damage *= 2;
+                        Console.WriteLine("Critical hit! Damage x2");
+                    }
+                    int NaturalDefense = DieRoll.RollOne(20);
+                    int TotalDefense = 0;
+                    bool AttemptedToDefend = false;
+                    //Parrying or dodging
+                    if (Victim.CanParry && !(CurrentPlayer is Tank))
+                    {
+                        TotalDefense = NaturalDefense + Victim.toParry();
+                        Victim.CanParry = false;
+                        Console.WriteLine("Enemy parried for " + TotalDefense);
+                        AttemptedToDefend = true;
+                    }
+                    else if (Victim.CanDodge)
+                    {
+                        TotalDefense = NaturalDefense + Victim.toDodge();
+                        Victim.CanDodge = false;
+                        Victim.HasDodged = true;
+                        Console.WriteLine("Enemy dodged for " + TotalDefense);
+                        AttemptedToDefend = true;
+                    }
+
+
+
+                    //Checks for a botch on the defender's part
+                    if (NaturalDefense == 1)
+                    {
+                        Console.WriteLine("Enemy rolled a botch! Attacker damage x2");
+                        CharAttack.Damage *= 2;
+                    }
+                    double Times = DetermineMultiplier(CurrentPlayer, Victim);
+                    if (Times == 2)
+                    {
+                        Console.WriteLine("Attack is twice as effective!");
+                    }
+                    else if (Times == 1.5)
+                    {
+                        Console.WriteLine("Attack is 1.5 times as effective!");
+                    }
+                    else if (Times == .5)
+                    {
+                        Console.WriteLine("Attack is half as effective!");
+                    }
+                    CharAttack.Damage = (int)(Times * CharAttack.Damage);
+
+                    //Battle
+                    if (CharAttack.Damage > TotalDefense)
+                    {
+                        if (AttemptedToDefend && NaturalDefense == 20)
+                        {
+                            Console.WriteLine("Enemy rolled a natural 20 to defend! Attack failed.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Enemy was hit for {0} damage", CharAttack.Damage);
+                            Victim.takeDamage(CharAttack);
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Enemy was hit for {0} damage", CharAttack.Damage);
-                        Victim.takeDamage(CharAttack);
+                        Console.WriteLine("Enemy defended successfully");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Enemy defended successfully");
+                    CurrentPlayer.MeleeAttack();
+                    Console.WriteLine("Attack ineffective");
                 }
-            }
-            else
-            {
-                CurrentPlayer.MeleeAttack();
-                Console.WriteLine("Attack ineffective");
             }
             KillDeadCharacters();
             CurrentPlayer.MSquares -= 3;

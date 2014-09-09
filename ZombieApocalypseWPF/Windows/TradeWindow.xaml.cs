@@ -26,6 +26,8 @@ namespace ZombieApocalypseWPF.Windows
     {
         public Transaction Exchange { get; set; }
         private bool SellerIsTrader;
+        private Character LastCharacterSelected;
+        private Character character;
 
         public int BuyerHandgunAmmo { get; private set; }
         public int BuyerRifleAmmo { get; private set; }

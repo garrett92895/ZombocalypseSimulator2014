@@ -46,11 +46,19 @@ namespace ZombieApocalypseSimulator.Models.Items
 
         public Ammo Pop()
         {
+            if (CurrentIndex == 0)
+            {
+                return _clip[CurrentIndex];
+            }
             return _clip[--CurrentIndex];
         }
 
         public Ammo Peek()
         {
+            if (CurrentIndex == 0)
+            {
+                return _clip[(CurrentIndex - 1)];
+            }
             return _clip[(CurrentIndex - 1)];
         }
 
