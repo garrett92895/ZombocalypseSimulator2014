@@ -253,7 +253,8 @@ namespace ZombieApocalypseWPF.UserControls
 
         private void HordeSettings_Click(object sender, RoutedEventArgs e)
         {
-            
+			HordeSettings NewSettings = new HordeSettings(w.c.HordeMode);
+			NewSettings.Show();
         }
     }
 }

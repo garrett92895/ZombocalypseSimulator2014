@@ -55,7 +55,8 @@
                                 VerticalAlignment="Center"
                                 Margin="10"
                                 Click="HordeSettings_Click"
-                                x:Name="HordeSettingsButton">Horde Settings</Button>
+                                x:Name="HordeSettingsButton"
+                                >Horde Settings</Button>
                 </UniformGrid>
             </TabItem>
             <TabItem Header="Drop Rates">
