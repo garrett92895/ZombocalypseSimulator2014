@@ -83,11 +83,11 @@ namespace ZombieApocalypseWPF
 
             c = new Controller();
 
-            //Character NewPlayer = new Fighter();
-            //Coordinate Coor = new Coordinate(8, 2);
-            //c.AddCharacterToField(NewPlayer, Coor);
-            //NewPlayer.Speed = 1;
-            //SelectedPlayer = (Player)NewPlayer;
+            Character NewPlayer = new Fighter();
+            Coordinate Coor = new Coordinate(8, 2);
+            c.AddCharacterToField(NewPlayer, Coor);
+            NewPlayer.Speed = 1;
+            SelectedPlayer = (Player)NewPlayer;
 
             //Player NewPlayer1 = new Engineer();
             //Coordinate Coor1 = new Coordinate(2, 2);
@@ -99,15 +99,15 @@ namespace ZombieApocalypseWPF
             Coordinate TraderCoor = new Coordinate(1, 1);
             c.AddCharacterToField(NewTrader, TraderCoor);
 
-            //Character Zed3 = ZedFactory.GetInstance("Shank");
-            //Coordinate ZedCoor3 = new Coordinate(5, 5);
-            //Zed3.Speed = 7;
-            //c.AddCharacterToField(Zed3, ZedCoor3);
-            //SelectedZombie = (Zed)Zed3;
+            Character Zed3 = ZedFactory.GetInstance("Shank");
+            Coordinate ZedCoor3 = new Coordinate(5, 5);
+            Zed3.Speed = 7;
+            c.AddCharacterToField(Zed3, ZedCoor3);
+            SelectedZombie = (Zed)Zed3;
 
-            //Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
-            //Coordinate GunCoor = new Coordinate(3, 3);
-            //c.AddItemToField(Gun, GunCoor);
+            Weapon Gun = WeaponFactory.GetInstance("Winchester|Ranged|Shotgun|80|3d6|4");
+            Coordinate GunCoor = new Coordinate(3, 3);
+            c.AddItemToField(Gun, GunCoor);
 
             //Trap akbar = new Trap { Damage = new DieRoll(1, 2, 3, 4), Description = "It's a Trap", Name = "Legos", StatusEffect = StatusEffect.Crippled };
             //c.AddTrapToField(akbar, new Coordinate(5, 4));
@@ -123,8 +123,8 @@ namespace ZombieApocalypseWPF
 
             c.AI.IntelligentAI = false;
 
-            //c.DetermineTurnOrder();
-            //c.NextTurn();
+            c.DetermineTurnOrder();
+            c.NextTurn();
 
             settings.CanEdit = false;
             settings.ShowBattleScene = false;
@@ -496,7 +496,8 @@ namespace ZombieApocalypseWPF
         /// <param name="Destination"></param>
         public void MoveCharacter(Coordinate Destination)
         {
-            if (Destination != null)
+
+            if (Destination != null && Destination.X >= 0 && Destination.Y >= 0 && Destination.X < c.Field.Width && Destination.Y < c.Field.Height )
             {
                 Character Victim = c.Field.GetGridSquareAt(Destination).OccupyingCharacter;
 
